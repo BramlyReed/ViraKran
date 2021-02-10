@@ -1,0 +1,6 @@
+framework module Pods_ViraKran_ViraKranUITests {
+  umbrella header "Pods-ViraKran-ViraKranUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

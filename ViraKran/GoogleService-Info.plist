@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>878984664859-ms5t0ug8lsooub22q9fikjbaeqdo1pav.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.878984664859-ms5t0ug8lsooub22q9fikjbaeqdo1pav</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAagFrOd15gMUW0QMVa1EFKLIyP3ijAoDg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>878984664859</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>BrReed.ViraKran</string>
+	<key>PROJECT_ID</key>
+	<string>vira-kran</string>
+	<key>STORAGE_BUCKET</key>
+	<string>vira-kran.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:878984664859:ios:77a48cb549eb0999c4e5be</string>
+	<key>DATABASE_URL</key>
+	<string>https://vira-kran-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
