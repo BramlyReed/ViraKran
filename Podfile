@@ -10,6 +10,7 @@ target 'ViraKran' do
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
   pod 'Firebase/Database'
+  pod 'SDWebImage'
   target 'ViraKranTests' do
     inherit! :search_paths
     # Pods for testing

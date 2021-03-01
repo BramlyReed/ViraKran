@@ -17,9 +17,10 @@
 		855F73F225CEF049009A6183 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 855F73F025CEF049009A6183 /* LaunchScreen.storyboard */; };
 		855F73FD25CEF049009A6183 /* ViraKranTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855F73FC25CEF049009A6183 /* ViraKranTests.swift */; };
 		855F740825CEF049009A6183 /* ViraKranUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855F740725CEF049009A6183 /* ViraKranUITests.swift */; };
-		855F744025D12E7B009A6183 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855F743F25D12E7B009A6183 /* News.swift */; };
+		855F744025D12E7B009A6183 /* NewsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855F743F25D12E7B009A6183 /* NewsModel.swift */; };
 		855F746925D4745A009A6183 /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855F746825D4745A009A6183 /* NewsCell.swift */; };
 		855F746E25D48860009A6183 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 855F746D25D48860009A6183 /* GoogleService-Info.plist */; };
+		85D780ED25E78E20000D8D35 /* HamburgerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D780EC25E78E20000D8D35 /* HamburgerViewController.swift */; };
 		90BA63340216EEDDA4AD4377 /* Pods_ViraKran_ViraKranUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F59386723E8D7FF0FE8C01AD /* Pods_ViraKran_ViraKranUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -62,9 +63,10 @@
 		855F740325CEF049009A6183 /* ViraKranUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ViraKranUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		855F740725CEF049009A6183 /* ViraKranUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViraKranUITests.swift; sourceTree = "<group>"; };
 		855F740925CEF049009A6183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		855F743F25D12E7B009A6183 /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
+		855F743F25D12E7B009A6183 /* NewsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsModel.swift; sourceTree = "<group>"; };
 		855F746825D4745A009A6183 /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
 		855F746D25D48860009A6183 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		85D780EC25E78E20000D8D35 /* HamburgerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HamburgerViewController.swift; sourceTree = "<group>"; };
 		E9280FFE31BA97442535EC31 /* Pods_ViraKran.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ViraKran.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F59386723E8D7FF0FE8C01AD /* Pods_ViraKran_ViraKranUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ViraKran_ViraKranUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -132,6 +134,7 @@
 				855F73F025CEF049009A6183 /* LaunchScreen.storyboard */,
 				855F746D25D48860009A6183 /* GoogleService-Info.plist */,
 				855F73F325CEF049009A6183 /* Info.plist */,
+				85D780EC25E78E20000D8D35 /* HamburgerViewController.swift */,
 			);
 			path = ViraKran;
 			sourceTree = "<group>";
@@ -157,7 +160,7 @@
 		855F743E25D12E62009A6183 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				855F743F25D12E7B009A6183 /* News.swift */,
+				855F743F25D12E7B009A6183 /* NewsModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -432,9 +435,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85D780ED25E78E20000D8D35 /* HamburgerViewController.swift in Sources */,
 				855F73EA25CEF047009A6183 /* MainController.swift in Sources */,
 				855F73E625CEF047009A6183 /* AppDelegate.swift in Sources */,
-				855F744025D12E7B009A6183 /* News.swift in Sources */,
+				855F744025D12E7B009A6183 /* NewsModel.swift in Sources */,
 				855F73E825CEF047009A6183 /* SceneDelegate.swift in Sources */,
 				855F746925D4745A009A6183 /* NewsCell.swift in Sources */,
 			);
