@@ -17,7 +17,7 @@ struct NewsModel{
     var title: String?
 
 }
-extension NewsModel: DocumentSerializable { 
+extension NewsModel: DocumentSerializable {
     init?(date: Date, image_links: [String:String], text_string: String, title: String){
         guard let date =  date as? Date,
               let title = title as? String,
@@ -30,4 +30,5 @@ extension NewsModel: DocumentSerializable {
         self.init(date: date, image_links: image_links, text_string: text_string, title: title)
     }
 }
+
 

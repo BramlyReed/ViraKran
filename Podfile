@@ -8,8 +8,14 @@ target 'ViraKran' do
   # Pods for ViraKran
   pod 'Firebase/Analytics'
   pod 'Firebase/Auth'
+  pod 'Firebase/Core'
   pod 'Firebase/Firestore'
   pod 'Firebase/Database'
+  pod 'Firebase/Storage'
+  pod 'MessageKit'
+  pod 'CardSlider'
+  pod 'JGProgressHUD'
+  pod 'RealmSwift'
   pod 'SDWebImage'
   target 'ViraKranTests' do
     inherit! :search_paths

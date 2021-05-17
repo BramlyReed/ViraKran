@@ -7,6 +7,9 @@
 
 import UIKit
 import Firebase
+import FirebaseFirestore
+import FirebaseDatabase
+
 class MainController: UIViewController, UITableViewDataSource {
     var db: Firestore!
     var NewsArray = [NewsModel]()
@@ -32,21 +35,20 @@ class MainController: UIViewController, UITableViewDataSource {
             guard querySnapshot != nil else { return }
                 self.NewsArray = []
                 for document in (querySnapshot!.documents){
-                    print("SDASFSAFASF")
                     let documents_data = document.data()
                     let title = documents_data["title"] as? String ?? "nil"
                     let date = documents_data["date"] as? Date ?? Date()
                     let text_string = documents_data["text_string"] as? String ?? "nil"
                     let imageLinks: [String:String] = documents_data["imageLinks"] as? [String:String] ?? ["0":"nil"]
                     self.NewsArray.append(NewsModel(date: date, image_links: imageLinks, text_string: text_string, title: title))
-                    print(imageLinks)
+                    print(self.NewsArray.count)
                 }
-                    DispatchQueue.main.async {    //обновлять данные скролл вью в будущем
-                        self.tableView.reloadData()
-                    }
+            DispatchQueue.main.async {    //обновлять данные скролл вью в будущем
+                self.tableView.reloadData()
+            }
         }
-        
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.NewsArray.count
     }
@@ -54,8 +56,6 @@ class MainController: UIViewController, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewsCell", for: indexPath) as? NewsCell
         let tmpcell = self.NewsArray[indexPath.item]
-        //print(self.NewsArray.last)
-        //cell?.titleLabel.text = self.NewsArray.last?.image_links[0] ?? "none"
         cell?.setContent(title: (tmpcell.title)!, text: (tmpcell.text_string)!, imageLink: (tmpcell.image_links["1"]) as! String, dateLabel: (tmpcell.date)!)
         
         return cell!
@@ -88,6 +88,44 @@ class MainController: UIViewController, UITableViewDataSource {
             }
                 self.backgroundForSlideMenu.isHidden = true
                 self.isSlideMenuShown = false
+        }
     }
-}
+    
+    @IBAction func didTapRegistration(_ sender: Any) {
+        print("TAP")
+        let userLogin = UserDefaults.standard.string(forKey: "email") ?? "Guest"
+        if userLogin != "Guest"{
+            print("UserLogin")
+            showAlert(message: "Вы уже авторизовались в системе")
+        }
+        
+    }
+    func showAlert(message: String) {
+        let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func swipeToShowSlideMenu(_ sender: Any) {
+        showSlideMenu((Any).self)
+    }
+    
+    @IBAction func swipeToShowConversations(_ sender: Any) {
+        print("SWIPE")
+        let userLogin = UserDefaults.standard.string(forKey: "email") ?? "Guest"
+        print(userLogin)
+        if userLogin == "admin@gmail.com"{
+            let vc = ConversationsViewController()
+            vc.title = "Чаты"
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .fullScreen
+            present(nav,animated:true)
+        }
+        else{
+            let vc = ChatViewController()
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .fullScreen
+            present(nav,animated:true)
+        }
+    }
 }

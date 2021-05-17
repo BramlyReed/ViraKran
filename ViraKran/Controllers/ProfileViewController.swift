@@ -1,19 +1,20 @@
 //
-//  HamburgerViewController.swift
+//  ProfileViewController.swift
 //  ViraKran
 //
-//  Created by Stanislav on 25.02.2021.
+//  Created by Stanislav on 01.03.2021.
 //
 
 import UIKit
 
-class HamburgerViewController: UIViewController {
+class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
-   
     
+
+
 }
