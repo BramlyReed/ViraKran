@@ -17,13 +17,6 @@ target 'ViraKran' do
   pod 'JGProgressHUD'
   pod 'RealmSwift'
   pod 'SDWebImage'
-  target 'ViraKranTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  target 'ViraKranUITests' do
-    # Pods for testing
-  end
-
+  pod 'JJFloatingActionButton'
+  pod 'Popover'
 end

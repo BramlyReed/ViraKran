@@ -82,6 +82,7 @@ class AuthorizationViewController: UIViewController {
         let password = passwordfield.text!
         
         if sign == true {
+            // MARK: Регистрация
             if name.isEmpty || email.isEmpty || password.isEmpty || surname.isEmpty {
                 showAlert(message: "Все поля должны быть заполнены")
             }
@@ -120,6 +121,7 @@ class AuthorizationViewController: UIViewController {
             }
         }
         else {
+            //MARK: Авторизация
             if email.isEmpty || password.isEmpty {
                 showAlert(message: "Все поля должны быть заполнены")
             } else {
@@ -130,7 +132,6 @@ class AuthorizationViewController: UIViewController {
                     guard authResult != nil, (error == nil) else {
                         return self!.showAlert(message: "Неправильный логин и/или пароль")
                     }
-                    //let pictureURL = StorageManager.shared
                     let docRef = self?.db.collection("users").document(email)
                     docRef?.getDocument { (document, error) in
                         if let document = document, document.exists {
@@ -143,20 +144,9 @@ class AuthorizationViewController: UIViewController {
                             UserDefaults.standard.set(email, forKey: "email")
                             UserDefaults.standard.set(fullname, forKey: "fullname")
                             
-//                            Storage.storage().reference().child("userImages/\(email)/\(email).profile_picture.png").downloadURL(completion: { url, error in
-//                                guard let url = url else {
-//                                    print("Failed to get download url")
-//                                    return
-//                                }
-//                                UserDefaults.standard.set(url, forKey: "pictureURL")
-//                                //print(url)
-//                            }
-//                        )
-                            
                             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateFullName"), object: nil)
-                            
-
-                        } else {
+                        }
+                        else {
                             print("Document does not exist")
                         }
                     }

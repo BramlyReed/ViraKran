@@ -10,6 +10,7 @@ import FirebaseAuth
 import FirebaseStorage
 import SDWebImage
 import CardSlider
+import RealmSwift
 class HamburgerViewController: UIViewController, CardSliderDataSource, UIGestureRecognizerDelegate {
     func item(for index: Int) -> CardSliderItem {
         return data[index]
@@ -28,9 +29,11 @@ class HamburgerViewController: UIViewController, CardSliderDataSource, UIGesture
     
     @IBOutlet weak var logOutButton: UIButton!
     var data = [Item]()
+    var aView: UIView?
+    let realm = try! Realm()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        //DatabaseManager.shared.test()
         profileImage.layer.borderWidth = 3
         profileImage.layer.masksToBounds = false
         profileImage.layer.borderColor = UIColor.yellow.cgColor
@@ -43,11 +46,9 @@ class HamburgerViewController: UIViewController, CardSliderDataSource, UIGesture
         var pictureURL = UserDefaults.standard.string(forKey: "pictureURL") ?? "Guest1"
         if pictureURL != "Guest1"{
             pictureURL = pictureURL.replacingOccurrences(of: "@", with: "%40")
-            print(pictureURL)
+            //print(pictureURL)
             let transformer = SDImageResizingTransformer(size: CGSize(width: 500, height: 500), scaleMode: .fill)
             self.profileImage.sd_setImage(with: URL(string: pictureURL), placeholderImage: nil, context: [.imageTransformer: transformer])
-            //self.profileImage.sd_setImage(with: URL(string: pictureURL))
-            //self.profileImage.image?.resizeImageWith(newSize: 500.0)
         }
         data.append(Item(image: UIImage(named: "colorful kran")!,
                          rating: nil,
@@ -74,7 +75,7 @@ class HamburgerViewController: UIViewController, CardSliderDataSource, UIGesture
     @objc func updateFullName(){
         self.fullNameLabel.text = UserDefaults.standard.string(forKey: "fullname") ?? "Guest1"
         //let ZictureURL = UserDefaults.standard.string(forKey: "pictureURL") ?? "Guest"
-        print("--------")
+        //print("--------")
         let email = UserDefaults.standard.string(forKey: "email") ?? "Guest1"
         Storage.storage().reference().child("userImages/\(email)/\(email).profile_picture.png").downloadURL(completion: { url, error in
             guard let url = url else {
@@ -82,14 +83,12 @@ class HamburgerViewController: UIViewController, CardSliderDataSource, UIGesture
                 return
             }
             UserDefaults.standard.set("\(url)", forKey: "pictureURL")
-            print(url)
+            //print(url)
         }
     )
         //print(url)
-
         var pictureURL = UserDefaults.standard.string(forKey: "pictureURL") ?? "Guest1"
         pictureURL = pictureURL.replacingOccurrences(of: "@", with: "%40")
-        print(pictureURL)
         let transformer = SDImageResizingTransformer(size: CGSize(width: 500, height: 500), scaleMode: .fill)
         self.profileImage.sd_setImage(with: URL(string: pictureURL), placeholderImage: nil, context: [.imageTransformer: transformer])
 
@@ -99,9 +98,11 @@ class HamburgerViewController: UIViewController, CardSliderDataSource, UIGesture
         print("show Profile View Controller")
     }
     
-    
+    // MARK:Show chat or conversations
+
     @IBAction func showConversation(_ sender: Any) {
         let userLogin = UserDefaults.standard.string(forKey: "email") ?? "Guest"
+        
         if userLogin == "admin@gmail.com"{
             let vc = ConversationsViewController()
             vc.title = "Чаты"
@@ -123,7 +124,8 @@ class HamburgerViewController: UIViewController, CardSliderDataSource, UIGesture
 //        nav.modalPresentationStyle = .fullScreen
 //        present(nav,animated:true)
 //    }
-    
+    // MARK:Open useful tips
+
         @IBAction func didTapButton(){
             guard let dataSource = self as? CardSliderDataSource else{
                 return
@@ -144,6 +146,8 @@ class HamburgerViewController: UIViewController, CardSliderDataSource, UIGesture
         self.dismiss(animated: true, completion: nil)
     }
     
+    // MARK:Log out from account
+    
     @IBAction func logOut(_ sender: Any) {
         do{
             try FirebaseAuth.Auth.auth().signOut()
@@ -152,11 +156,34 @@ class HamburgerViewController: UIViewController, CardSliderDataSource, UIGesture
             UserDefaults.standard.removeObject(forKey: "email")
             UserDefaults.standard.removeObject(forKey: "fullname")
             UserDefaults.standard.removeObject(forKey: "chosenUser")
-
+            UserDefaults.standard.removeObject(forKey: "pictureURL")
+            self.profileImage.image = UIImage(named:"guest_image")
+            
         }
         catch{
             print("Can't sign out!")
         }
     }
-    
+    @IBAction func testButton(_ sender: Any){
+        self.showSpinner()
+        self.removeSpinner()
+    }
+}
+
+extension HamburgerViewController {
+    func showSpinner(){
+        print("startSpinner")
+        aView = UIView(frame: self.view.bounds)
+        aView?.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        let ai = UIActivityIndicatorView(style: .large)
+        ai.center = aView!.center
+        ai.startAnimating()
+        aView?.addSubview(ai)
+        self.view.addSubview(aView!)
+    }
+    func removeSpinner(){
+        print("RemoveSpinner")
+        aView?.removeFromSuperview()
+        aView = nil
+    }
 }

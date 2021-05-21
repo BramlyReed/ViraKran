@@ -9,7 +9,7 @@ import UIKit
 
 class CatalogViewController: UITableViewController {
     
-    var catalogitems = [UIImage(named: "colorful kran")!, UIImage(named: "avtokran")!, UIImage(named: "avtokran")!, UIImage(named: "avtokran")!]
+    var catalogitems = [UIImage(named: "avtokran")!, UIImage(named: "bashennuikran")!, UIImage(named: "bustromontiruemue")!, UIImage(named: "stroipod")!]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +32,25 @@ class CatalogViewController: UITableViewController {
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         print("Tap cell number \(indexPath.item)")
+        UserDefaults.standard.set(String(indexPath.item + 1), forKey: "catId")
+
+//        let vc = CategoryEquipmentViewController()
+//        let nav = UINavigationController(rootViewController: vc)
+//
+//        nav.modalPresentationStyle = .fullScreen
+//        present(nav,animated:true)
         
+        let myViewController = storyboard?.instantiateViewController(withIdentifier: "CategoryEquipmentViewController") as? CategoryEquipmentViewController
+        let myNavigationController = UINavigationController(rootViewController: myViewController!)
+        myNavigationController.modalPresentationStyle = .fullScreen
+        self.present(myNavigationController, animated: true)
+        
+//        guard let VC = storyboard?.instantiateViewController(identifier: "CategoryEquipmentViewController") as? CategoryEquipmentViewController else { return }
+//        VC.title = "ChosenCategory"
+//        VC.modalTransitionStyle = .flipHorizontal
+//        VC.modalPresentationStyle = .fullScreen
+//        present(VC,animated: true)
+//        VC.cardTableView.reloadData()
     }
 }
 

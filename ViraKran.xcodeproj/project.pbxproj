@@ -7,13 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		45EDBDE80F6061A51F357D0E /* Pods_ViraKran.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9280FFE31BA97442535EC31 /* Pods_ViraKran.framework */; };
-		751DE30A1931D88425F7ACE1 /* Pods_ViraKranTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C5676AC4E2EB3852817D5AB /* Pods_ViraKranTests.framework */; };
+		16C2C63501FB378884B9AC63 /* Pods_ViraKran.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F54E3266F4370C7DB51226D4 /* Pods_ViraKran.framework */; };
 		8540FA5B25ECDFCC0096BAA5 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8540FA5A25ECDFCC0096BAA5 /* ConversationsViewController.swift */; };
-		8540FA6725ECE1720096BAA5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8540FA6625ECE1720096BAA5 /* LoginViewController.swift */; };
-		8540FA6C25ECE1820096BAA5 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8540FA6B25ECE1820096BAA5 /* RegisterViewController.swift */; };
 		8540FA7125ECE1940096BAA5 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8540FA7025ECE1940096BAA5 /* PhotoViewController.swift */; };
-		8540FA7625ECE1AB0096BAA5 /* VideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8540FA7525ECE1AB0096BAA5 /* VideoPlayerViewController.swift */; };
 		8540FA7B25ECE1C60096BAA5 /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8540FA7A25ECE1C60096BAA5 /* NewConversationViewController.swift */; };
 		8540FA8025ECE1DB0096BAA5 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8540FA7F25ECE1DB0096BAA5 /* ProfileViewController.swift */; };
 		8540FAAB25EE10E90096BAA5 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8540FAAA25EE10E90096BAA5 /* Extensions.swift */; };
@@ -34,14 +30,17 @@
 		855F744025D12E7B009A6183 /* NewsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855F743F25D12E7B009A6183 /* NewsModel.swift */; };
 		855F746925D4745A009A6183 /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855F746825D4745A009A6183 /* NewsCell.swift */; };
 		855F746E25D48860009A6183 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 855F746D25D48860009A6183 /* GoogleService-Info.plist */; };
-		85634495264A9CED00C233CA /* EquipmentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85634494264A9CED00C233CA /* EquipmentsViewController.swift */; };
-		8563449A264A9DD400C233CA /* EquipmentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85634499264A9DD400C233CA /* EquipmentCollectionViewCell.swift */; };
 		8563449F264B2A8D00C233CA /* Equipment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8563449E264B2A8D00C233CA /* Equipment.swift */; };
 		8563451A265069A800C233CA /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85634519265069A800C233CA /* Item.swift */; };
 		85634525265117C300C233CA /* CatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85634524265117C300C233CA /* CatalogViewController.swift */; };
 		8563452D265118CE00C233CA /* CatalogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8563452C265118CE00C233CA /* CatalogCell.swift */; };
+		8563453D26524FD700C233CA /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8563453C26524FD700C233CA /* ProductViewController.swift */; };
+		856345422652532F00C233CA /* PhotoCarouselTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856345412652532F00C233CA /* PhotoCarouselTableViewCell.swift */; };
+		8563454726525E3C00C233CA /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8563454626525E3C00C233CA /* PhotoCollectionViewCell.swift */; };
+		8563454C2652FE0C00C233CA /* ParametersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8563454B2652FE0C00C233CA /* ParametersTableViewCell.swift */; };
+		856346332654616B00C233CA /* CategoryEquipmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856346322654616A00C233CA /* CategoryEquipmentViewController.swift */; };
+		85634638265463A700C233CA /* CategoryEquipmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85634637265463A700C233CA /* CategoryEquipmentTableViewCell.swift */; };
 		85D780ED25E78E20000D8D35 /* HamburgerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D780EC25E78E20000D8D35 /* HamburgerViewController.swift */; };
-		90BA63340216EEDDA4AD4377 /* Pods_ViraKran_ViraKranUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F59386723E8D7FF0FE8C01AD /* Pods_ViraKran_ViraKranUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,18 +61,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1E4F53DFA9DF22C8439C3CDD /* Pods-ViraKran.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViraKran.release.xcconfig"; path = "Target Support Files/Pods-ViraKran/Pods-ViraKran.release.xcconfig"; sourceTree = "<group>"; };
-		21770BDE243E253DBC52C6FD /* Pods-ViraKranTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViraKranTests.debug.xcconfig"; path = "Target Support Files/Pods-ViraKranTests/Pods-ViraKranTests.debug.xcconfig"; sourceTree = "<group>"; };
-		2E854EC92730FC235D5D1244 /* Pods-ViraKran-ViraKranUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViraKran-ViraKranUITests.release.xcconfig"; path = "Target Support Files/Pods-ViraKran-ViraKranUITests/Pods-ViraKran-ViraKranUITests.release.xcconfig"; sourceTree = "<group>"; };
-		687FEFC5A734B9F929A83EAC /* Pods-ViraKran.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViraKran.debug.xcconfig"; path = "Target Support Files/Pods-ViraKran/Pods-ViraKran.debug.xcconfig"; sourceTree = "<group>"; };
-		6C5676AC4E2EB3852817D5AB /* Pods_ViraKranTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ViraKranTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		798756E0D69826CE47AE4029 /* Pods-ViraKranTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViraKranTests.release.xcconfig"; path = "Target Support Files/Pods-ViraKranTests/Pods-ViraKranTests.release.xcconfig"; sourceTree = "<group>"; };
-		7B89907CCFDB1B46F2BB8540 /* Pods-ViraKran-ViraKranUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViraKran-ViraKranUITests.debug.xcconfig"; path = "Target Support Files/Pods-ViraKran-ViraKranUITests/Pods-ViraKran-ViraKranUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		4A631C0BF607673A72D1D1EC /* Pods-ViraKran.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViraKran.release.xcconfig"; path = "Target Support Files/Pods-ViraKran/Pods-ViraKran.release.xcconfig"; sourceTree = "<group>"; };
+		757E076598AA3F27087E0AE1 /* Pods-ViraKran.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViraKran.debug.xcconfig"; path = "Target Support Files/Pods-ViraKran/Pods-ViraKran.debug.xcconfig"; sourceTree = "<group>"; };
 		8540FA5A25ECDFCC0096BAA5 /* ConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
-		8540FA6625ECE1720096BAA5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		8540FA6B25ECE1820096BAA5 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		8540FA7025ECE1940096BAA5 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
-		8540FA7525ECE1AB0096BAA5 /* VideoPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerViewController.swift; sourceTree = "<group>"; };
 		8540FA7A25ECE1C60096BAA5 /* NewConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationViewController.swift; sourceTree = "<group>"; };
 		8540FA7F25ECE1DB0096BAA5 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		8540FAAA25EE10E90096BAA5 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -100,15 +91,18 @@
 		855F743F25D12E7B009A6183 /* NewsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsModel.swift; sourceTree = "<group>"; };
 		855F746825D4745A009A6183 /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
 		855F746D25D48860009A6183 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		85634494264A9CED00C233CA /* EquipmentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EquipmentsViewController.swift; sourceTree = "<group>"; };
-		85634499264A9DD400C233CA /* EquipmentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EquipmentCollectionViewCell.swift; sourceTree = "<group>"; };
 		8563449E264B2A8D00C233CA /* Equipment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Equipment.swift; sourceTree = "<group>"; };
 		85634519265069A800C233CA /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		85634524265117C300C233CA /* CatalogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogViewController.swift; sourceTree = "<group>"; };
 		8563452C265118CE00C233CA /* CatalogCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogCell.swift; sourceTree = "<group>"; };
+		8563453C26524FD700C233CA /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
+		856345412652532F00C233CA /* PhotoCarouselTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCarouselTableViewCell.swift; sourceTree = "<group>"; };
+		8563454626525E3C00C233CA /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		8563454B2652FE0C00C233CA /* ParametersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParametersTableViewCell.swift; sourceTree = "<group>"; };
+		856346322654616A00C233CA /* CategoryEquipmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryEquipmentViewController.swift; sourceTree = "<group>"; };
+		85634637265463A700C233CA /* CategoryEquipmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryEquipmentTableViewCell.swift; sourceTree = "<group>"; };
 		85D780EC25E78E20000D8D35 /* HamburgerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HamburgerViewController.swift; sourceTree = "<group>"; };
-		E9280FFE31BA97442535EC31 /* Pods_ViraKran.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ViraKran.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F59386723E8D7FF0FE8C01AD /* Pods_ViraKran_ViraKranUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ViraKran_ViraKranUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F54E3266F4370C7DB51226D4 /* Pods_ViraKran.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ViraKran.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,7 +110,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45EDBDE80F6061A51F357D0E /* Pods_ViraKran.framework in Frameworks */,
+				16C2C63501FB378884B9AC63 /* Pods_ViraKran.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,7 +118,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				751DE30A1931D88425F7ACE1 /* Pods_ViraKranTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,7 +125,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90BA63340216EEDDA4AD4377 /* Pods_ViraKran_ViraKranUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,12 +163,12 @@
 				855F73E925CEF047009A6183 /* MainController.swift */,
 				85D780EC25E78E20000D8D35 /* HamburgerViewController.swift */,
 				8540FA7025ECE1940096BAA5 /* PhotoViewController.swift */,
-				8540FA7525ECE1AB0096BAA5 /* VideoPlayerViewController.swift */,
 				8540FA7A25ECE1C60096BAA5 /* NewConversationViewController.swift */,
 				8540FA7F25ECE1DB0096BAA5 /* ProfileViewController.swift */,
 				8540FB26260006620096BAA5 /* ChatViewController.swift */,
-				85634494264A9CED00C233CA /* EquipmentsViewController.swift */,
 				85634524265117C300C233CA /* CatalogViewController.swift */,
+				8563453C26524FD700C233CA /* ProductViewController.swift */,
+				856346322654616A00C233CA /* CategoryEquipmentViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -196,8 +188,6 @@
 		8540FA8425ECEF900096BAA5 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				8540FA6625ECE1720096BAA5 /* LoginViewController.swift */,
-				8540FA6B25ECE1820096BAA5 /* RegisterViewController.swift */,
 				8540FACE25EE171A0096BAA5 /* AuthorizationViewController.swift */,
 			);
 			path = Login;
@@ -211,7 +201,7 @@
 				855F740625CEF049009A6183 /* ViraKranUITests */,
 				855F73E325CEF047009A6183 /* Products */,
 				A8640E996A0365B5A10DB40D /* Pods */,
-				D08F177CBED16AA72BA8C89A /* Frameworks */,
+				F04404392AAA8209546076E1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -275,8 +265,11 @@
 			isa = PBXGroup;
 			children = (
 				855F746825D4745A009A6183 /* NewsCell.swift */,
-				85634499264A9DD400C233CA /* EquipmentCollectionViewCell.swift */,
 				8563452C265118CE00C233CA /* CatalogCell.swift */,
+				856345412652532F00C233CA /* PhotoCarouselTableViewCell.swift */,
+				8563454626525E3C00C233CA /* PhotoCollectionViewCell.swift */,
+				8563454B2652FE0C00C233CA /* ParametersTableViewCell.swift */,
+				85634637265463A700C233CA /* CategoryEquipmentTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -284,22 +277,16 @@
 		A8640E996A0365B5A10DB40D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				687FEFC5A734B9F929A83EAC /* Pods-ViraKran.debug.xcconfig */,
-				1E4F53DFA9DF22C8439C3CDD /* Pods-ViraKran.release.xcconfig */,
-				7B89907CCFDB1B46F2BB8540 /* Pods-ViraKran-ViraKranUITests.debug.xcconfig */,
-				2E854EC92730FC235D5D1244 /* Pods-ViraKran-ViraKranUITests.release.xcconfig */,
-				21770BDE243E253DBC52C6FD /* Pods-ViraKranTests.debug.xcconfig */,
-				798756E0D69826CE47AE4029 /* Pods-ViraKranTests.release.xcconfig */,
+				757E076598AA3F27087E0AE1 /* Pods-ViraKran.debug.xcconfig */,
+				4A631C0BF607673A72D1D1EC /* Pods-ViraKran.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		D08F177CBED16AA72BA8C89A /* Frameworks */ = {
+		F04404392AAA8209546076E1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E9280FFE31BA97442535EC31 /* Pods_ViraKran.framework */,
-				F59386723E8D7FF0FE8C01AD /* Pods_ViraKran_ViraKranUITests.framework */,
-				6C5676AC4E2EB3852817D5AB /* Pods_ViraKranTests.framework */,
+				F54E3266F4370C7DB51226D4 /* Pods_ViraKran.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -311,11 +298,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 855F740C25CEF049009A6183 /* Build configuration list for PBXNativeTarget "ViraKran" */;
 			buildPhases = (
-				2BFC10D21F0594599C1EE93F /* [CP] Check Pods Manifest.lock */,
+				0E26430B01AFC7C762535F79 /* [CP] Check Pods Manifest.lock */,
 				855F73DE25CEF047009A6183 /* Sources */,
 				855F73DF25CEF047009A6183 /* Frameworks */,
 				855F73E025CEF047009A6183 /* Resources */,
-				FAA2364AA3B865AB7923D95B /* [CP] Embed Pods Frameworks */,
+				528195F5339AAE6E95694B82 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -330,7 +317,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 855F740F25CEF049009A6183 /* Build configuration list for PBXNativeTarget "ViraKranTests" */;
 			buildPhases = (
-				5C8DB71EB445CF9CBB6E0930 /* [CP] Check Pods Manifest.lock */,
 				855F73F425CEF049009A6183 /* Sources */,
 				855F73F525CEF049009A6183 /* Frameworks */,
 				855F73F625CEF049009A6183 /* Resources */,
@@ -349,11 +335,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 855F741225CEF049009A6183 /* Build configuration list for PBXNativeTarget "ViraKranUITests" */;
 			buildPhases = (
-				D77EE0ACE71C978452F2487F /* [CP] Check Pods Manifest.lock */,
 				855F73FF25CEF049009A6183 /* Sources */,
 				855F740025CEF049009A6183 /* Frameworks */,
 				855F740125CEF049009A6183 /* Resources */,
-				7661059004A830001EB0381A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -436,7 +420,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2BFC10D21F0594599C1EE93F /* [CP] Check Pods Manifest.lock */ = {
+		0E26430B01AFC7C762535F79 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -458,68 +442,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5C8DB71EB445CF9CBB6E0930 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ViraKranTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7661059004A830001EB0381A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ViraKran-ViraKranUITests/Pods-ViraKran-ViraKranUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ViraKran-ViraKranUITests/Pods-ViraKran-ViraKranUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ViraKran-ViraKranUITests/Pods-ViraKran-ViraKranUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D77EE0ACE71C978452F2487F /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ViraKran-ViraKranUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FAA2364AA3B865AB7923D95B /* [CP] Embed Pods Frameworks */ = {
+		528195F5339AAE6E95694B82 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -545,28 +468,29 @@
 			files = (
 				85634525265117C300C233CA /* CatalogViewController.swift in Sources */,
 				8540FAD925F22BA30096BAA5 /* StorageManager.swift in Sources */,
-				8540FA6C25ECE1820096BAA5 /* RegisterViewController.swift in Sources */,
 				85D780ED25E78E20000D8D35 /* HamburgerViewController.swift in Sources */,
 				855F73EA25CEF047009A6183 /* MainController.swift in Sources */,
 				8540FACF25EE171A0096BAA5 /* AuthorizationViewController.swift in Sources */,
 				8540FA5B25ECDFCC0096BAA5 /* ConversationsViewController.swift in Sources */,
+				8563454C2652FE0C00C233CA /* ParametersTableViewCell.swift in Sources */,
 				855F73E625CEF047009A6183 /* AppDelegate.swift in Sources */,
-				8540FA6725ECE1720096BAA5 /* LoginViewController.swift in Sources */,
 				8563451A265069A800C233CA /* Item.swift in Sources */,
 				8540FB2225FCA0A50096BAA5 /* DatabaseManager.swift in Sources */,
 				8540FA7B25ECE1C60096BAA5 /* NewConversationViewController.swift in Sources */,
+				856345422652532F00C233CA /* PhotoCarouselTableViewCell.swift in Sources */,
 				855F744025D12E7B009A6183 /* NewsModel.swift in Sources */,
 				8563452D265118CE00C233CA /* CatalogCell.swift in Sources */,
 				8540FB27260006620096BAA5 /* ChatViewController.swift in Sources */,
-				8540FA7625ECE1AB0096BAA5 /* VideoPlayerViewController.swift in Sources */,
+				856346332654616B00C233CA /* CategoryEquipmentViewController.swift in Sources */,
 				8540FAD425EE2ECC0096BAA5 /* UserModel.swift in Sources */,
-				8563449A264A9DD400C233CA /* EquipmentCollectionViewCell.swift in Sources */,
+				8563454726525E3C00C233CA /* PhotoCollectionViewCell.swift in Sources */,
 				855F73E825CEF047009A6183 /* SceneDelegate.swift in Sources */,
 				8540FA8025ECE1DB0096BAA5 /* ProfileViewController.swift in Sources */,
+				85634638265463A700C233CA /* CategoryEquipmentTableViewCell.swift in Sources */,
 				855F746925D4745A009A6183 /* NewsCell.swift in Sources */,
-				85634495264A9CED00C233CA /* EquipmentsViewController.swift in Sources */,
 				8563449F264B2A8D00C233CA /* Equipment.swift in Sources */,
 				8540FB2C26000CFC0096BAA5 /* Message.swift in Sources */,
+				8563453D26524FD700C233CA /* ProductViewController.swift in Sources */,
 				8540FA7125ECE1940096BAA5 /* PhotoViewController.swift in Sources */,
 				8540FAAB25EE10E90096BAA5 /* Extensions.swift in Sources */,
 			);
@@ -741,7 +665,7 @@
 		};
 		855F740D25CEF049009A6183 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 687FEFC5A734B9F929A83EAC /* Pods-ViraKran.debug.xcconfig */;
+			baseConfigurationReference = 757E076598AA3F27087E0AE1 /* Pods-ViraKran.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -762,7 +686,7 @@
 		};
 		855F740E25CEF049009A6183 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1E4F53DFA9DF22C8439C3CDD /* Pods-ViraKran.release.xcconfig */;
+			baseConfigurationReference = 4A631C0BF607673A72D1D1EC /* Pods-ViraKran.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -783,7 +707,6 @@
 		};
 		855F741025CEF049009A6183 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 21770BDE243E253DBC52C6FD /* Pods-ViraKranTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -806,7 +729,6 @@
 		};
 		855F741125CEF049009A6183 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 798756E0D69826CE47AE4029 /* Pods-ViraKranTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -829,7 +751,6 @@
 		};
 		855F741325CEF049009A6183 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7B89907CCFDB1B46F2BB8540 /* Pods-ViraKran-ViraKranUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -850,7 +771,6 @@
 		};
 		855F741425CEF049009A6183 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2E854EC92730FC235D5D1244 /* Pods-ViraKran-ViraKranUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

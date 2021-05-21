@@ -9,41 +9,63 @@ import UIKit
 import Firebase
 import FirebaseFirestore
 import FirebaseDatabase
+import RealmSwift
 
-class MainController: UIViewController, UITableViewDataSource {
+class MainController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var db: Firestore!
     var NewsArray = [NewsModel]()
     var isSlideMenuShown = false
-    @IBOutlet weak var headerView: UIView!
+    let realm = try! Realm()
+
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var leadingConstrForSlideMenu: NSLayoutConstraint!
     @IBOutlet weak var SlideMenu: UIView!
     @IBOutlet weak var backgroundForSlideMenu: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
+        tableView.delegate = self
         db = Firestore.firestore()
+        getFromRealmData()
         checkForUpdates()
+        DatabaseManager.shared.checkForUpdatesOfRest()
         self.backgroundForSlideMenu.isHidden = true
         //self.backgroundForSlideMenu.alpha = 0.0
         self.SlideMenu.isHidden = true
     }
 
+    func getFromRealmData(){
+        print("getData")
+        let objects = realm.objects(NewsModel.self)
+        if objects.count != 0{
+            self.NewsArray = []
+            for item in objects{
+                self.NewsArray.append(item)
+            }
+        }
+    }
+    
     func checkForUpdates(){
         db.collection("news").addSnapshotListener{(querySnapshot, error) in
             guard querySnapshot != nil else { return }
-                self.NewsArray = []
-                for document in (querySnapshot!.documents){
-                    let documents_data = document.data()
-                    let title = documents_data["title"] as? String ?? "nil"
-                    let date = documents_data["date"] as? Date ?? Date()
-                    let text_string = documents_data["text_string"] as? String ?? "nil"
-                    let imageLinks: [String:String] = documents_data["imageLinks"] as? [String:String] ?? ["0":"nil"]
-                    self.NewsArray.append(NewsModel(date: date, image_links: imageLinks, text_string: text_string, title: title))
-                    print(self.NewsArray.count)
+            self.NewsArray = []
+            let object = self.realm.objects(NewsModel.self)
+            try! self.realm.write {
+                self.realm.delete(object)
+            }
+            for document in (querySnapshot!.documents){
+                let documents_data = document.data()
+                let title = documents_data["title"] as? String ?? "nil"
+                let FirebaseDate = documents_data["date"] as! Timestamp
+                let text_string = documents_data["text_string"] as? String ?? "nil"
+                let imageLinks: [String] = documents_data["imageLinks"] as? [String] ?? ["nil"]
+                let epocTime = TimeInterval(FirebaseDate.seconds)
+                let date = NSDate(timeIntervalSince1970: epocTime)
+                //print(imageLinks)
+                DatabaseManager.shared.insertNewsModel(date: date as Date, imageStorage: imageLinks, text_string: text_string, title: title)
                 }
-            DispatchQueue.main.async {    //обновлять данные скролл вью в будущем
+            self.getFromRealmData()
+            DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         }
@@ -54,12 +76,17 @@ class MainController: UIViewController, UITableViewDataSource {
     }
         
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewsCell", for: indexPath) as? NewsCell
-        let tmpcell = self.NewsArray[indexPath.item]
-        cell?.setContent(title: (tmpcell.title)!, text: (tmpcell.text_string)!, imageLink: (tmpcell.image_links["1"]) as! String, dateLabel: (tmpcell.date)!)
-        
+        let tmp = NewsArray[indexPath.item]
+        let tmpImage = tmp.image_links[0].link
+        cell?.setContent(title: tmp.title, text: tmp.text_string, imageLink: tmpImage, dateLabel: tmp.date)
         return cell!
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("User touched on \(indexPath.item) row")
+    }
+    
     
     @IBAction func showSlideMenu(_ sender: Any) {
         if (isSlideMenuShown == false){

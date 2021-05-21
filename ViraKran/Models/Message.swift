@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import MessageKit
+import RealmSwift
 
 struct Message: MessageType{
     var sender: SenderType
@@ -21,3 +22,6 @@ struct Sender: SenderType {
     var senderId: String
     var displayName: String
 }
+
+
+

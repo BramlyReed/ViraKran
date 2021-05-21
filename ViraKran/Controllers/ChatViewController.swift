@@ -81,16 +81,23 @@ extension ChatViewController{
                 print(FirebaseDate.seconds)
                 let epocTime = TimeInterval(FirebaseDate.seconds)
                 let date = NSDate(timeIntervalSince1970: epocTime)
-
+                let type = documents_data["type"] as? String ?? nil
+                let textMessage = documents_data["message"] as? String ?? "nil"
+                var kind: MessageKind = .text("nil")
+                if type == "text"{
+                    kind = .text(textMessage)
+                }
+                else if type == "image"{
+                    
+                }
                 print(date)
-                let textMessage = documents_data["textMessage"] as? String ?? "nil"
                 let user_email = documents_data["user_email"] as? String ?? "nil"
                 if (user_email == "admin@gmail.com" && self.selfSender?.displayName == "Администратор") || (user_email != "admin@gmail.com" && self.selfSender?.displayName != "Администратор"){
-                    self.messages.append(Message(sender: self.selfSender!, messageId: messageID, sentDate: date as Date, kind: .text(textMessage)))
+                    self.messages.append(Message(sender: self.selfSender!, messageId: messageID, sentDate: date as Date, kind: kind))
 
                 }
                 else if (user_email != "admin@gmail.com" && self.selfSender?.displayName == "Администратор") || (user_email == "admin@gmail.com" && self.selfSender?.displayName != "Администратор"){
-                    self.messages.append(Message(sender: self.otherSender!, messageId: messageID, sentDate: date as Date, kind: .text(textMessage)))
+                    self.messages.append(Message(sender: self.otherSender!, messageId: messageID, sentDate: date as Date, kind: kind))
 
                 }
             }
@@ -130,7 +137,8 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
         let dateString = Date.init()
         db.collection("users/\(USER)/conversations").document(String(NumberMessage)).setData([
                 "date": dateString,
-                "textMessage": text,
+                "message": text,
+                "type": "text",
                 "user_email": userLogin
             ]) { err in
             if let err = err {
@@ -144,5 +152,4 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
         }
     }
 }
-
 

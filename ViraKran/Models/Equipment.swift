@@ -7,23 +7,31 @@
 
 import Foundation
 import UIKit
+import RealmSwift
 
-class Equipment{
-    var title = ""
-    var featuredImage: UIImage
-    var color: UIColor
-    
-    init(title: String, featuredImage: UIImage, color: UIColor) {
-        self.title = title
-        self.featuredImage = featuredImage
-        self.color = color
-    }
-    static func fetchEquipments() -> [Equipment]{
-        return [
-            Equipment(title: "Первый", featuredImage: UIImage(named: "colorful kran")!, color: UIColor(red: 190/255.0, green: 190/255.0, blue: 190/255.0, alpha: 0.7)),
-            Equipment(title: "Второй", featuredImage: UIImage(named: "colorful kran")!, color: UIColor(red: 190/255.0, green: 190/255.0, blue: 190/255.0, alpha: 0.7)),
-            Equipment(title: "Третий", featuredImage: UIImage(named: "colorful kran")!, color: UIColor(red: 190/255.0, green: 190/255.0, blue: 190/255.0, alpha: 0.7)),
-            Equipment(title: "Четвертый", featuredImage: UIImage(named: "colorful kran")!, color: UIColor(red: 102/255.0, green: 102/255.0, blue: 102/255.0, alpha: 0.8))
-        ]
-    }
+//class Equipment{
+//    var title = ""
+//    var featuredImage: UIImage
+//    var color: UIColor
+//
+//    init(title: String, featuredImage: UIImage, color: UIColor) {
+//        self.title = title
+//        self.featuredImage = featuredImage
+//        self.color = color
+//    }
+//}
+class Equipment: Object{
+    @objc dynamic var eqId: String = ""
+    @objc dynamic var catId: String = ""
+    @objc dynamic var cost: String = ""
+    let eqCharacteristic = List<eqChar>()
+    let image_links = List<imageLinksClass>()
+    @objc dynamic var textInfo = ""
+    @objc dynamic var title = ""
+    @objc dynamic var year: String = ""
+}
+
+class eqChar: Object {
+    @objc dynamic var stringKey = ""
+    @objc dynamic var stringValue = ""
 }
