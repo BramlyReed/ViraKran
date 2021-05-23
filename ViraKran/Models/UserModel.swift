@@ -28,19 +28,12 @@ import Foundation
 //}
 
 struct UserModel {
-    let name: String
-    let surname: String
-    let email: String
-    //let profilePictureUrl: URL
+    var name: String
+    var surname: String
+    var email: String
+}
 
-    var safeEmail: String {
-        var safeEmail = email.replacingOccurrences(of: ".", with: "-")
-        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
-        return safeEmail
-    }
-
-    var profilePictureFileName: String {
-        //afraz9-gmail-com_profile_picture.png
-        return "\(email).profile_picture.png"
-    }
+struct ItemProcut{
+    var catId = ""
+    var eqId = ""
 }

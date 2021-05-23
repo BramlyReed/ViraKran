@@ -218,6 +218,7 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.7):
     - BoringSSL-GRPC/Interface (= 0.0.7)
   - BoringSSL-GRPC/Interface (0.0.7)
+  - BulletinBoard (5.0.0)
   - CardSlider (0.1.0)
   - Firebase/Analytics (6.34.0):
     - Firebase/Core
@@ -349,7 +350,6 @@ PODS:
     - nanopb/encode (= 1.30906.0)
   - nanopb/decode (1.30906.0)
   - nanopb/encode (1.30906.0)
-  - Popover (1.3.0)
   - PromisesObjC (1.2.12)
   - Realm (10.7.0):
     - Realm/Headers (= 10.7.0)
@@ -361,6 +361,7 @@ PODS:
   - SDWebImage/Core (5.10.4)
 
 DEPENDENCIES:
+  - BulletinBoard
   - CardSlider
   - Firebase/Analytics
   - Firebase/Auth
@@ -371,7 +372,6 @@ DEPENDENCIES:
   - JGProgressHUD
   - JJFloatingActionButton
   - MessageKit
-  - Popover
   - RealmSwift
   - SDWebImage
 
@@ -379,6 +379,7 @@ SPEC REPOS:
   trunk:
     - abseil
     - BoringSSL-GRPC
+    - BulletinBoard
     - CardSlider
     - Firebase
     - FirebaseAnalytics
@@ -401,7 +402,6 @@ SPEC REPOS:
     - leveldb-library
     - MessageKit
     - nanopb
-    - Popover
     - PromisesObjC
     - Realm
     - RealmSwift
@@ -410,6 +410,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
+  BulletinBoard: dba77053c2a7b64953f63073f7534165af2edd21
   CardSlider: 0a8f5f17f5a76701771794b07fdaeddc512358c8
   Firebase: c23a36d9e4cdf7877dfcba8dd0c58add66358999
   FirebaseAnalytics: 3bb096873ee0d7fa4b6c70f5e9166b6da413cc7f
@@ -432,12 +433,11 @@ SPEC CHECKSUMS:
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   MessageKit: fb539583599cd914e8e2d41fe7bdceb4bf686565
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
-  Popover: 10e1d9528f81d9504df984b7b3f491292bc1822d
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Realm: a03c41a3afbda6c197ba4dfba5428b8b54cc2df4
   RealmSwift: 5e7abc842276d7fabd386e67afbf3efde54eb1c6
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
 
-PODFILE CHECKSUM: 09e474f59c8f133cf2c5517024feb4f764c88bc4
+PODFILE CHECKSUM: 4120255bed26c629df608fbcb097c0d155f326b2
 
 COCOAPODS: 1.10.1

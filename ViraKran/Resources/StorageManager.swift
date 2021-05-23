@@ -39,13 +39,43 @@ class StorageManager{
             })
         })
     }
-    static func getPhoto(photomodel: String, completion: @escaping (UIImage?) -> Void){
-        guard let imageURL = URL(string: photomodel) else { return }
-        DispatchQueue.global().async {
-            guard let imageData = try? Data(contentsOf: imageURL) else { return }
-            let image = UIImage(data: imageData)
-            completion(image)
-        }
+    func downloadProfilePictureForComments(email: String) -> String{
+        var tmpObject = "nil"
+        Storage.storage().reference().child("userImages/\(email)/\(email).profile_picture.png").downloadURL(completion: { url, error in
+            guard let url = url else {
+                print("Failed to get download url")
+                return
+            }
+            UserDefaults.standard.set("\(url)", forKey: "userProfilePicture")
+            print(url)
+            while tmpObject != "\(url)"{
+                tmpObject = "\(url)"
+            }
+        })
+        return tmpObject
     }
+    func downloadProfilePicture(email: String){
+        Storage.storage().reference().child("userImages/\(email)/\(email).profile_picture.png").downloadURL(completion: { url, error in
+            guard let url = url else {
+                print("Failed to get download url")
+                return
+            }
+            UserDefaults.standard.set("\(url)", forKey: "pictureURL")
+            print(url)
+        })
+    }
+    
+    
+    func downloadURL(for email: String, completion: @escaping (Result<URL, Error>) -> Void) {
+        let reference = storage.child("userImages/\(email)/\(email).profile_picture.png")
 
+        reference.downloadURL(completion: { url, error in
+            guard let url = url, error == nil else {
+                print("Error")
+                return
+            }
+
+            completion(.success(url))
+        })
+    }
 }

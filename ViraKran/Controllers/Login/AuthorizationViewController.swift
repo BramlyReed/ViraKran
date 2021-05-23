@@ -102,12 +102,12 @@ class AuthorizationViewController: UIViewController {
                           let data = image.pngData() else {
                         return
                     }
-                    let filename = user.profilePictureFileName
-                    UserDefaults.standard.set("defaultPicture", forKey: "profile_picture_url")
+                    let filename = "\(user.email).profile_picture.png"
+                    UserDefaults.standard.set("defaultPicture", forKey: "pictureURL")
                     StorageManager.shared.uploadProfilePicture(with: data, fileName: filename, userName: email, completion: { result in
                             switch result {
                             case .success(let downloadUrl):
-                                UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
+                                UserDefaults.standard.set(downloadUrl, forKey: "pictureURL")
                                 //print(downloadUrl)
                             case .failure(let error):
                                 print("Storage manager error: \(error)")
@@ -143,7 +143,9 @@ class AuthorizationViewController: UIViewController {
                             print(fullname)
                             UserDefaults.standard.set(email, forKey: "email")
                             UserDefaults.standard.set(fullname, forKey: "fullname")
+                            UserDefaults.standard.set("Рубли", forKey: "value")
                             
+                            //StorageManager.shared.downloadProfilePicture(email: email)
                             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateFullName"), object: nil)
                         }
                         else {

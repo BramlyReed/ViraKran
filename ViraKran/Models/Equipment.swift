@@ -29,9 +29,15 @@ class Equipment: Object{
     @objc dynamic var textInfo = ""
     @objc dynamic var title = ""
     @objc dynamic var year: String = ""
+    @objc dynamic var location: String = ""
 }
 
 class eqChar: Object {
     @objc dynamic var stringKey = ""
     @objc dynamic var stringValue = ""
+}
+
+class FavoriteEquipment: Object{
+    @objc dynamic var eqId: String = ""
+    @objc dynamic var catId: String = ""
 }

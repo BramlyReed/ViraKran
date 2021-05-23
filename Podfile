@@ -18,5 +18,5 @@ target 'ViraKran' do
   pod 'RealmSwift'
   pod 'SDWebImage'
   pod 'JJFloatingActionButton'
-  pod 'Popover'
+  pod 'BulletinBoard'
 end
