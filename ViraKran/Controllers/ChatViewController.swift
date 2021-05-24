@@ -10,6 +10,7 @@ import MessageKit
 import Firebase
 import InputBarAccessoryView
 import FirebaseFirestore
+import SDWebImage
 class ChatViewController: MessagesViewController {
 
     let db = Firestore.firestore()
@@ -149,6 +150,33 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
                 inputBar.inputTextView.text = ""
                 
             }
+        }
+    }
+    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        let sender = message.sender
+        if sender.senderId == selfSender?.senderId {
+            //MARK: Текущий пользователь
+            let pictureURL = UserDefaults.standard.string(forKey: "pictureURL") ?? "Guest1"
+            avatarView.sd_setImage(with: URL(string: pictureURL), completed: nil)
+
+        }
+        else {
+            //MARK: Адресат переписки
+            var email = chosenUserLogin
+            print("chosenUser ", chosenUserLogin)
+            if chosenUserLogin == "Guest" || chosenUserLogin == ""{
+                email = "admin@gmail.com"
+            }
+            StorageManager.shared.downloadURL(for: email, completion: { [weak self] result in
+                switch result {
+                case .success(let url):
+                    DispatchQueue.main.async {
+                        avatarView.sd_setImage(with: url, completed: nil)
+                    }
+                case .failure(let error):
+                    print("\(error)")
+                }
+            })
         }
     }
 }
