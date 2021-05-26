@@ -154,4 +154,62 @@ final class DatabaseManager{
         return tmpUser
     }
     
+    //MARK: Получение информации о валютах
+    func getInfoAboutCurrencies(){
+        guard let url = URL(string: "https://www.cbr-xml-daily.ru/latest.js") else { return}
+        var currenciesRatesArray = RatesExample(GBP: 0, USD: 0, EUR: 0)
+        URLSession.shared.dataTask(with: url) { data, _, _ in
+            if
+                let data = data,
+                let parsedCurrencies = try? JSONDecoder().decode(ParsedCurrencies.self, from: data){
+                currenciesRatesArray = parsedCurrencies.rates
+                let realm = try! Realm()
+                let object = realm.objects(Currencies.self)
+                if object.count != 0{
+                    try! realm.write {
+                        realm.delete(object)
+                    }
+                }
+                let tmpObject = Currencies()
+                let tmpEuro = Currency()
+                let tmpUSD = Currency()
+                let tmpGBP = Currency()
+                tmpEuro.name = "EUR"
+                tmpEuro.value = "\(currenciesRatesArray.EUR)"
+                tmpObject.CurrenciesArray.append(tmpEuro)
+                tmpUSD.name = "USD"
+                tmpUSD.value = "\(currenciesRatesArray.USD)"
+                tmpObject.CurrenciesArray.append(tmpUSD)
+                tmpGBP.name = "GBP"
+                tmpGBP.value = "\(currenciesRatesArray.GBP)"
+                tmpObject.CurrenciesArray.append(tmpGBP)
+                try! realm.write{
+                    realm.add(tmpObject)
+                }
+                }
+            else{
+                print("Can't get rates")
+            }
+        }.resume()
+    }
+    
+    func getActual(rates: String) -> Double{
+        let object = realm.objects(Currencies.self)
+        if object.count != 0{
+            if rates == "EUR"{
+                let tmp = Double(object.last?.CurrenciesArray[0].value ?? "0") ?? 0.0
+                return tmp
+            }
+            else if rates == "USD"{
+                let tmp = Double(object.last?.CurrenciesArray[1].value ?? "0") ?? 0.0
+                return tmp
+            }
+            else{
+                let tmp = Double(object.last?.CurrenciesArray[2].value ?? "0") ?? 0.0
+                return tmp
+            }
+        }
+        return 0.0
+    }
+
 }

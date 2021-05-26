@@ -29,6 +29,7 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
         getFromRealmData()
         checkForUpdates()
         DatabaseManager.shared.checkForUpdatesOfRest()
+        DatabaseManager.shared.getInfoAboutCurrencies()
         self.backgroundForSlideMenu.isHidden = true
         self.SlideMenu.isHidden = true
     }

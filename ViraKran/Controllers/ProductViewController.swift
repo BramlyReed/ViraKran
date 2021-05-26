@@ -101,7 +101,7 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
     }
-    
+    //MARK: Настройка таблицы
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
@@ -123,27 +123,41 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
         
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print("Index ",indexPath.item)
+        
+        let sectionT = sections[indexPath.item]
         let sectionType = sections[indexPath.section]
+        print("sectionType",sectionT)
         switch sectionType{
         case .productPhotos:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PhotoCarouselTableViewCell.identifier, for: indexPath) as? PhotoCarouselTableViewCell else{
                 fatalError()
             }
+            //print("Index of picture ", indexPath.item)
             return cell
             
         case .productInfo(let viewModels):
             let viewModel = viewModels[indexPath.item]
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProductCell", for: indexPath)
             cell.configure(with: viewModel)
+            //print("Index of info ", indexPath.item)
             return cell
         case .productParameters(let viewModels):
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ParametersTableViewCell.identifier, for: indexPath) as? ParametersTableViewCell else{
                 fatalError()
             }
             cell.configure(with: viewModels[indexPath.item])
+            //print("Index of parameters ", indexPath.item)
             return cell
         }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.item == 0{
+            //print("Show picture")
+        }
+    }
+    
     //MARK: настройка секций в соответствии с данными из о товаре из Realm
     func configureSections(){
         let chosenCatId = UserDefaults.standard.string(forKey: "catId") ?? "Guest1"
@@ -151,7 +165,24 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         let objects = realm.objects(Equipment.self).filter("catId == %@ && eqId == %@", chosenCatId, choseneqId)
         let tmpObject = objects[0]
         title = tmpObject.title
+        let baseAmountInRub = Double(tmpObject.cost) ?? 0
+        var amount = tmpObject.cost
+        var amountValue = "Руб"
         var tmpParameters: [ParametersTableViewCellViewModel] = []
+        let value = UserDefaults.standard.string(forKey: "value") ?? "Guest"
+        
+        if value == "Евро"{
+            amount = "\(DatabaseManager.shared.getActual(rates: "EUR") * baseAmountInRub)"
+            amountValue = "EUR"
+        }
+        else if value == "Доллары"{
+            amount = "\(DatabaseManager.shared.getActual(rates: "USD") * baseAmountInRub)"
+            amountValue = "USD"
+        }
+        else if value == "Фунты"{
+            amount = "\(DatabaseManager.shared.getActual(rates: "GBP") * baseAmountInRub)"
+            amountValue = "GBP"
+        }
         for eqch in tmpObject.eqCharacteristic{
             tmpParameters.append(ParametersTableViewCellViewModel(title: eqch.stringKey, value: eqch.stringValue))
         }
@@ -159,7 +190,7 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         sections.append(.productInfo(viewModels: [TextCellViewmodel(text: tmpObject.textInfo, font: .systemFont(ofSize: 20))]))
         sections.append(.productParameters(viewModels: tmpParameters))
     //MARK: доработать с обновлением данных о валюте
-        sections.append(.productInfo(viewModels: [TextCellViewmodel(text: "Стоимость/мес: \(tmpObject.cost)", font: .systemFont(ofSize: 20))]))
+        sections.append(.productInfo(viewModels: [TextCellViewmodel(text: "Стоимость/мес: \(amount) \(amountValue)", font: .systemFont(ofSize: 20))]))
         sections.append(.productInfo(viewModels: [TextCellViewmodel(text: "Местоположение: \(tmpObject.location)", font: .systemFont(ofSize: 20))]))
         sections.append(.productInfo(viewModels: [TextCellViewmodel(text: "Год выпуска: \(tmpObject.year)", font: .systemFont(ofSize: 20))]))
     }

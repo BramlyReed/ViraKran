@@ -20,6 +20,7 @@
 		853A1460265A4FD8002BA2F0 /* FavoriteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 853A145F265A4FD8002BA2F0 /* FavoriteCell.xib */; };
 		853A1465265A5021002BA2F0 /* FavoriteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853A1464265A5021002BA2F0 /* FavoriteCollectionViewCell.swift */; };
 		853A1491265C3697002BA2F0 /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853A1490265C3696002BA2F0 /* ConversationTableViewCell.swift */; };
+		853A14C3265E3FDD002BA2F0 /* Currencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853A14C2265E3FDD002BA2F0 /* Currencies.swift */; };
 		8540FA5B25ECDFCC0096BAA5 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8540FA5A25ECDFCC0096BAA5 /* ConversationsViewController.swift */; };
 		8540FA7125ECE1940096BAA5 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8540FA7025ECE1940096BAA5 /* PhotoViewController.swift */; };
 		8540FA7B25ECE1C60096BAA5 /* SearchConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8540FA7A25ECE1C60096BAA5 /* SearchConversationViewController.swift */; };
@@ -85,6 +86,7 @@
 		853A145F265A4FD8002BA2F0 /* FavoriteCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoriteCell.xib; sourceTree = "<group>"; };
 		853A1464265A5021002BA2F0 /* FavoriteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCollectionViewCell.swift; sourceTree = "<group>"; };
 		853A1490265C3696002BA2F0 /* ConversationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTableViewCell.swift; sourceTree = "<group>"; };
+		853A14C2265E3FDD002BA2F0 /* Currencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currencies.swift; sourceTree = "<group>"; };
 		8540FA5A25ECDFCC0096BAA5 /* ConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
 		8540FA7025ECE1940096BAA5 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		8540FA7A25ECE1C60096BAA5 /* SearchConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchConversationViewController.swift; sourceTree = "<group>"; };
@@ -279,6 +281,7 @@
 				8540FB2B26000CFC0096BAA5 /* Message.swift */,
 				8563449E264B2A8D00C233CA /* Equipment.swift */,
 				853A1455265983E7002BA2F0 /* Comment.swift */,
+				853A14C2265E3FDD002BA2F0 /* Currencies.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -528,6 +531,7 @@
 				8540FA8025ECE1DB0096BAA5 /* ProfileViewController.swift in Sources */,
 				85634638265463A700C233CA /* CategoryEquipmentTableViewCell.swift in Sources */,
 				855F746925D4745A009A6183 /* NewsCell.swift in Sources */,
+				853A14C3265E3FDD002BA2F0 /* Currencies.swift in Sources */,
 				8563449F264B2A8D00C233CA /* Equipment.swift in Sources */,
 				8540FB2C26000CFC0096BAA5 /* Message.swift in Sources */,
 				8563453D26524FD700C233CA /* ProductViewController.swift in Sources */,
