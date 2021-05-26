@@ -57,6 +57,7 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
+        messagesCollectionView.messageCellDelegate = self
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if  touches.first != nil{
@@ -80,7 +81,13 @@ class ChatViewController: MessagesViewController {
         nav.modalPresentationStyle = .fullScreen
         present(nav,animated:true)
     }
-    
+    func openPhotoViewController(){
+        let mainstoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let newViewcontroller:UIViewController = mainstoryboard.instantiateViewController(withIdentifier: "PhotoViewController") as! PhotoViewController
+        let navigationController = UINavigationController(rootViewController: newViewcontroller)
+        navigationController.modalPresentationStyle = .fullScreen
+        self.present(navigationController, animated: true)
+    }
 }
 
 extension ChatViewController{
@@ -310,5 +317,49 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
                 print("Documents successfully written!")
             }
         }
+    }
+}
+//MARK: открыть изображение на полный экран
+
+extension ChatViewController: MessageCellDelegate {
+    func didTapImage(in cell: MessageCollectionViewCell) {
+        guard let indexPath = messagesCollectionView.indexPath(for: cell) else {
+            return
+        }
+
+        let message = messages[indexPath.section]
+
+        switch message.kind {
+        case .photo(let media):
+            guard let imageUrl = media.url else {
+                return
+            }
+            print("image url ",imageUrl)
+            UserDefaults.standard.set("\(imageUrl)", forKey: "pictureURLforFull")
+            openPhotoViewController()
+        case .text(_):
+            break
+        case .attributedText(_):
+            break
+        case .video(_):
+            break
+        case .location(_):
+            break
+        case .emoji(_):
+            break
+        case .audio(_):
+            break
+        case .contact(_):
+            break
+        case .linkPreview(_):
+            break
+        case .custom(_):
+            break
+        }
+//        let vc = PhotoViewController()
+//        vc.title = chosenUserLogin
+//        let nav = UINavigationController(rootViewController: vc)
+//        nav.modalPresentationStyle = .fullScreen
+//        present(nav,animated:true)
     }
 }

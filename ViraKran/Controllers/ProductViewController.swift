@@ -31,7 +31,7 @@ enum SectionType {
     }
 }
 
-class ProductViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class ProductViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MyCollectionCellDelegate{
     let realm = try! Realm()
     let database = Firestore.firestore()
     let products = ["автокран", "башенный кран", "быстромонтируемый кран", "строительный подъемник"]
@@ -123,39 +123,35 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
         
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("Index ",indexPath.item)
-        
-        let sectionT = sections[indexPath.item]
         let sectionType = sections[indexPath.section]
-        print("sectionType",sectionT)
         switch sectionType{
         case .productPhotos:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PhotoCarouselTableViewCell.identifier, for: indexPath) as? PhotoCarouselTableViewCell else{
                 fatalError()
             }
-            //print("Index of picture ", indexPath.item)
+            cell.delegate = self
             return cell
             
         case .productInfo(let viewModels):
-            let viewModel = viewModels[indexPath.item]
+            let viewModel = viewModels[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProductCell", for: indexPath)
             cell.configure(with: viewModel)
-            //print("Index of info ", indexPath.item)
             return cell
         case .productParameters(let viewModels):
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ParametersTableViewCell.identifier, for: indexPath) as? ParametersTableViewCell else{
                 fatalError()
             }
-            cell.configure(with: viewModels[indexPath.item])
-            //print("Index of parameters ", indexPath.item)
+            cell.configure(with: viewModels[indexPath.row])
             return cell
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.item == 0{
-            //print("Show picture")
-        }
+    //MARK: открыть изображение на полный экран
+    func showPicture(){
+        let myViewController = storyboard?.instantiateViewController(withIdentifier: "PhotoViewController") as? PhotoViewController
+        let myNavigationController = UINavigationController(rootViewController: myViewController!)
+        myNavigationController.modalPresentationStyle = .fullScreen
+        self.present(myNavigationController, animated: true)
     }
     
     //MARK: настройка секций в соответствии с данными из о товаре из Realm

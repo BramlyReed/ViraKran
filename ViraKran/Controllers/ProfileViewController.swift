@@ -17,7 +17,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         table.register(ProfileTableViewCellName.self, forCellReuseIdentifier:ProfileTableViewCellName.identifier)
         return table
     }()
-    var pictureURL = UserDefaults.standard.string(forKey: "pictureURL") ?? "Guest1"
     var name = UserDefaults.standard.string(forKey: "fullname") ?? "Guest"
     var email = UserDefaults.standard.string(forKey: "email") ?? "Guest"
     let isAdminOpenFromChats = UserDefaults.standard.string(forKey: "isAdminOpenFromChats") ?? "false"
@@ -50,6 +49,8 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         if indexPath.item == 0{
             let cell = tableview.dequeueReusableCell(withIdentifier: ProfileTableViewCellImage.identifier, for: indexPath) as! ProfileTableViewCellImage
             if isAdminOpenFromChats == "false"{
+                let pictureURL = UserDefaults.standard.string(forKey: "pictureURL") ?? "Guest1"
+                print("New picture ", pictureURL)
                 cell.configure(with: pictureURL)
             }
             else{
@@ -181,7 +182,8 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         StorageManager.shared.uploadProfilePicture(with: data, fileName: filename, userName: email, completion: { result in
                 switch result {
                 case .success(let downloadUrl):
-                    UserDefaults.standard.set(downloadUrl, forKey: "pictureURL")
+                    UserDefaults.standard.set("\(downloadUrl)", forKey: "pictureURL")
+                    print("Download ",downloadUrl)
                     self.updateTable()
                 
                 case .failure(let error):

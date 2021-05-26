@@ -8,10 +8,16 @@
 import UIKit
 import RealmSwift
 
+
+protocol MyCollectionCellDelegate: AnyObject {
+    func showPicture()
+}
+
 class PhotoCarouselTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     static let identifier = "ProductPhotoCarousel"
     let realm = try! Realm()
+    weak var delegate: MyCollectionCellDelegate?
 
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -73,5 +79,15 @@ class PhotoCarouselTableViewCell: UITableViewCell, UICollectionViewDelegate, UIC
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: contentView.frame.size.width, height: contentView.frame.size.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("tap number ", indexPath.item)
+        UserDefaults.standard.set(images[indexPath.item], forKey: "pictureURLforFull")
+        showPicture((Any).self)
+    }
+    
+    func showPicture(_ sender: Any) {
+        delegate?.showPicture()
     }
 }
