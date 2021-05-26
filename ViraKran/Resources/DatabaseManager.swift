@@ -33,11 +33,16 @@ final class DatabaseManager{
                 print("Error writing document: \(err)")
             } else {
                 let dateString = Date.init()
+                let firstMessage = "Здравствуйте! Я представитель компании Вира Кран, и, в этом чате, я готов ответить на все ваши вопросы"
                 self.database.collection("users/\(user.email)/conversations").document("1").setData([
                     "date": dateString,
-                    "message": "Здравствуйте! Я представитель компании Вира Кран, и, в этом чате, я готов ответить на все ваши вопросы",
+                    "message": firstMessage,
                     "user_email": "admin@gmail.com",
                     "type": "text"
+                ])
+                self.database.collection("users/\(user.email)/conversations").document("lastMessage").setData([
+                    "date": dateString,
+                    "message": firstMessage
                 ])
             }
         }
@@ -71,7 +76,7 @@ final class DatabaseManager{
             }
             for document in (querySnapshot!.documents){
                 let documents_data = document.data()
-                let eqId = document.documentID as? String ?? ""
+                let eqId = document.documentID as String
                 let catId = documents_data["catId"] as? Int ?? 0
                 let cost = documents_data["cost"] as? Double ?? 0
                 let eqCharacteristic: [String:String] = documents_data["eqChar"] as? [String:String] ?? ["nil":"nil"]
@@ -83,10 +88,8 @@ final class DatabaseManager{
                 self.insertEquipment(eqid: eqId, catid: catId, imageStorage: imageLinks, textInfo: textInfo, title: title, cost: cost, year: year, eq_char: eqCharacteristic, location: location) 
                 }
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateCategoryList"), object: nil)
-            print("Sent Notification")
             }
         }
-
     }
     //MARK: запись новости в БД
     func insertNewsModel(date: Date, imageStorage: [String], text_string: String, title: String){
@@ -94,8 +97,6 @@ final class DatabaseManager{
         tmpObject.date = date
         tmpObject.text_string = text_string
         tmpObject.title = title
-        //print("Image Storage")
-        //print(imageStorage)
         if imageStorage.count != 0{
             for i in imageStorage{
                 let tmplink = imageLinksClass()
@@ -105,11 +106,10 @@ final class DatabaseManager{
         }
         try! realm.write{
             realm.add(tmpObject)
-            print("Success")
         }
     }
+    
     //MARK: запись техники в БД
-
     func insertEquipment(eqid: String, catid: Int, imageStorage: [String], textInfo: String, title: String, cost: Double, year: Int, eq_char: [String:String], location: String){
         let tmpObject = Equipment()
         tmpObject.eqId = String(eqid)
@@ -132,7 +132,6 @@ final class DatabaseManager{
         }
         try! realm.write{
             realm.add(tmpObject)
-            print("Zuccess")
         }
     }
     

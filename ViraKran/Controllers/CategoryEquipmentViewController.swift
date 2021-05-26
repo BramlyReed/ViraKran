@@ -6,7 +6,6 @@
 //
 
 
-// MARK: Добавить подписку на обновления таблицы
 import UIKit
 import JJFloatingActionButton
 import RealmSwift
@@ -14,29 +13,26 @@ class CategoryEquipmentViewController: UIViewController, UITableViewDelegate, UI
     
     var data: [Equipment] = []
     let realm = try! Realm()
-
     @IBOutlet weak var cardTableView: UITableView!
-    
-    
     var actionButton = JJFloatingActionButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(updateFullTableView), name: NSNotification.Name(rawValue: "updateCategoryList"), object: nil)
         self.data = []
+        //MARK: выбор объектов из Realm с соответствующей категорией
         let chosenCatId = UserDefaults.standard.string(forKey: "catId") ?? "Guest1"
         let objects = realm.objects(Equipment.self).filter("catId == %@", chosenCatId)
         if objects.count != 0{
-            print("Found items ",objects.count)
             for item in objects{
                 self.data.append(item)
             }
         }
-        print("ALL RIGHT")
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Назад",
                                                             style: .done,
                                                             target: self,
                                                             action: #selector(closeChatViewController))
+        //MARK: Кнопки с сортировками
         let item1 = actionButton.addItem()
         item1.titleLabel.text = "Сортировать по году выпуска"
 //        item1.imageView.image = UIImage(named: "phone")
@@ -61,7 +57,6 @@ class CategoryEquipmentViewController: UIViewController, UITableViewDelegate, UI
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         actionButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         actionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
-
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -77,16 +72,14 @@ class CategoryEquipmentViewController: UIViewController, UITableViewDelegate, UI
         }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-        print("Tap cell number \(indexPath.item)")
         UserDefaults.standard.set(String(data[indexPath.item].eqId), forKey: "eqId")
-
         let myViewController = storyboard?.instantiateViewController(withIdentifier: "ProductViewController") as? ProductViewController
         myViewController?.title = String(data[indexPath.item].title)
         let myNavigationController = UINavigationController(rootViewController: myViewController!)
         myNavigationController.modalPresentationStyle = .fullScreen
         self.present(myNavigationController, animated: true)
-    
     }
+    //MARK: настройка видов сортировки
     func sortPage(type: String){
         if type == "year"{
             self.data = data.sorted(by: { Int($0.year)! > Int($1.year)! })
@@ -104,8 +97,8 @@ class CategoryEquipmentViewController: UIViewController, UITableViewDelegate, UI
         }
     }
     
+    //MARK: обновления товаров из Realm, тк получено уведомление о том что добавлен новый товар техники
     @objc func updateFullTableView(){
-        print("Open Notification")
         let chosenCatId = UserDefaults.standard.string(forKey: "catId") ?? "Guest1"
         let objects = realm.objects(Equipment.self).filter("catId == %@", chosenCatId)
         if objects.count != 0{

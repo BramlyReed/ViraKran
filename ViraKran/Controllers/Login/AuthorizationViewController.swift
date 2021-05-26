@@ -11,7 +11,6 @@ import FirebaseAuth
 import Firebase
 import FirebaseFirestore
 import FirebaseDatabase
-//import RealmSwift
 
 class AuthorizationViewController: UIViewController {
     var db: Firestore!
@@ -46,12 +45,8 @@ class AuthorizationViewController: UIViewController {
             }
             super.touchesBegan(touches, with: event)
         }
-    @objc func closeAuthorizationViewController() {
-        self.dismiss(animated: true, completion: nil)
-    }
     
     @IBAction func changeForm(_ sender: Any) {
-        print("TAPPED")
         sign.toggle()
         if sign{ signUpMode() }
         else{ signInMode() }
@@ -96,27 +91,24 @@ class AuthorizationViewController: UIViewController {
                     }
                     let user = UserModel(name: name, surname: surname, email: email)
                     DatabaseManager.shared.insertUser(with: user)
-                    
-                    // upload image
                     guard let image = strongSelf.imageProfile.image,
                           let data = image.pngData() else {
                         return
                     }
                     let filename = "\(user.email).profile_picture.png"
-                    UserDefaults.standard.set("defaultPicture", forKey: "pictureURL")
+                    UserDefaults.standard.set(email, forKey: "email")
+                    UserDefaults.standard.set("\(name) \(surname)", forKey: "fullname")
+                    UserDefaults.standard.set("Рубли", forKey: "value")
                     StorageManager.shared.uploadProfilePicture(with: data, fileName: filename, userName: email, completion: { result in
                             switch result {
                             case .success(let downloadUrl):
                                 UserDefaults.standard.set(downloadUrl, forKey: "pictureURL")
-                                //print(downloadUrl)
+                                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateFullData"), object: nil)
                             case .failure(let error):
                                 print("Storage manager error: \(error)")
                             }
                         })
-                    UserDefaults.standard.set(email, forKey: "email")
-                    UserDefaults.standard.set("\(name) \(surname)", forKey: "fullname")
                     self?.navigationController?.popToRootViewController(animated: true)
-
                 })
             }
         }
@@ -140,20 +132,16 @@ class AuthorizationViewController: UIViewController {
                             let surname = docdata["surname"] as? String ?? "nil"
                             let email = docdata["email"] as? String ?? "nil"
                             let fullname: String = "\(name) \(surname)"
-                            print(fullname)
                             UserDefaults.standard.set(email, forKey: "email")
                             UserDefaults.standard.set(fullname, forKey: "fullname")
                             UserDefaults.standard.set("Рубли", forKey: "value")
-                            
-                            //StorageManager.shared.downloadProfilePicture(email: email)
-                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateFullName"), object: nil)
+                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateFullData"), object: nil)
                         }
                         else {
                             print("Document does not exist")
                         }
                     }
                     self?.navigationController?.popToRootViewController(animated: true)
-
                 })
             }
         }
@@ -164,7 +152,7 @@ class AuthorizationViewController: UIViewController {
     }
     
 }
-
+//MARK: Работа с изображением: выбор из галерии или из камеры
 extension AuthorizationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func presentPhotoActionSheet() {
         let actionSheet = UIAlertController(title: "Изображение профиля", message: "Откуда выбрать изображение?", preferredStyle: .actionSheet)

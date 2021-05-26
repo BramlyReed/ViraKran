@@ -23,5 +23,15 @@ struct Sender: SenderType {
     var displayName: String
 }
 
+struct LatestMessage {
+    var date: Date
+    var message: String
+    var conversationNameOwner: String
+}
 
-
+struct Media: MediaItem {
+    var url: URL?
+    var image: UIImage?
+    var placeholderImage: UIImage
+    var size: CGSize
+}

@@ -20,7 +20,6 @@ class PostTableViewCell: UITableViewCell {
         return UINib(nibName: "PostTableViewCell", bundle: nil)
     }
     func configure(img: URL, usrN: String, date: String, com: String){
-        print("Image link ", img, "for ", usrN)
         self.profileImage.sd_setImage(with: img)
         self.userName.text = usrN
         self.dateSent.text = date

@@ -10,9 +10,7 @@ import SDWebImage
 class CategoryEquipmentTableViewCell: UITableViewCell {
     
     @IBOutlet weak var cardView: UIView!
-    
     @IBOutlet weak var pictureView: UIImageView!
-    
     @IBOutlet weak var titleLabel: UILabel!
     
     func configure(picture: String, title: String) {

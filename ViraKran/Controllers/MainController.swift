@@ -30,12 +30,10 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
         checkForUpdates()
         DatabaseManager.shared.checkForUpdatesOfRest()
         self.backgroundForSlideMenu.isHidden = true
-        //self.backgroundForSlideMenu.alpha = 0.0
         self.SlideMenu.isHidden = true
     }
-
+    //MARK: Запрос данных из Realm (если нет соединения, то будут отображены сохраненные данные
     func getFromRealmData(){
-        print("getData")
         let objects = realm.objects(NewsModel.self)
         if objects.count != 0{
             self.NewsArray = []
@@ -45,6 +43,7 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
+    //MARK: Добавление наблюдателя за коллекцией news, получение данных документов из коллекции
     func checkForUpdates(){
         db.collection("news").addSnapshotListener{(querySnapshot, error) in
             guard querySnapshot != nil else { return }
@@ -56,12 +55,13 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
             for document in (querySnapshot!.documents){
                 let documents_data = document.data()
                 let title = documents_data["title"] as? String ?? "nil"
+//MARK: Работа с timestamp из Firebase
                 let FirebaseDate = documents_data["date"] as! Timestamp
                 let text_string = documents_data["text_string"] as? String ?? "nil"
                 let imageLinks: [String] = documents_data["imageLinks"] as? [String] ?? ["nil"]
                 let epocTime = TimeInterval(FirebaseDate.seconds)
                 let date = NSDate(timeIntervalSince1970: epocTime)
-                //print(imageLinks)
+//MARK: Добавление объекта в Realm
                 DatabaseManager.shared.insertNewsModel(date: date as Date, imageStorage: imageLinks, text_string: text_string, title: title)
                 }
             self.getFromRealmData()
@@ -83,11 +83,11 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell?.setContent(title: tmp.title, text: tmp.text_string, imageLink: tmpImage, dateLabel: tmp.date)
         return cell!
     }
+    //MARK: здесь будет переход на экран с выбранной новостью
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("User touched on \(indexPath.item) row")
     }
-    
-    
+    //MARK: боковое меню
     @IBAction func showSlideMenu(_ sender: Any) {
         if (isSlideMenuShown == false){
             UIView.animate(withDuration: 0.25) {
@@ -100,24 +100,21 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.isSlideMenuShown = true
         }
     }
-    
-
     @IBAction func hideSlideMenu(_ sender: Any) {
         print(isSlideMenuShown)
     if (isSlideMenuShown == true){
         print("true")
         isSlideMenuShown = false
-       
-            self.backgroundForSlideMenu.alpha = 0.0
-            UIView.animate(withDuration: 0.25) {
-                self.leadingConstrForSlideMenu.constant = -240
-                self.view.layoutIfNeeded()
-            }
-                self.backgroundForSlideMenu.isHidden = true
-                self.isSlideMenuShown = false
+        self.backgroundForSlideMenu.alpha = 0.0
+        UIView.animate(withDuration: 0.25) {
+            self.leadingConstrForSlideMenu.constant = -240
+            self.view.layoutIfNeeded()
+        }
+        self.backgroundForSlideMenu.isHidden = true
+        self.isSlideMenuShown = false
         }
     }
-    
+    //MARK: открыть экран с регистрацией/авторизацией
     @IBAction func didTapRegistration(_ sender: Any) {
         print("TAP")
         let userLogin = UserDefaults.standard.string(forKey: "email") ?? "Guest"
@@ -132,7 +129,7 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
         alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
-    
+    //MARK: открытие бокового меню и чатов по свайпам
     @IBAction func swipeToShowSlideMenu(_ sender: Any) {
         showSlideMenu((Any).self)
     }

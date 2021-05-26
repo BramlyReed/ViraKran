@@ -28,11 +28,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         db = Firestore.firestore()
-        //let chcatId = products[Int(chosenCatId)!-1]
-        
-        //let choseneqId = UserDefaults.standard.string(forKey: "eqId") ?? "Guest1"
-        //print("CHEQID", chcatId)
-        //print("equipment/\(chcatId)/items/\(choseneqId)/comments")
         self.checkComments()
         let item1 = actionButton.addItem()
         item1.titleLabel.text = "Отправить"
@@ -63,32 +58,22 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
         
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("--------------")
-        print(pictureDictionary)
         let tmpName = self.comments[indexPath.item].userName
-        //let value = UserDefaults.standard.string(forKey: "value") ?? "Guest"
         let cell = tableview.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
-        //print("ZZZ ",comments)
         if (self.pictureDictionary[tmpName] != nil) {
-            print("We start")
-            print("number ", indexPath.item)
-        //print("here ", self.pictures[indexPath.item])
             let cellIndex = comments[indexPath.item].userName
             cell.configure(img: pictureDictionary[cellIndex]!, usrN: comments[indexPath.item].userName, date: "\(comments[indexPath.item].dateSent)", com: comments[indexPath.item].comment)
         }
         else{
             cell.configure(img: comments[indexPath.item].profileImage!, usrN: comments[indexPath.item].userName, date: "\(comments[indexPath.item].dateSent)", com: comments[indexPath.item].comment)
         }
-        
         return cell
     }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-    }
+    
     @objc func closeController() {
-        UserDefaults.standard.removeObject(forKey: "userProfilePicture")
         self.dismiss(animated: true, completion: nil)
     }
+    //MARK: открыть контролер с добавлением нового комментария
     func openNewCommentViewController() {
         if userLogin != "Guest"{
         let mainstoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -97,14 +82,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         navigationController.modalPresentationStyle = .fullScreen
         self.present(navigationController, animated: true)
         }
-        else{
-            
-        }
     }
+    //MARK: добавление наблюдателя за коллекцией с комментариями пользователей к технике
     func checkComments(){
         let chcatId = products[Int(chosenCatId)! - 1]
         let choseneqId = UserDefaults.standard.string(forKey: "eqId") ?? "Guest1"
-        //print("func CHEQID", choseneqId)
         db.collection("equipment/\(chcatId)/items/\(choseneqId)/comments").addSnapshotListener{(querySnapshot, error) in
             guard querySnapshot != nil else {
                 print("Error")
@@ -119,33 +101,20 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                 let comment = documents_data["comment"] as? String ?? "nil"
                 let epocTime = TimeInterval(FirebaseDate.seconds)
                 let date = NSDate(timeIntervalSince1970: epocTime)
-                //let imageName = StorageManager.shared.downloadProfilePictureForComments(email: username)
-                //let imageName = UserDefaults.standard.string(forKey: "userProfilePicture") ?? "Guest1"
-                //print(imageLinks)
-                
-                // fetch url
-                var imageName = URL(string: "nil")
+                let imageName = URL(string: "nil")
                 self.comments.append(Comment(profileImage: imageName, userName: username, dateSent: date as Date, comment: comment))
-                //print("Start download for ",username)
+//MARK: скачивание ссылки на изображение профиля пользователя, добавление данных в словарь
                 StorageManager.shared.downloadURL(for: username, completion: { [weak self] result in
                     switch result {
                     case .success(let url):
-                        //self?.pictures.append(url)
-                        print("success")
                         self?.pictureDictionary["\(username)"] = url
-                        //print("Append ", url, " username: ", username)
                         DispatchQueue.main.async {
                             self!.tableview.reloadData()
                         }
-                        
                     case .failure(let error):
-                        print("The Error")
-                        print("\(error)")
+                        print("The Error: \(error)")
                     }
                 })
-                
-                UserDefaults.standard.removeObject(forKey: "userProfilePicture")
-
             }
             //self.comments = self.comments.sorted(by: { $0.dateSent > $1.dateSent })
             DispatchQueue.main.async {

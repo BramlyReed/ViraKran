@@ -10,7 +10,6 @@ import FirebaseFirestore
 
 class NewCommentViewController: UIViewController {
 
-
     @IBOutlet weak var textView: UITextView!
     let database = Firestore.firestore()
     let products = ["avtokran", "bashkran", "bustrokran", "podkran"]
@@ -28,7 +27,6 @@ class NewCommentViewController: UIViewController {
                                                             target: self,
                                                             action: #selector(SendComment))
        
-        
     }
     
     @objc func closeController() {

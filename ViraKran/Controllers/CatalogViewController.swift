@@ -16,7 +16,6 @@ class CatalogViewController: UITableViewController {
         self.tableView.register(CatalogCell.self, forCellReuseIdentifier: "CatalogCell")
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(catalogitems.count)
         return catalogitems.count
         }
         
@@ -31,26 +30,11 @@ class CatalogViewController: UITableViewController {
         return tableView.frame.width / imageCrop
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-        print("Tap cell number \(indexPath.item)")
         UserDefaults.standard.set(String(indexPath.item + 1), forKey: "catId")
-
-//        let vc = CategoryEquipmentViewController()
-//        let nav = UINavigationController(rootViewController: vc)
-//
-//        nav.modalPresentationStyle = .fullScreen
-//        present(nav,animated:true)
-        
         let myViewController = storyboard?.instantiateViewController(withIdentifier: "CategoryEquipmentViewController") as? CategoryEquipmentViewController
         let myNavigationController = UINavigationController(rootViewController: myViewController!)
         myNavigationController.modalPresentationStyle = .fullScreen
         self.present(myNavigationController, animated: true)
-        
-//        guard let VC = storyboard?.instantiateViewController(identifier: "CategoryEquipmentViewController") as? CategoryEquipmentViewController else { return }
-//        VC.title = "ChosenCategory"
-//        VC.modalTransitionStyle = .flipHorizontal
-//        VC.modalPresentationStyle = .fullScreen
-//        present(VC,animated: true)
-//        VC.cardTableView.reloadData()
     }
 }
 

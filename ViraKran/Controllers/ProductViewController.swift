@@ -4,7 +4,6 @@
 //
 //  Created by Stanislav on 17.05.2021.
 //
-// MARK: Добавить подписку на обновления таблицы
 
 import UIKit
 import SDWebImage
@@ -17,6 +16,7 @@ struct TextCellViewmodel{
     let font: UIFont
 }
 
+//MARK: Виды секций в контролере
 enum SectionType {
     case productPhotos
     case productInfo(viewModels: [TextCellViewmodel])
@@ -46,8 +46,7 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
     }()
     
     var actionButton = JJFloatingActionButton()
-
-    private var sections = [SectionType]()
+    var sections = [SectionType]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,24 +55,21 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
                                                             target: self,
                                                             action: #selector(closeViewController))
         
-        
         configureSections()
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
+        //MARK: объявление кнопок
         let item1 = actionButton.addItem()
         item1.titleLabel.text = "Звонок"
         item1.imageView.image = UIImage(named: "phone")
         item1.action = { item in
-            print("Tap1")
-            //self.showAlert(message: "ништяк")
             self.makeACall()
         }
         let item2 = actionButton.addItem()
         item2.titleLabel.text = "Сообщение"
         item2.imageView.image = UIImage(named: "messages")
         item2.action = { item in
-            print("Tap2")
             self.goToChats()
         }
         let item3 = actionButton.addItem()
@@ -99,9 +95,6 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         actionButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         actionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
-
-        // last 4 lines can be replaced with
-        // actionButton.display(inViewController: self)
     }
 
     override func viewDidLayoutSubviews() {
@@ -151,28 +144,24 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
             return cell
         }
     }
+    //MARK: настройка секций в соответствии с данными из о товаре из Realm
     func configureSections(){
-        print("Show something")
         let chosenCatId = UserDefaults.standard.string(forKey: "catId") ?? "Guest1"
         let choseneqId = UserDefaults.standard.string(forKey: "eqId") ?? "Guest1"
         let objects = realm.objects(Equipment.self).filter("catId == %@ && eqId == %@", chosenCatId, choseneqId)
         let tmpObject = objects[0]
         title = tmpObject.title
         var tmpParameters: [ParametersTableViewCellViewModel] = []
-        print(objects)
-            print("Found items")
-            for eqch in tmpObject.eqCharacteristic{
-                        tmpParameters.append(ParametersTableViewCellViewModel(title: eqch.stringKey, value: eqch.stringValue))
-                
-            }
-        print(tmpObject)
+        for eqch in tmpObject.eqCharacteristic{
+            tmpParameters.append(ParametersTableViewCellViewModel(title: eqch.stringKey, value: eqch.stringValue))
+        }
         sections.append(.productPhotos)
         sections.append(.productInfo(viewModels: [TextCellViewmodel(text: tmpObject.textInfo, font: .systemFont(ofSize: 20))]))
         sections.append(.productParameters(viewModels: tmpParameters))
+    //MARK: доработать с обновлением данных о валюте
         sections.append(.productInfo(viewModels: [TextCellViewmodel(text: "Стоимость/мес: \(tmpObject.cost)", font: .systemFont(ofSize: 20))]))
         sections.append(.productInfo(viewModels: [TextCellViewmodel(text: "Местоположение: \(tmpObject.location)", font: .systemFont(ofSize: 20))]))
         sections.append(.productInfo(viewModels: [TextCellViewmodel(text: "Год выпуска: \(tmpObject.year)", font: .systemFont(ofSize: 20))]))
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -187,7 +176,11 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     func showAlert(message: String) {
-        let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
+        var t = "Ошибка"
+        if message == "Успешно"{
+            t = "Уведомление"
+        }
+        let alert = UIAlertController(title: t, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
@@ -196,18 +189,8 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         UserDefaults.standard.removeObject(forKey: "isFavorite?")
         self.dismiss(animated: true, completion: nil)
     }
+    //MARK: звонок
     func makeACall(){
-//        let number = "+79226963071" as? String
-//        guard let numberString = number, let url = URL(string: "telprompt://\(numberString)") else{
-//            return self.showAlert(message: "Ошибка при совершении звонка")
-//        }
-//        guard let numberString = number, let url = URL(string: "TEL://\(numberString)") else{
-//            return self.showAlert(message: "Ошибка при совершении звонка")
-//       }
-    
-//        guard let numberString = number, let url = URL(string: "tel://\(numberString)") else{
-//            return self.showAlert(message: "Ошибка при совершении звонка")
-//        }
         if let phoneURL = URL(string: "tel://89226963071"){
             if application.canOpenURL(phoneURL){
                 application.open(phoneURL, options: [:], completionHandler: nil)
@@ -216,14 +199,11 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.showAlert(message: "Ошибка при совершении звонка")
             }
         }
-//        print(url)
-//        UIApplication.shared.open(url)
     }
-    
+    //MARK: переход к чатам
     func goToChats(){
         let chosenCatId = UserDefaults.standard.string(forKey: "catId") ?? "Guest1"
         let chosenCategory = products[Int(chosenCatId)! - 1]
-        
         let email = UserDefaults.standard.string(forKey: "email") ?? "Guest1"
         if email != "admin@gmail.com" || email != "Guest1"{
             let myViewController = storyboard?.instantiateViewController(withIdentifier: "chatViewController") as? ChatViewController
@@ -231,9 +211,9 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
             myNavigationController.modalPresentationStyle = .fullScreen
             myViewController?.messageInputBar.inputTextView.text = "Здравствуйте, заинтересовал \(chosenCategory) \(title!)"
             self.present(myNavigationController, animated: true)
-            
         }
     }
+    //MARK: переход к комментариям
     func openComments(){
         let vc = PostsViewController()
         let nav = UINavigationController(rootViewController: vc)
@@ -241,6 +221,7 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         present(nav,animated:true)
     }
     
+    //MARK: добавить в избранное
     func addToFavorite(){
         let email = UserDefaults.standard.string(forKey: "email") ?? "Guest1"
         if email != "Guest1"{
@@ -250,7 +231,7 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             docRef.getDocument { (document, error) in
                 if let document = document, document.exists {
-                    self.showAlert(message: "Объект уже сохранен в БД")
+                    self.showAlert(message: "Объект уже был сохранен")
                 }
                 else{
                     self.database.collection("users/\(email)/savedItems").document("\(chosenCatId)_\(choseneqId)").setData([
@@ -279,6 +260,7 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.showAlert(message: "Авторизуйтесь в приложении")
         }
 }
+    //MARK: удаление из избранного
     func deleteFromFavorite(){
         let email = UserDefaults.standard.string(forKey: "email") ?? "Guest1"
         if email != "Guest1"{
@@ -304,7 +286,6 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         }
     }
-    
 }
  
 extension UITableViewCell {

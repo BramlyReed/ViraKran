@@ -9,17 +9,6 @@ import Foundation
 import UIKit
 import RealmSwift
 
-//class Equipment{
-//    var title = ""
-//    var featuredImage: UIImage
-//    var color: UIColor
-//
-//    init(title: String, featuredImage: UIImage, color: UIColor) {
-//        self.title = title
-//        self.featuredImage = featuredImage
-//        self.color = color
-//    }
-//}
 class Equipment: Object{
     @objc dynamic var eqId: String = ""
     @objc dynamic var catId: String = ""

@@ -403,7 +403,6 @@
                                 </constraints>
                                 <state key="normal" title="Техника"/>
                                 <connections>
-                                    <action selector="testButton:" destination="D6U-ak-itU" eventType="touchUpInside" id="nz2-Fq-7TV"/>
                                     <segue destination="f8T-Xl-yrf" kind="show" id="p7B-fF-BCS"/>
                                 </connections>
                             </button>
@@ -419,11 +418,11 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wvd-49-Xbi">
-                                <rect key="frame" x="56" y="332" width="128" height="30"/>
+                                <rect key="frame" x="56" y="332" width="97" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="XcY-UM-Wqt"/>
                                 </constraints>
-                                <state key="normal" title="Полезные советы"/>
+                                <state key="normal" title="Мой профиль"/>
                                 <connections>
                                     <action selector="didTapButton" destination="D6U-ak-itU" eventType="touchUpInside" id="SHS-Bs-tjk"/>
                                 </connections>
@@ -445,11 +444,11 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Hah-u7-fuT" firstAttribute="top" secondItem="nn6-Zb-aZA" secondAttribute="bottom" constant="8" id="1Rr-T3-GAW"/>
+                            <constraint firstItem="6Bl-FD-Fcr" firstAttribute="trailing" secondItem="Wvd-49-Xbi" secondAttribute="trailing" constant="87" id="7DC-uB-IhQ"/>
                             <constraint firstItem="6Bl-FD-Fcr" firstAttribute="trailing" secondItem="Hah-u7-fuT" secondAttribute="trailing" constant="126" id="AAu-vm-ExJ"/>
                             <constraint firstItem="9EI-9R-Ww4" firstAttribute="leading" secondItem="6Bl-FD-Fcr" secondAttribute="leading" constant="56" id="CRB-ge-Xpz"/>
                             <constraint firstItem="qjP-v4-HuG" firstAttribute="top" secondItem="9EI-9R-Ww4" secondAttribute="bottom" constant="8" id="EoV-qm-JOn"/>
                             <constraint firstItem="qjP-v4-HuG" firstAttribute="leading" secondItem="6Bl-FD-Fcr" secondAttribute="leading" constant="5" id="Iw8-zF-BpE"/>
-                            <constraint firstItem="6Bl-FD-Fcr" firstAttribute="trailing" secondItem="Wvd-49-Xbi" secondAttribute="trailing" constant="56" id="M1L-11-bhR"/>
                             <constraint firstItem="6Bl-FD-Fcr" firstAttribute="trailing" secondItem="9EI-9R-Ww4" secondAttribute="trailing" constant="56" id="RYX-kT-1Q8"/>
                             <constraint firstItem="6Bl-FD-Fcr" firstAttribute="trailing" secondItem="qjP-v4-HuG" secondAttribute="trailing" constant="5" id="STT-Rb-Sp2"/>
                             <constraint firstItem="fdb-Fn-kKc" firstAttribute="leading" secondItem="6Bl-FD-Fcr" secondAttribute="leading" constant="56" id="YJb-fd-Dq5"/>

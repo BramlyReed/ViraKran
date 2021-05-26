@@ -13,7 +13,6 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var standImage: UIImageView!
     var imageURL: URL?{
         didSet{
-            print(imageURL)
             self.standImage.sd_setImage(with: imageURL)
         }
     }

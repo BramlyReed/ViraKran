@@ -16,18 +16,16 @@ class StorageManager{
     let storage = Storage.storage().reference()
     public typealias UploadPictureCompletion = (Result<String, Error>) -> Void
 
-    public func uploadProfilePicture(with data: Data, fileName: String, userName: String, completion: @escaping UploadPictureCompletion) {
+    //MARK: загрузка фото профиля в storage
+    func uploadProfilePicture(with data: Data, fileName: String, userName: String, completion: @escaping UploadPictureCompletion) {
         storage.child("userImages/\(userName)/\(fileName)").putData(data, metadata: nil, completion: { [weak self] metadata, error in
             guard let strongSelf = self else {
                 return
             }
-
             guard error == nil else {
-                // failed
                 print("failed to upload data to firebase for picture")
                 return
             }
-
             strongSelf.storage.child("userImages/\(userName)/\(fileName)").downloadURL(completion: { url, error in
                 guard let url = url else {
                     print("Failed to get download url")
@@ -39,21 +37,7 @@ class StorageManager{
             })
         })
     }
-    func downloadProfilePictureForComments(email: String) -> String{
-        var tmpObject = "nil"
-        Storage.storage().reference().child("userImages/\(email)/\(email).profile_picture.png").downloadURL(completion: { url, error in
-            guard let url = url else {
-                print("Failed to get download url")
-                return
-            }
-            UserDefaults.standard.set("\(url)", forKey: "userProfilePicture")
-            print(url)
-            while tmpObject != "\(url)"{
-                tmpObject = "\(url)"
-            }
-        })
-        return tmpObject
-    }
+    //MARK: скачивание ссылки на изображение профиля пользователя
     func downloadProfilePicture(email: String){
         Storage.storage().reference().child("userImages/\(email)/\(email).profile_picture.png").downloadURL(completion: { url, error in
             guard let url = url else {
@@ -65,16 +49,14 @@ class StorageManager{
         })
     }
     
-    
-    func downloadURL(for email: String, completion: @escaping (Result<URL, Error>) -> Void) {
+    //MARK: скачивание ссылки на изображение
+    func downloadURL(for email: String, completion: @escaping (Result<URL, Error>) -> Void){
         let reference = storage.child("userImages/\(email)/\(email).profile_picture.png")
-
         reference.downloadURL(completion: { url, error in
             guard let url = url, error == nil else {
                 print("Error")
                 return
             }
-
             completion(.success(url))
         })
     }
