@@ -21,6 +21,7 @@
 		853A1465265A5021002BA2F0 /* FavoriteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853A1464265A5021002BA2F0 /* FavoriteCollectionViewCell.swift */; };
 		853A1491265C3697002BA2F0 /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853A1490265C3696002BA2F0 /* ConversationTableViewCell.swift */; };
 		853A14C3265E3FDD002BA2F0 /* Currencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853A14C2265E3FDD002BA2F0 /* Currencies.swift */; };
+		853A14C9265F8D4C002BA2F0 /* NewsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853A14C8265F8D4B002BA2F0 /* NewsPageViewController.swift */; };
 		8540FA5B25ECDFCC0096BAA5 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8540FA5A25ECDFCC0096BAA5 /* ConversationsViewController.swift */; };
 		8540FA7125ECE1940096BAA5 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8540FA7025ECE1940096BAA5 /* PhotoViewController.swift */; };
 		8540FA7B25ECE1C60096BAA5 /* SearchConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8540FA7A25ECE1C60096BAA5 /* SearchConversationViewController.swift */; };
@@ -87,6 +88,7 @@
 		853A1464265A5021002BA2F0 /* FavoriteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCollectionViewCell.swift; sourceTree = "<group>"; };
 		853A1490265C3696002BA2F0 /* ConversationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTableViewCell.swift; sourceTree = "<group>"; };
 		853A14C2265E3FDD002BA2F0 /* Currencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currencies.swift; sourceTree = "<group>"; };
+		853A14C8265F8D4B002BA2F0 /* NewsPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsPageViewController.swift; sourceTree = "<group>"; };
 		8540FA5A25ECDFCC0096BAA5 /* ConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
 		8540FA7025ECE1940096BAA5 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		8540FA7A25ECE1C60096BAA5 /* SearchConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchConversationViewController.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				856346322654616A00C233CA /* CategoryEquipmentViewController.swift */,
 				853A143726595440002BA2F0 /* PostsViewController.swift */,
 				853A145A265A4ED5002BA2F0 /* FavoriteItemsViewController.swift */,
+				853A14C8265F8D4B002BA2F0 /* NewsPageViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -506,6 +509,7 @@
 				8540FAD925F22BA30096BAA5 /* StorageManager.swift in Sources */,
 				853A143D2659547C002BA2F0 /* PostTableViewCell.swift in Sources */,
 				85D780ED25E78E20000D8D35 /* HamburgerViewController.swift in Sources */,
+				853A14C9265F8D4C002BA2F0 /* NewsPageViewController.swift in Sources */,
 				853A1465265A5021002BA2F0 /* FavoriteCollectionViewCell.swift in Sources */,
 				855F73EA25CEF047009A6183 /* MainController.swift in Sources */,
 				8540FACF25EE171A0096BAA5 /* AuthorizationViewController.swift in Sources */,

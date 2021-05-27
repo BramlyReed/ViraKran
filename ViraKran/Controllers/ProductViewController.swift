@@ -168,17 +168,18 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         let value = UserDefaults.standard.string(forKey: "value") ?? "Guest"
         
         if value == "Евро"{
-            amount = "\(DatabaseManager.shared.getActual(rates: "EUR") * baseAmountInRub)"
+            amount = String(format: "%.2f",(DatabaseManager.shared.getActual(rates: "EUR") * baseAmountInRub))
             amountValue = "EUR"
         }
         else if value == "Доллары"{
-            amount = "\(DatabaseManager.shared.getActual(rates: "USD") * baseAmountInRub)"
+            amount = String(format: "%.2f",(DatabaseManager.shared.getActual(rates: "USD") * baseAmountInRub))
             amountValue = "USD"
         }
         else if value == "Фунты"{
-            amount = "\(DatabaseManager.shared.getActual(rates: "GBP") * baseAmountInRub)"
+            amount = String(format: "%.2f",(DatabaseManager.shared.getActual(rates: "GBP") * baseAmountInRub))
             amountValue = "GBP"
         }
+        
         for eqch in tmpObject.eqCharacteristic{
             tmpParameters.append(ParametersTableViewCellViewModel(title: eqch.stringKey, value: eqch.stringValue))
         }
@@ -214,6 +215,7 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
     @objc func closeViewController() {
         print("CLOSE")
         UserDefaults.standard.removeObject(forKey: "isFavorite?")
+        UserDefaults.standard.removeObject(forKey: "eqId")
         self.dismiss(animated: true, completion: nil)
     }
     //MARK: звонок

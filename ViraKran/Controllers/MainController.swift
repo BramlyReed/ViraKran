@@ -20,7 +20,9 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var leadingConstrForSlideMenu: NSLayoutConstraint!
     @IBOutlet weak var SlideMenu: UIView!
+    
     @IBOutlet weak var backgroundForSlideMenu: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
@@ -55,6 +57,7 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
             }
             for document in (querySnapshot!.documents){
                 let documents_data = document.data()
+                let id = document.documentID
                 let title = documents_data["title"] as? String ?? "nil"
 //MARK: Работа с timestamp из Firebase
                 let FirebaseDate = documents_data["date"] as! Timestamp
@@ -63,7 +66,7 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
                 let epocTime = TimeInterval(FirebaseDate.seconds)
                 let date = NSDate(timeIntervalSince1970: epocTime)
 //MARK: Добавление объекта в Realm
-                DatabaseManager.shared.insertNewsModel(date: date as Date, imageStorage: imageLinks, text_string: text_string, title: title)
+                DatabaseManager.shared.insertNewsModel(id: id, date: date as Date, imageStorage: imageLinks, text_string: text_string, title: title)
                 }
             self.getFromRealmData()
             DispatchQueue.main.async {
@@ -87,6 +90,12 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
     //MARK: здесь будет переход на экран с выбранной новостью
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("User touched on \(indexPath.item) row")
+        UserDefaults.standard.set("\(indexPath.item + 1)", forKey: "chosenNewsId")
+        let mainstoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let newViewcontroller:UIViewController = mainstoryboard.instantiateViewController(withIdentifier: "NewsPageViewController") as! NewsPageViewController
+        let navigationController = UINavigationController(rootViewController: newViewcontroller)
+        navigationController.modalPresentationStyle = .fullScreen
+        self.present(navigationController, animated: true)
     }
     //MARK: боковое меню
     @IBAction func showSlideMenu(_ sender: Any) {

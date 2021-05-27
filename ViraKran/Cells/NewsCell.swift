@@ -10,12 +10,15 @@ import SDWebImage
 
 class NewsCell: UITableViewCell {
 
+    @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var textArticle: UILabel!
     @IBOutlet weak var imagePlace: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
 
     func setContent(title: String, text: String, imageLink: String, dateLabel: Date){
+        cardView.layer.masksToBounds = false
+        cardView.backgroundColor = .white
         self.titleLabel.text = title
         self.textArticle.text = text
         self.dateLabel.text = "\(dateLabel)"

@@ -39,16 +39,38 @@ class PhotoCarouselTableViewCell: UITableViewCell, UICollectionViewDelegate, UIC
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         let chosenCatId = UserDefaults.standard.string(forKey: "catId") ?? "Guest1"
         let choseneqId = UserDefaults.standard.string(forKey: "eqId") ?? "Guest1"
-        let objects = realm.objects(Equipment.self).filter("catId == %@ && eqId == %@", chosenCatId, choseneqId)
-        var tmpObject: [Equipment] = []
-        if objects.count != 0{
-            print("Found items")
-            for item in objects{
-                tmpObject.append(item)
-            }
+        let chosenNewsId = UserDefaults.standard.string(forKey: "chosenNewsId") ?? "Guest1"
+
+        if chosenCatId != "Guest1" && choseneqId != "Guest1"{
+            print("here1")
+            print(chosenCatId)
+            print(choseneqId)
+            let objects = realm.objects(Equipment.self).filter("catId == %@ && eqId == %@", chosenCatId, choseneqId)
+            var tmpObject: [Equipment] = []
+                if objects.count != 0{
+                    for item in objects{
+                        tmpObject.append(item)
+                    }
+                    for img in tmpObject.last!.image_links{
+                        images.append(img.link)
+                    }
+                }
         }
-        for img in tmpObject.last!.image_links{
-            images.append(img.link)
+        else if chosenNewsId != "Guest1"{
+            print("here2")
+            let objects = realm.objects(NewsModel.self).filter("id == %@", chosenNewsId)
+            var tmpObject: [NewsModel] = []
+                if objects.count != 0{
+                    for item in objects{
+                        tmpObject.append(item)
+                    }
+                    for img in tmpObject.last!.image_links{
+                        images.append(img.link)
+                    }
+                }
+        }
+        else{
+            print("here3")
         }
         contentView.backgroundColor = .systemBackground
         contentView.addSubview(collectionView)

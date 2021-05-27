@@ -92,8 +92,9 @@ final class DatabaseManager{
         }
     }
     //MARK: запись новости в БД
-    func insertNewsModel(date: Date, imageStorage: [String], text_string: String, title: String){
+    func insertNewsModel(id: String, date: Date, imageStorage: [String], text_string: String, title: String){
         let tmpObject = NewsModel()
+        tmpObject.id = id
         tmpObject.date = date
         tmpObject.text_string = text_string
         tmpObject.title = title
