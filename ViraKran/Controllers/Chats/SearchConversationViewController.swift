@@ -90,7 +90,6 @@ class SearchConversationViewController: UIViewController, UITableViewDelegate, U
     }
     func updateUI(){
         if latestMessages.count == 0 {
-            print("noil")
             noResultsLabel.isHidden = false
             tableView.isHidden = true
         }
@@ -118,7 +117,7 @@ extension SearchConversationViewController: UISearchBarDelegate {
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
-                self.usersNameBD = []
+                self.usersNameBD.removeAll()
                 for document in querySnapshot!.documents {
                     let userLogin = String(document.documentID)
                     if userLogin != "admin@gmail.com"{
@@ -133,7 +132,7 @@ extension SearchConversationViewController: UISearchBarDelegate {
     //MARK: фильтрация списка имен пользователей по префиксу, получение последних сообщений из чатов по пользователям из отфильтрованного списка
     func filterUsers(with term: String) {
         if usersNameBD.count != 0 {
-            self.latestMessages = []
+            self.latestMessages.removeAll()
             self.usersNameBD = self.usersNameBD.filter{$0.hasPrefix(term)}
             if usersNameBD.count != 0{
                 for userName in usersNameBD{

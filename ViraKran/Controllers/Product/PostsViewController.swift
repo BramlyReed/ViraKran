@@ -19,6 +19,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     var pictures: [URL] = []
     var pictureDictionary: [String:URL] = [:]
     let products = ["avtokran", "bashkran", "bustrokran", "podkran"]
+    var listener: ListenerRegistration?
     let tableview: UITableView = {
         let table = UITableView()
         table.register(PostTableViewCell.nib(), forCellReuseIdentifier: PostTableViewCell.identifier)
@@ -59,18 +60,23 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let tmpName = self.comments[indexPath.item].userName
+        let datetime = self.comments[indexPath.item].dateSent
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "nl_NL")
+        formatter.setLocalizedDateFormatFromTemplate("dd-MM-yyyy HH:mm")
         let cell = tableview.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
         if (self.pictureDictionary[tmpName] != nil) {
             let cellIndex = comments[indexPath.item].userName
-            cell.configure(img: pictureDictionary[cellIndex]!, usrN: comments[indexPath.item].userName, date: "\(comments[indexPath.item].dateSent)", com: comments[indexPath.item].comment)
+            cell.configure(img: pictureDictionary[cellIndex]!, usrN: comments[indexPath.item].userName, date: formatter.string(from: datetime), com: comments[indexPath.item].comment)
         }
         else{
-            cell.configure(img: comments[indexPath.item].profileImage!, usrN: comments[indexPath.item].userName, date: "\(comments[indexPath.item].dateSent)", com: comments[indexPath.item].comment)
+            cell.configure(img: comments[indexPath.item].profileImage!, usrN: comments[indexPath.item].userName, date: formatter.string(from: datetime), com: comments[indexPath.item].comment)
         }
         return cell
     }
     
     @objc func closeController() {
+        listener?.remove()
         self.dismiss(animated: true, completion: nil)
     }
     //MARK: открыть контролер с добавлением нового комментария
@@ -87,7 +93,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     func checkComments(){
         let chcatId = products[Int(chosenCatId)! - 1]
         let choseneqId = UserDefaults.standard.string(forKey: "eqId") ?? "Guest1"
-        db.collection("equipment/\(chcatId)/items/\(choseneqId)/comments").addSnapshotListener{(querySnapshot, error) in
+        listener = db.collection("equipment/\(chcatId)/items/\(choseneqId)/comments").addSnapshotListener{(querySnapshot, error) in
             guard querySnapshot != nil else {
                 print("Error")
                 return
@@ -116,7 +122,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                     }
                 })
             }
-            //self.comments = self.comments.sorted(by: { $0.dateSent > $1.dateSent })
+            self.comments = self.comments.sorted(by: { $0.dateSent < $1.dateSent })
             DispatchQueue.main.async {
                 self.tableview.reloadData()
             }

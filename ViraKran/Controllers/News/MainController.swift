@@ -16,6 +16,7 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
     var NewsArray = [NewsModel]()
     var isSlideMenuShown = false
     let realm = try! Realm()
+    var listener: ListenerRegistration?
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var leadingConstrForSlideMenu: NSLayoutConstraint!
@@ -29,8 +30,6 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.delegate = self
         db = Firestore.firestore()
         getFromRealmData()
-        checkForUpdates()
-        DatabaseManager.shared.checkForUpdatesOfRest()
         DatabaseManager.shared.getInfoAboutCurrencies()
         self.backgroundForSlideMenu.isHidden = true
         self.SlideMenu.isHidden = true
@@ -39,21 +38,30 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
     func getFromRealmData(){
         let objects = realm.objects(NewsModel.self)
         if objects.count != 0{
-            self.NewsArray = []
+            self.NewsArray.removeAll()
             for item in objects{
                 self.NewsArray.append(item)
             }
+            self.NewsArray = self.NewsArray.sorted(by: { $0.date > $1.date })
         }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        checkForUpdates()
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        listener?.remove()
     }
     
     //MARK: Добавление наблюдателя за коллекцией news, получение данных документов из коллекции
     func checkForUpdates(){
-        db.collection("news").addSnapshotListener{(querySnapshot, error) in
+        listener = db.collection("news").addSnapshotListener{[weak self] (querySnapshot, error) in
             guard querySnapshot != nil else { return }
-            self.NewsArray = []
-            let object = self.realm.objects(NewsModel.self)
-            try! self.realm.write {
-                self.realm.delete(object)
+            self!.NewsArray.removeAll()
+            let object = self!.realm.objects(NewsModel.self)
+            try! self!.realm.write {
+                self!.realm.delete(object)
             }
             for document in (querySnapshot!.documents){
                 let documents_data = document.data()
@@ -65,12 +73,13 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
                 let imageLinks: [String] = documents_data["imageLinks"] as? [String] ?? ["nil"]
                 let epocTime = TimeInterval(FirebaseDate.seconds)
                 let date = NSDate(timeIntervalSince1970: epocTime)
+                
 //MARK: Добавление объекта в Realm
                 DatabaseManager.shared.insertNewsModel(id: id, date: date as Date, imageStorage: imageLinks, text_string: text_string, title: title)
                 }
-            self.getFromRealmData()
+            self!.getFromRealmData()
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+                self!.tableView.reloadData()
             }
         }
     }
@@ -90,7 +99,7 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
     //MARK: здесь будет переход на экран с выбранной новостью
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("User touched on \(indexPath.item) row")
-        UserDefaults.standard.set("\(indexPath.item + 1)", forKey: "chosenNewsId")
+        UserDefaults.standard.set("\(NewsArray[indexPath.item].id)", forKey: "chosenNewsId")
         let mainstoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let newViewcontroller:UIViewController = mainstoryboard.instantiateViewController(withIdentifier: "NewsPageViewController") as! NewsPageViewController
         let navigationController = UINavigationController(rootViewController: newViewcontroller)

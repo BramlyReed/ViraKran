@@ -37,17 +37,6 @@ class StorageManager{
             })
         })
     }
-    //MARK: скачивание ссылки на изображение профиля пользователя
-    func downloadProfilePicture(email: String){
-        Storage.storage().reference().child("userImages/\(email)/\(email).profile_picture.png").downloadURL(completion: { url, error in
-            guard let url = url else {
-                print("Failed to get download url")
-                return
-            }
-            UserDefaults.standard.set("\(url)", forKey: "pictureURL")
-            print(url)
-        })
-    }
     
     //MARK: скачивание ссылки на изображение
     func downloadURL(for email: String, completion: @escaping (Result<URL, Error>) -> Void){

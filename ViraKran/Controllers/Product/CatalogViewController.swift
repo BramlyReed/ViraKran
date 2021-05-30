@@ -30,6 +30,7 @@ class CatalogViewController: UITableViewController {
         return tableView.frame.width / imageCrop
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+        DatabaseManager.shared.checkForUpdatesOfRest(i: indexPath.item)
         UserDefaults.standard.set(String(indexPath.item + 1), forKey: "catId")
         let myViewController = storyboard?.instantiateViewController(withIdentifier: "CategoryEquipmentViewController") as? CategoryEquipmentViewController
         let myNavigationController = UINavigationController(rootViewController: myViewController!)

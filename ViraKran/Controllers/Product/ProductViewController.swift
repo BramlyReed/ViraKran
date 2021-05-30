@@ -185,11 +185,11 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         sections.append(.productPhotos)
         sections.append(.productInfo(viewModels: [TextCellViewmodel(text: tmpObject.textInfo, font: .systemFont(ofSize: 20))]))
-        sections.append(.productParameters(viewModels: tmpParameters))
     //MARK: доработать с обновлением данных о валюте
-        sections.append(.productInfo(viewModels: [TextCellViewmodel(text: "Стоимость/мес: \(amount) \(amountValue)", font: .systemFont(ofSize: 20))]))
-        sections.append(.productInfo(viewModels: [TextCellViewmodel(text: "Местоположение: \(tmpObject.location)", font: .systemFont(ofSize: 20))]))
         sections.append(.productInfo(viewModels: [TextCellViewmodel(text: "Год выпуска: \(tmpObject.year)", font: .systemFont(ofSize: 20))]))
+        sections.append(.productInfo(viewModels: [TextCellViewmodel(text: "Местонахождение: \(tmpObject.location)", font: .systemFont(ofSize: 20))]))
+        sections.append(.productInfo(viewModels: [TextCellViewmodel(text: "Стоимость/мес: \(amount) \(amountValue)", font: .systemFont(ofSize: 20))]))
+        sections.append(.productParameters(viewModels: tmpParameters))
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -220,7 +220,9 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     //MARK: звонок
     func makeACall(){
-        if let phoneURL = URL(string: "tel://89226963071"){
+        let email = UserDefaults.standard.string(forKey: "email") ?? "Guest1"
+        if email != "admin@gmail.com" && email != "Guest1"{
+        if let phoneURL = URL(string: "tel://89026109919"){
             if application.canOpenURL(phoneURL){
                 application.open(phoneURL, options: [:], completionHandler: nil)
             }
@@ -228,13 +230,14 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.showAlert(message: "Ошибка при совершении звонка")
             }
         }
+        }
     }
     //MARK: переход к чатам
     func goToChats(){
         let chosenCatId = UserDefaults.standard.string(forKey: "catId") ?? "Guest1"
         let chosenCategory = products[Int(chosenCatId)! - 1]
         let email = UserDefaults.standard.string(forKey: "email") ?? "Guest1"
-        if email != "admin@gmail.com" || email != "Guest1"{
+        if email != "admin@gmail.com" && email != "Guest1"{
             let myViewController = storyboard?.instantiateViewController(withIdentifier: "chatViewController") as? ChatViewController
             let myNavigationController = UINavigationController(rootViewController: myViewController!)
             myNavigationController.modalPresentationStyle = .fullScreen

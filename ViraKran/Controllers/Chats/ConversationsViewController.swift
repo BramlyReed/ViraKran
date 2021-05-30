@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 import FirebaseAuth
 import FirebaseFirestore
 
@@ -14,6 +15,9 @@ class ConversationsViewController: UIViewController {
     let db = Firestore.firestore()
     var usersNameBD: [String] = []
     var latestMessages: [LatestMessage] = []
+    var listener: ListenerRegistration?
+    var listenertmp: ListenerRegistration?
+    var listenersForMessages: [ListenerRegistration] = []
     let tableView: UITableView = {
         let table = UITableView()
         table.isHidden = true
@@ -42,8 +46,15 @@ class ConversationsViewController: UIViewController {
         tableView.frame = view.bounds
     }
     
-    
     @objc func closeController() {
+        listener?.remove()
+        for item in listenersForMessages{
+            item.remove()
+        }
+        usersNameBD.removeAll()
+        latestMessages.removeAll()
+        listenersForMessages.removeAll()
+        print(listenertmp)
         self.dismiss(animated: true, completion: nil)
     }
     //MARK: открыть поисковой экран
@@ -55,22 +66,22 @@ class ConversationsViewController: UIViewController {
     }
     //MARK: добавление наблюдателя за коллекцией users, чтобы получить список пользователей
     func getAllChatsByAdmin() {
-        db.collection("users").addSnapshotListener{(querySnapshot, error) in guard querySnapshot != nil else { return }
-            self.usersNameBD = []
+        listener = db.collection("users").addSnapshotListener{[weak self] (querySnapshot, error) in guard querySnapshot != nil else { return }
+            self!.usersNameBD = []
             for document in (querySnapshot!.documents){
                 let userLogin = String(document.documentID)
                 if userLogin != "admin@gmail.com"{
-                    self.usersNameBD.append(userLogin)
+                    self!.usersNameBD.append(userLogin)
                 }
             }
-            self.updateConversations()
+            self!.updateConversations()
         }
     }
     //MARK: обновить ячейки с чатами. Добавление наблюдателей за коллекцией conversation для каждого пользователя из массива с именами пользователей
     func updateConversations() {
         if self.usersNameBD.count != 0{
             for userName in self.usersNameBD {
-            db.collection("users/\(userName)/conversations").addSnapshotListener{(querySnapshot, error) in guard querySnapshot != nil else { return }
+            listenertmp =  db.collection("users/\(userName)/conversations").addSnapshotListener{(querySnapshot, error) in guard querySnapshot != nil else { return }
                 for document in (querySnapshot!.documents){
                     let documentName = String(document.documentID)
                     if documentName == "lastMessage"{
@@ -85,6 +96,7 @@ class ConversationsViewController: UIViewController {
                     }
                 }
             }
+                listenersForMessages.append(listenertmp!)
         }
     }
     }
@@ -102,7 +114,6 @@ class ConversationsViewController: UIViewController {
                     break
                 }
                 i = i + 1
-                
             }
             if flag == true{
                 if self.latestMessages[i].date != model.date{

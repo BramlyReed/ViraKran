@@ -18,8 +18,9 @@ class CategoryEquipmentViewController: UIViewController, UITableViewDelegate, UI
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("ViewDidLoad")
         NotificationCenter.default.addObserver(self, selector: #selector(updateFullTableView), name: NSNotification.Name(rawValue: "updateCategoryList"), object: nil)
-        self.data = []
+        self.data.removeAll()
         //MARK: выбор объектов из Realm с соответствующей категорией
         let chosenCatId = UserDefaults.standard.string(forKey: "catId") ?? "Guest1"
         let objects = realm.objects(Equipment.self).filter("catId == %@", chosenCatId)
@@ -34,13 +35,13 @@ class CategoryEquipmentViewController: UIViewController, UITableViewDelegate, UI
                                                             action: #selector(closeChatViewController))
         //MARK: Кнопки с сортировками
         let item1 = actionButton.addItem()
-        item1.titleLabel.text = "Сортировать по году выпуска"
+        item1.titleLabel.text = "Сортировать по новейшему году выпуска"
 //        item1.imageView.image = UIImage(named: "phone")
         item1.action = { item in
             self.sortPage(type: "year")
         }
         let item2 = actionButton.addItem()
-        item2.titleLabel.text = "Сортировать по стоимости"
+        item2.titleLabel.text = "Сортировать по наибольшей стоимости"
         //item2.imageView.image = UIImage(named: "messages")
         item2.action = { item in
             self.sortPage(type: "cost")
@@ -102,10 +103,8 @@ class CategoryEquipmentViewController: UIViewController, UITableViewDelegate, UI
         let chosenCatId = UserDefaults.standard.string(forKey: "catId") ?? "Guest1"
         let objects = realm.objects(Equipment.self).filter("catId == %@", chosenCatId)
         if objects.count != 0{
-            print("Found items")
-            self.data = []
+            self.data.removeAll()
             for item in objects{
-                print("COUNT ",data.count)
                 self.data.append(item)
             }
             DispatchQueue.main.async {
@@ -116,6 +115,7 @@ class CategoryEquipmentViewController: UIViewController, UITableViewDelegate, UI
     
     @objc func closeChatViewController() {
         print("CLOSE")
+        DatabaseManager.shared.removeListener()
         UserDefaults.standard.removeObject(forKey: "catId")
         self.dismiss(animated: true, completion: nil)
     }

@@ -17,11 +17,13 @@ class ChatViewController: MessagesViewController {
     var messages = [Message]()
     var selfSender: SenderType?
     var otherSender: SenderType?
+    var listener: ListenerRegistration?
     var userLogin = ""
     var photoURL = ""
     var chosenUserLogin = ""
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("viewDidLoad")
         userLogin = UserDefaults.standard.string(forKey: "email") ?? "Guest"
         chosenUserLogin = UserDefaults.standard.string(forKey: "chosenUser") ?? "Guest"
         messageInputBar.delegate = self
@@ -65,11 +67,15 @@ class ChatViewController: MessagesViewController {
             }
             super.touchesBegan(touches, with: event)
     }
+    
     @objc func closeChatViewController() {
         self.messages = []
         self.messagesCollectionView.reloadData()
-        userLogin = ""
-        chosenUserLogin = ""
+        print("Deleting listener ", listener)
+        if listener != nil{
+            listener!.remove()
+        }
+        UserDefaults.standard.removeObject(forKey: "chosenUser")
         self.dismiss(animated: true, completion: nil)
     }
     //MARK: открыть профиль пользователя
@@ -94,10 +100,9 @@ extension ChatViewController{
 //MARK: получение всех сообщений (документов) из коллекции пользователя
     func getAllMessagesByUser(userLogin: String){
         self.messages = []
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        db.collection("users/\(userLogin)/conversations").addSnapshotListener{(querySnapshot, error) in guard querySnapshot != nil else { return }
-        self.messages = []
+        listener = db.collection("users/\(userLogin)/conversations").addSnapshotListener{[weak self] (querySnapshot, error) in guard querySnapshot != nil else { return }
+            self!.messages = []
+            print("Fresh meat")
         for document in (querySnapshot!.documents){
             let documents_data = document.data()
             let messageID = String(document.documentID)
@@ -124,22 +129,19 @@ extension ChatViewController{
                 }
                 let user_email = documents_data["user_email"] as? String ?? "nil"
 //MARK: настройка senderов сообщений для структуры Message
-                if (user_email == "admin@gmail.com" && self.selfSender?.displayName == "Администратор") || (user_email != "admin@gmail.com" && self.selfSender?.displayName != "Администратор"){
-                    self.messages.append(Message(sender: self.selfSender!, messageId: messageID, sentDate: date as Date, kind: kind))
+                if (user_email == "admin@gmail.com" && self!.selfSender?.displayName == "Администратор") || (user_email != "admin@gmail.com" && self!.selfSender?.displayName != "Администратор"){
+                    self!.messages.append(Message(sender: self!.selfSender!, messageId: messageID, sentDate: date as Date, kind: kind))
                 }
-                else if (user_email != "admin@gmail.com" && self.selfSender?.displayName == "Администратор") || (user_email == "admin@gmail.com" && self.selfSender?.displayName != "Администратор"){
-                    self.messages.append(Message(sender: self.otherSender!, messageId: messageID, sentDate: date as Date, kind: kind))
+                else if (user_email != "admin@gmail.com" && self!.selfSender?.displayName == "Администратор") || (user_email == "admin@gmail.com" && self!.selfSender?.displayName != "Администратор"){
+                    self!.messages.append(Message(sender: self!.otherSender!, messageId: messageID, sentDate: date as Date, kind: kind))
                 }
             }
-            if self.messages.count != 0{
+            if self!.messages.count != 0{
 //MARK: сортировка сообщений по id
-            self.messages = self.messages.sorted(by: { Int($0.messageId)! < Int($1.messageId)! })
+                self!.messages = self!.messages.sorted(by: { Int($0.messageId)! < Int($1.messageId)! })
             }
-            self.messagesCollectionView.reloadData()
-            self.messagesCollectionView.scrollToLastItem()
-//            if self.messages.count > 3{
-//                self.messagesCollectionView.scrollToBottom()
-//            }
+            self!.messagesCollectionView.reloadData()
+            self!.messagesCollectionView.scrollToLastItem()
         }
         }
     }
@@ -334,7 +336,6 @@ extension ChatViewController: MessageCellDelegate {
             guard let imageUrl = media.url else {
                 return
             }
-            print("image url ",imageUrl)
             UserDefaults.standard.set("\(imageUrl)", forKey: "pictureURLforFull")
             openPhotoViewController()
         case .text(_):
@@ -356,10 +357,5 @@ extension ChatViewController: MessageCellDelegate {
         case .custom(_):
             break
         }
-//        let vc = PhotoViewController()
-//        vc.title = chosenUserLogin
-//        let nav = UINavigationController(rootViewController: vc)
-//        nav.modalPresentationStyle = .fullScreen
-//        present(nav,animated:true)
     }
 }

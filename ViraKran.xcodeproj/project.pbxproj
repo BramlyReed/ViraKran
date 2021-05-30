@@ -155,6 +155,71 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		853A14CD2662C3C2002BA2F0 /* News */ = {
+			isa = PBXGroup;
+			children = (
+				855F73E925CEF047009A6183 /* MainController.swift */,
+				853A14C8265F8D4B002BA2F0 /* NewsPageViewController.swift */,
+			);
+			path = News;
+			sourceTree = "<group>";
+		};
+		853A14CE2662C3EE002BA2F0 /* Chats */ = {
+			isa = PBXGroup;
+			children = (
+				8540FB26260006620096BAA5 /* ChatViewController.swift */,
+				8540FA5A25ECDFCC0096BAA5 /* ConversationsViewController.swift */,
+				8540FA7A25ECE1C60096BAA5 /* SearchConversationViewController.swift */,
+			);
+			path = Chats;
+			sourceTree = "<group>";
+		};
+		853A14CF2662C431002BA2F0 /* Product */ = {
+			isa = PBXGroup;
+			children = (
+				85634524265117C300C233CA /* CatalogViewController.swift */,
+				8563453C26524FD700C233CA /* ProductViewController.swift */,
+				856346322654616A00C233CA /* CategoryEquipmentViewController.swift */,
+				853A143726595440002BA2F0 /* PostsViewController.swift */,
+				853A14472659589E002BA2F0 /* NewCommentViewController.swift */,
+			);
+			path = Product;
+			sourceTree = "<group>";
+		};
+		853A14D02662C48C002BA2F0 /* NewsCell */ = {
+			isa = PBXGroup;
+			children = (
+				855F746825D4745A009A6183 /* NewsCell.swift */,
+			);
+			path = NewsCell;
+			sourceTree = "<group>";
+		};
+		853A14D12662C4A3002BA2F0 /* Product */ = {
+			isa = PBXGroup;
+			children = (
+				856345412652532F00C233CA /* PhotoCarouselTableViewCell.swift */,
+				8563454626525E3C00C233CA /* PhotoCollectionViewCell.swift */,
+				8563452C265118CE00C233CA /* CatalogCell.swift */,
+				853A13C026592149002BA2F0 /* PostTableViewCell.xib */,
+				8563454B2652FE0C00C233CA /* ParametersTableViewCell.swift */,
+				85634637265463A700C233CA /* CategoryEquipmentTableViewCell.swift */,
+				853A143C2659547C002BA2F0 /* PostTableViewCell.swift */,
+			);
+			path = Product;
+			sourceTree = "<group>";
+		};
+		853A14DE2662C4F6002BA2F0 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				853A13A82659111E002BA2F0 /* ProfileTableViewCellName.swift */,
+				853A13BB26591A05002BA2F0 /* ProfileTableViewCellImage.xib */,
+				853A13A326590D81002BA2F0 /* ProfileTableViewCellImage.swift */,
+				853A145F265A4FD8002BA2F0 /* FavoriteCell.xib */,
+				853A1464265A5021002BA2F0 /* FavoriteCollectionViewCell.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		8540FA5625ECDEC30096BAA5 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -182,21 +247,12 @@
 		8540FA5925ECDF330096BAA5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				8540FA8425ECEF900096BAA5 /* Login */,
-				855F73E925CEF047009A6183 /* MainController.swift */,
-				8540FA5A25ECDFCC0096BAA5 /* ConversationsViewController.swift */,
+				853A14CF2662C431002BA2F0 /* Product */,
+				853A14CE2662C3EE002BA2F0 /* Chats */,
+				853A14CD2662C3C2002BA2F0 /* News */,
+				8540FA8425ECEF900096BAA5 /* Login&Profile */,
 				85D780EC25E78E20000D8D35 /* HamburgerViewController.swift */,
 				8540FA7025ECE1940096BAA5 /* PhotoViewController.swift */,
-				8540FA7A25ECE1C60096BAA5 /* SearchConversationViewController.swift */,
-				8540FA7F25ECE1DB0096BAA5 /* ProfileViewController.swift */,
-				8540FB26260006620096BAA5 /* ChatViewController.swift */,
-				85634524265117C300C233CA /* CatalogViewController.swift */,
-				8563453C26524FD700C233CA /* ProductViewController.swift */,
-				853A14472659589E002BA2F0 /* NewCommentViewController.swift */,
-				856346322654616A00C233CA /* CategoryEquipmentViewController.swift */,
-				853A143726595440002BA2F0 /* PostsViewController.swift */,
-				853A145A265A4ED5002BA2F0 /* FavoriteItemsViewController.swift */,
-				853A14C8265F8D4B002BA2F0 /* NewsPageViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -212,12 +268,14 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		8540FA8425ECEF900096BAA5 /* Login */ = {
+		8540FA8425ECEF900096BAA5 /* Login&Profile */ = {
 			isa = PBXGroup;
 			children = (
+				8540FA7F25ECE1DB0096BAA5 /* ProfileViewController.swift */,
 				8540FACE25EE171A0096BAA5 /* AuthorizationViewController.swift */,
+				853A145A265A4ED5002BA2F0 /* FavoriteItemsViewController.swift */,
 			);
-			path = Login;
+			path = "Login&Profile";
 			sourceTree = "<group>";
 		};
 		855F73D925CEF047009A6183 = {
@@ -292,19 +350,9 @@
 		855F744425D13268009A6183 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				855F746825D4745A009A6183 /* NewsCell.swift */,
-				853A13A82659111E002BA2F0 /* ProfileTableViewCellName.swift */,
-				853A13A326590D81002BA2F0 /* ProfileTableViewCellImage.swift */,
-				8563452C265118CE00C233CA /* CatalogCell.swift */,
-				856345412652532F00C233CA /* PhotoCarouselTableViewCell.swift */,
-				8563454626525E3C00C233CA /* PhotoCollectionViewCell.swift */,
-				8563454B2652FE0C00C233CA /* ParametersTableViewCell.swift */,
-				85634637265463A700C233CA /* CategoryEquipmentTableViewCell.swift */,
-				853A143C2659547C002BA2F0 /* PostTableViewCell.swift */,
-				853A13BB26591A05002BA2F0 /* ProfileTableViewCellImage.xib */,
-				853A13C026592149002BA2F0 /* PostTableViewCell.xib */,
-				853A145F265A4FD8002BA2F0 /* FavoriteCell.xib */,
-				853A1464265A5021002BA2F0 /* FavoriteCollectionViewCell.swift */,
+				853A14DE2662C4F6002BA2F0 /* Profile */,
+				853A14D12662C4A3002BA2F0 /* Product */,
+				853A14D02662C48C002BA2F0 /* NewsCell */,
 				853A1490265C3696002BA2F0 /* ConversationTableViewCell.swift */,
 			);
 			path = Cells;

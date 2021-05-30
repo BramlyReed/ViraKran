@@ -19,6 +19,7 @@ final class DatabaseManager{
     var ref: DocumentReference? = nil
     let realm = try! Realm()
     let db = Firestore.firestore()
+    var listener: ListenerRegistration?
     var usersNameBD: [String] = []
 
     //MARK: запись данных пользователя в Firebase и отправка приветственного сообщения
@@ -48,30 +49,27 @@ final class DatabaseManager{
         }
     }
     //MARK: добавление наблюдателя за каталогом техники
-    func checkForUpdatesOfRest(){
-//        let names = ["avtokran", "bashkran", "bustrokran", "podkran"]
-        let names = ["avtokran", "bashkran"]
-        
-        for i in names{
-        db.collection("equipment/\(i)/items").addSnapshotListener{(querySnapshot, error) in
+    func checkForUpdatesOfRest(i:Int){
+        let names = ["avtokran", "bashkran", "bustrokran", "podkran"]
+        listener = db.collection("equipment/\(names[i])/items").addSnapshotListener{ [weak self] (querySnapshot, error) in
             guard querySnapshot != nil else { return }
             var tmpCatId = "0"
-            if i == "avtokran"{
+            if names[i] == "avtokran"{
                 tmpCatId = "1"
             }
-            else if i == "bashkran"{
+            else if names[i] == "bashkran"{
                 tmpCatId = "2"
             }
-            else if i == "bustrokran"{
+            else if names[i] == "bustrokran"{
                 tmpCatId = "3"
             }
-            else if i == "podkran"{
+            else if names[i] == "podkran"{
                 tmpCatId = "4"
             }
-            let object = self.realm.objects(Equipment.self).filter("catId == %@", tmpCatId)
+            let object = self!.realm.objects(Equipment.self).filter("catId == %@", tmpCatId)
             if object.count != 0{
-                try! self.realm.write {
-                    self.realm.delete(object)
+                try! self!.realm.write {
+                    self!.realm.delete(object)
                 }
             }
             for document in (querySnapshot!.documents){
@@ -85,11 +83,10 @@ final class DatabaseManager{
                 let title = documents_data["title"] as? String ?? "nil"
                 let year = documents_data["year"] as? Int ?? 0
                 let location = documents_data["location"] as? String ?? "nil"
-                self.insertEquipment(eqid: eqId, catid: catId, imageStorage: imageLinks, textInfo: textInfo, title: title, cost: cost, year: year, eq_char: eqCharacteristic, location: location) 
+                self!.insertEquipment(eqid: eqId, catid: catId, imageStorage: imageLinks, textInfo: textInfo, title: title, cost: cost, year: year, eq_char: eqCharacteristic, location: location)
                 }
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateCategoryList"), object: nil)
             }
-        }
     }
     //MARK: запись новости в БД
     func insertNewsModel(id: String, date: Date, imageStorage: [String], text_string: String, title: String){
@@ -213,4 +210,7 @@ final class DatabaseManager{
         return 0.0
     }
 
+    func removeListener() {
+        listener?.remove()
+    }
 }

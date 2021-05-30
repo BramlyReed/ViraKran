@@ -21,9 +21,16 @@ class NewsCell: UITableViewCell {
         cardView.backgroundColor = .white
         self.titleLabel.text = title
         self.textArticle.text = text
-        self.dateLabel.text = "\(dateLabel)"
+        let datetime = dateLabel
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "nl_NL")
+        formatter.setLocalizedDateFormatFromTemplate("dd-MM-yyyy HH:mm")
+        self.dateLabel.text = formatter.string(from: datetime)
         let transformer = SDImageResizingTransformer(size: CGSize(width: 550, height: 300), scaleMode: .fill)
         self.imagePlace.sd_setImage(with: URL(string: imageLink), placeholderImage: nil, context: [.imageTransformer: transformer])
+    }
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        
     }
 
 }

@@ -25,16 +25,16 @@ class FavoriteItemsViewController: UIViewController, UICollectionViewDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            let width = (collectionView.frame.width - 30) / 3
+            let width = (collectionView.frame.width - 10) / 2
             return CGSize(width: width, height: width)
         }
         
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-            10
+            5
         }
         
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-            10
+            5
         }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.storedObjects.count
@@ -46,7 +46,9 @@ class FavoriteItemsViewController: UIViewController, UICollectionViewDelegate, U
             let object = realm.objects(Equipment.self).filter("catId == %@ && eqId == %@", storedObjects[indexPath.item].catId, storedObjects[indexPath.item].eqId)
             if object.count != 0{
                 let tmpString = "\(object[0].image_links[0].link)"
-                cell.imageURL = URL(string: tmpString)
+                
+                cell.layer.cornerRadius = 5.0
+                cell.configure(imageURL: URL(string: tmpString))
             }
         }
         return cell
