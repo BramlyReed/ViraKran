@@ -166,17 +166,24 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         var amountValue = "Руб"
         var tmpParameters: [ParametersTableViewCellViewModel] = []
         let value = UserDefaults.standard.string(forKey: "value") ?? "Guest"
-        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = NumberFormatter.Style.decimal
+        formatter.groupingSeparator = " "
+        amount = formatter.string(for: baseAmountInRub)!
+
         if value == "Евро"{
             amount = String(format: "%.2f",(DatabaseManager.shared.getActual(rates: "EUR") * baseAmountInRub))
+            amount = formatter.string(for: Double(amount))!
             amountValue = "EUR"
         }
         else if value == "Доллары"{
             amount = String(format: "%.2f",(DatabaseManager.shared.getActual(rates: "USD") * baseAmountInRub))
+            amount = formatter.string(for: Double(amount))!
             amountValue = "USD"
         }
         else if value == "Фунты"{
             amount = String(format: "%.2f",(DatabaseManager.shared.getActual(rates: "GBP") * baseAmountInRub))
+            amount = formatter.string(for: Double(amount))!
             amountValue = "GBP"
         }
         
