@@ -127,6 +127,17 @@ class HamburgerViewController: UIViewController, UIGestureRecognizerDelegate {
         if userLogin == "Guest"{
             showAlert(message: "Войдите в свой аккаунт")
         }
+        else{
+            DatabaseManager.shared.checkForUpdatesOfRest(i: 0)
+            DatabaseManager.shared.checkForUpdatesOfRestOptional1(i: 1)
+            DatabaseManager.shared.checkForUpdatesOfRestOptional1(i: 2)
+            DatabaseManager.shared.checkForUpdatesOfRestOptional1(i: 3)
+            let mainstoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let newViewcontroller:UIViewController = mainstoryboard.instantiateViewController(withIdentifier: "FavouriteController") as! FavoriteItemsViewController
+            let navigationController = UINavigationController(rootViewController: newViewcontroller)
+            navigationController.modalPresentationStyle = .fullScreen
+            self.present(navigationController, animated: true)
+        }
     }
     
     func showAlert(message: String) {

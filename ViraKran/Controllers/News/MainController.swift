@@ -30,6 +30,14 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.delegate = self
         db = Firestore.firestore()
         getFromRealmData()
+        DatabaseManager.shared.checkForUpdatesOfRest(i: 0)
+        DatabaseManager.shared.removeListener()
+        DatabaseManager.shared.checkForUpdatesOfRest(i: 1)
+        DatabaseManager.shared.removeListener()
+        DatabaseManager.shared.checkForUpdatesOfRest(i: 2)
+        DatabaseManager.shared.removeListener()
+        DatabaseManager.shared.checkForUpdatesOfRest(i: 3)
+        DatabaseManager.shared.removeListener()
         DatabaseManager.shared.getInfoAboutCurrencies()
         self.backgroundForSlideMenu.isHidden = true
         self.SlideMenu.isHidden = true

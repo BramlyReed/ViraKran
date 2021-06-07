@@ -31,8 +31,8 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with imageLink: String){
-        //let transformer = SDImageResizingTransformer(size: CGSize(width: 1000, height: 800), scaleMode: .fill)
-        //imageView.sd_setImage(with: URL(string:imageLink), placeholderImage: nil, context: [.imageTransformer: transformer])
-        imageView.sd_setImage(with: URL(string:imageLink))
+        let transformer = SDImageResizingTransformer(size: CGSize(width: 800, height: 600), scaleMode: .fill)
+        imageView.sd_setImage(with: URL(string:imageLink), placeholderImage: nil, context: [.imageTransformer: transformer])
+//        imageView.sd_setImage(with: URL(string:imageLink))
     }
 }

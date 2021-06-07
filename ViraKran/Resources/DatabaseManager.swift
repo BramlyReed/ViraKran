@@ -20,7 +20,11 @@ final class DatabaseManager{
     let realm = try! Realm()
     let db = Firestore.firestore()
     var listener: ListenerRegistration?
+    var listener1: ListenerRegistration?
+    var listener2: ListenerRegistration?
+    var listener3: ListenerRegistration?
     var usersNameBD: [String] = []
+    let names = ["avtokran", "bashkran", "bustrokran", "podkran"]
 
     //MARK: запись данных пользователя в Firebase и отправка приветственного сообщения
     func insertUser(with user: UserModel) {
@@ -50,44 +54,89 @@ final class DatabaseManager{
     }
     //MARK: добавление наблюдателя за каталогом техники
     func checkForUpdatesOfRest(i:Int){
-        let names = ["avtokran", "bashkran", "bustrokran", "podkran"]
         listener = db.collection("equipment/\(names[i])/items").addSnapshotListener{ [weak self] (querySnapshot, error) in
             guard querySnapshot != nil else { return }
-            var tmpCatId = "0"
-            if names[i] == "avtokran"{
-                tmpCatId = "1"
-            }
-            else if names[i] == "bashkran"{
-                tmpCatId = "2"
-            }
-            else if names[i] == "bustrokran"{
-                tmpCatId = "3"
-            }
-            else if names[i] == "podkran"{
-                tmpCatId = "4"
-            }
-            let object = self!.realm.objects(Equipment.self).filter("catId == %@", tmpCatId)
-            if object.count != 0{
-                try! self!.realm.write {
-                    self!.realm.delete(object)
-                }
-            }
+            self?.deleteDataWithCatId(i: i)
             for document in (querySnapshot!.documents){
                 let documents_data = document.data()
                 let eqId = document.documentID as String
-                let catId = documents_data["catId"] as? Int ?? 0
-                let cost = documents_data["cost"] as? Double ?? 0
-                let eqCharacteristic: [String:String] = documents_data["eqChar"] as? [String:String] ?? ["nil":"nil"]
-                let imageLinks: [String] = documents_data["imageLinks"] as? [String] ?? ["nil"]
-                let textInfo = documents_data["textInfo"] as? String ?? "nil"
-                let title = documents_data["title"] as? String ?? "nil"
-                let year = documents_data["year"] as? Int ?? 0
-                let location = documents_data["location"] as? String ?? "nil"
-                self!.insertEquipment(eqid: eqId, catid: catId, imageStorage: imageLinks, textInfo: textInfo, title: title, cost: cost, year: year, eq_char: eqCharacteristic, location: location)
-                }
+                self?.serializationDataOfEquipment(documents_data: documents_data, eqId: eqId)
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateCategoryList"), object: nil)
             }
+        }
     }
+    func checkForUpdatesOfRestOptional1(i:Int){
+        listener1 = db.collection("equipment/\(names[i])/items").addSnapshotListener{ [weak self] (querySnapshot, error) in
+            guard querySnapshot != nil else { return }
+            self?.deleteDataWithCatId(i: i)
+            for document in (querySnapshot!.documents){
+                let documents_data = document.data()
+                let eqId = document.documentID as String
+                self?.serializationDataOfEquipment(documents_data: documents_data, eqId: eqId)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateCategoryList"), object: nil)
+            }
+        }
+    }
+    func checkForUpdatesOfRestOptional2(i:Int){
+        listener2 = db.collection("equipment/\(names[i])/items").addSnapshotListener{ [weak self] (querySnapshot, error) in
+            guard querySnapshot != nil else { return }
+            self?.deleteDataWithCatId(i: i)
+            for document in (querySnapshot!.documents){
+                let documents_data = document.data()
+                let eqId = document.documentID as String
+                self?.serializationDataOfEquipment(documents_data: documents_data, eqId: eqId)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateCategoryList"), object: nil)
+            }
+        }
+    }
+    func checkForUpdatesOfRestOptional3(i:Int){
+        listener3 = db.collection("equipment/\(names[i])/items").addSnapshotListener{ [weak self] (querySnapshot, error) in
+            guard querySnapshot != nil else { return }
+            self?.deleteDataWithCatId(i: i)
+            for document in (querySnapshot!.documents){
+                let documents_data = document.data()
+                let eqId = document.documentID as String
+                self?.serializationDataOfEquipment(documents_data: documents_data, eqId: eqId)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateCategoryList"), object: nil)
+            }
+        }
+    }
+    //MARK: удаление данных из каталога по категориям
+    func deleteDataWithCatId(i:Int){
+        var tmpCatId = "0"
+        if self.names[i] == "avtokran"{
+            tmpCatId = "1"
+        }
+        else if self.names[i] == "bashkran"{
+            tmpCatId = "2"
+        }
+        else if self.names[i] == "bustrokran"{
+            tmpCatId = "3"
+        }
+        else if self.names[i] == "podkran"{
+            tmpCatId = "4"
+        }
+        let object = self.realm.objects(Equipment.self).filter("catId == %@", tmpCatId)
+        if object.count != 0{
+            try! self.realm.write {
+                self.realm.delete(object)
+            }
+        }
+    }
+    //MARK: обработка полученных данных
+    func serializationDataOfEquipment(documents_data: [String: Any], eqId: String){
+        let catId = documents_data["catId"] as? Int ?? 0
+        let cost = documents_data["cost"] as? Double ?? 0
+        let eqCharacteristic: [String:String] = documents_data["eqChar"] as? [String:String] ?? ["nil":"nil"]
+        let imageLinks: [String] = documents_data["imageLinks"] as? [String] ?? ["nil"]
+        let textInfo = documents_data["textInfo"] as? String ?? "nil"
+        let title = documents_data["title"] as? String ?? "nil"
+        let year = documents_data["year"] as? Int ?? 0
+        let location = documents_data["location"] as? String ?? "nil"
+        self.insertEquipment(eqid: eqId, catid: catId, imageStorage: imageLinks, textInfo: textInfo, title: title, cost: cost, year: year, eq_char: eqCharacteristic, location: location)
+    
+    }
+    
     //MARK: запись новости в БД
     func insertNewsModel(id: String, date: Date, imageStorage: [String], text_string: String, title: String){
         let tmpObject = NewsModel()
@@ -212,5 +261,8 @@ final class DatabaseManager{
 
     func removeListener() {
         listener?.remove()
+        listener1?.remove()
+        listener2?.remove()
+        listener3?.remove()
     }
 }

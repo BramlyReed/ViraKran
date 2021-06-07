@@ -179,7 +179,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         print(info)
         guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage, let data = selectedImage.pngData() else { return }
         let filename = "\(email).profile_picture.png"
-        StorageManager.shared.uploadProfilePicture(with: data, fileName: filename, userName: email, completion: { result in
+        StorageManager.shared.uploadPicture(with: data, fileName: filename, userName: email, completion: { result in
                 switch result {
                 case .success(let downloadUrl):
                     UserDefaults.standard.set("\(downloadUrl)", forKey: "pictureURL")

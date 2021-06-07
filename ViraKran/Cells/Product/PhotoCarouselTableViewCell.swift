@@ -17,7 +17,7 @@ class PhotoCarouselTableViewCell: UITableViewCell, UICollectionViewDelegate, UIC
     
     static let identifier = "ProductPhotoCarousel"
     let realm = try! Realm()
-    weak var delegate: MyCollectionCellDelegate?
+    var delegate: MyCollectionCellDelegate?
 
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -106,10 +106,11 @@ class PhotoCarouselTableViewCell: UITableViewCell, UICollectionViewDelegate, UIC
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("tap number ", indexPath.item)
         UserDefaults.standard.set(images[indexPath.item], forKey: "pictureURLforFull")
-        showPicture((Any).self)
+        delegate?.showPicture()
+        //showPicture((Any).self)
     }
     
-    func showPicture(_ sender: Any) {
-        delegate?.showPicture()
-    }
+//    func showPicture(_ sender: Any) {
+//        delegate?.showPicture()
+//    }
 }

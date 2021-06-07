@@ -13,14 +13,19 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var standImage: UIImageView!
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        layoutIfNeeded()
-        standImage.layer.cornerRadius = standImage.frame.height/2
-    }
-    
-    func configure(imageURL: URL?){
-        self.standImage.sd_setImage(with: imageURL)
-        
-    }
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        layoutIfNeeded()
+//        standImage.layer.cornerRadius = standImage.frame.height/2
+//    }
+//
+//    func configure(imageURL: URL?){
+//        self.standImage.sd_setImage(with: imageURL)
+//    }
+    var imageURL: URL?{
+            didSet{
+                print(imageURL)
+                self.standImage.sd_setImage(with: imageURL)
+            }
+        }
 }

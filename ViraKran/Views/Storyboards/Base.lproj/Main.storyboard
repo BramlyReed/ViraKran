@@ -162,7 +162,7 @@
                                 <rect key="frame" x="20" y="7" width="21" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <state key="normal" image="paperplane.fill" catalog="system"/>
+                                <state key="normal" image="text.justify" catalog="system"/>
                                 <connections>
                                     <action selector="showSlideMenu:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gbX-Jl-JCQ"/>
                                 </connections>
@@ -172,7 +172,7 @@
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="RIc-Kd-OZa">
                                 <rect key="frame" x="318.5" y="7" width="75.5" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button" image="arrowshape.turn.up.right.fill" catalog="system"/>
+                                <state key="normal" image="arrowshape.turn.up.right.fill" catalog="system"/>
                                 <connections>
                                     <action selector="didTapRegistration:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ROL-KK-u6n"/>
                                     <segue destination="WoQ-rZ-r3j" kind="show" id="Wiq-6w-dCb"/>
@@ -470,7 +470,6 @@
                                 <state key="normal" title="Избранное"/>
                                 <connections>
                                     <action selector="favoriteButton:" destination="D6U-ak-itU" eventType="touchUpInside" id="Y9d-ht-lJh"/>
-                                    <segue destination="2sr-6d-4VV" kind="show" id="lFM-qi-3KD"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -733,11 +732,11 @@
             <objects>
                 <viewController storyboardIdentifier="FavouriteController" id="2sr-6d-4VV" customClass="FavoriteItemsViewController" customModule="ViraKran" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9uk-YS-pww">
-                        <rect key="frame" x="0.0" y="0.0" width="240" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Избранное" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Oa-qI-sFZ">
-                                <rect key="frame" x="30" y="10" width="180" height="30"/>
+                                <rect key="frame" x="30" y="54" width="354" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="tEx-5K-zoa"/>
                                 </constraints>
@@ -746,7 +745,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="haR-mT-402">
-                                <rect key="frame" x="5" y="48" width="230" height="755"/>
+                                <rect key="frame" x="5" y="92" width="404" height="765"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="bC8-Ck-8N6">
                                     <size key="itemSize" width="140" height="140"/>
@@ -756,7 +755,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Vjw-8x-FGC">
-                                        <rect key="frame" x="45" y="0.0" width="140" height="140"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="140" height="140"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="daM-en-NYJ">
                                             <rect key="frame" x="0.0" y="0.0" width="140" height="140"/>
@@ -837,7 +836,7 @@
     <resources>
         <image name="arrowshape.turn.up.right.fill" catalog="system" width="128" height="106"/>
         <image name="guest_image" width="128" height="128"/>
-        <image name="paperplane.fill" catalog="system" width="128" height="118"/>
+        <image name="text.justify" catalog="system" width="128" height="100"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

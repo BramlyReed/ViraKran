@@ -17,7 +17,7 @@ class StorageManager{
     public typealias UploadPictureCompletion = (Result<String, Error>) -> Void
 
     //MARK: загрузка фото профиля в storage
-    func uploadProfilePicture(with data: Data, fileName: String, userName: String, completion: @escaping UploadPictureCompletion) {
+    func uploadPicture(with data: Data, fileName: String, userName: String, completion: @escaping UploadPictureCompletion) {
         storage.child("userImages/\(userName)/\(fileName)").putData(data, metadata: nil, completion: { [weak self] metadata, error in
             guard let strongSelf = self else {
                 return
@@ -32,7 +32,6 @@ class StorageManager{
                     return
                 }
                 let urlString = url.absoluteString
-                print("download url returned: \(urlString)")
                 completion(.success(urlString))
             })
         })

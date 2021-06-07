@@ -99,7 +99,7 @@ class AuthorizationViewController: UIViewController {
                     UserDefaults.standard.set(email, forKey: "email")
                     UserDefaults.standard.set("\(name) \(surname)", forKey: "fullname")
                     UserDefaults.standard.set("Рубли", forKey: "value")
-                    StorageManager.shared.uploadProfilePicture(with: data, fileName: filename, userName: email, completion: { result in
+                    StorageManager.shared.uploadPicture(with: data, fileName: filename, userName: email, completion: { result in
                             switch result {
                             case .success(let downloadUrl):
                                 UserDefaults.standard.set(downloadUrl, forKey: "pictureURL")

@@ -41,7 +41,8 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         let table = UITableView()
         table.register(UITableViewCell.self, forCellReuseIdentifier: "ProductCell")
         table.register(PhotoCarouselTableViewCell.self, forCellReuseIdentifier: PhotoCarouselTableViewCell.identifier)
-        table.register(ParametersTableViewCell.self, forCellReuseIdentifier: ParametersTableViewCell.identifier)
+        //table.register(ParametersTableViewCell.self, forCellReuseIdentifier: ParametersTableViewCell.identifier)
+        table.register(ParametersTableViewCell.nib(), forCellReuseIdentifier: "ParametersCell")
         return table
     }()
     
@@ -75,23 +76,27 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         let item3 = actionButton.addItem()
         if isFavorite != "true"{
         item3.titleLabel.text = "Добавить в избранное"
+            item3.imageView.image = UIImage(systemName: "star.circle")
         item3.action = { item in
             self.addToFavorite()
         }
         }
         else{
-            item3.titleLabel.text = "Удалить из избранного"
+            item3.titleLabel.text = "Удалить из избранное"
+            item3.imageView.image = UIImage(systemName: "trash")
             item3.action = { item in
                 self.deleteFromFavorite()
             }
         }
         let item4 = actionButton.addItem()
         item4.titleLabel.text = "Посмотреть отзывы"
+        item4.imageView.image = UIImage(named: "comments")
         item4.action = { item in
             self.openComments()
         }
 
         view.addSubview(actionButton)
+        actionButton.alpha = 0.35
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         actionButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         actionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16).isActive = true
@@ -138,10 +143,12 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell.configure(with: viewModel)
             return cell
         case .productParameters(let viewModels):
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ParametersTableViewCell.identifier, for: indexPath) as? ParametersTableViewCell else{
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "ParametersCell", for: indexPath) as? ParametersTableViewCell else{
                 fatalError()
             }
-            cell.configure(with: viewModels[indexPath.row])
+            //cell.configure(with: viewModels[indexPath.row])
+            cell.title.text = viewModels[indexPath.row].title
+            cell.value.text = viewModels[indexPath.row].value
             return cell
         }
     }
@@ -191,11 +198,11 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
             tmpParameters.append(ParametersTableViewCellViewModel(title: eqch.stringKey, value: eqch.stringValue))
         }
         sections.append(.productPhotos)
-        sections.append(.productInfo(viewModels: [TextCellViewmodel(text: tmpObject.textInfo, font: .systemFont(ofSize: 20))]))
+        sections.append(.productInfo(viewModels: [TextCellViewmodel(text: tmpObject.textInfo, font: .systemFont(ofSize: 18))]))
     //MARK: доработать с обновлением данных о валюте
-        sections.append(.productInfo(viewModels: [TextCellViewmodel(text: "Год выпуска: \(tmpObject.year)", font: .systemFont(ofSize: 20))]))
-        sections.append(.productInfo(viewModels: [TextCellViewmodel(text: "Местонахождение: \(tmpObject.location)", font: .systemFont(ofSize: 20))]))
-        sections.append(.productInfo(viewModels: [TextCellViewmodel(text: "Стоимость/мес: \(amount) \(amountValue)", font: .systemFont(ofSize: 20))]))
+        sections.append(.productInfo(viewModels: [TextCellViewmodel(text: "Год выпуска: \(tmpObject.year)", font: .systemFont(ofSize: 18))]))
+        sections.append(.productInfo(viewModels: [TextCellViewmodel(text: "Местонахождение: \(tmpObject.location)", font: .systemFont(ofSize: 18))]))
+        sections.append(.productInfo(viewModels: [TextCellViewmodel(text: "Стоимость/мес: \(amount) \(amountValue)", font: .systemFont(ofSize: 18))]))
         sections.append(.productParameters(viewModels: tmpParameters))
     }
     

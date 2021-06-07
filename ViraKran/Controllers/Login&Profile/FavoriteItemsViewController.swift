@@ -16,12 +16,16 @@ class FavoriteItemsViewController: UIViewController, UICollectionViewDelegate, U
     @IBOutlet weak var collectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        configure()
         getData()
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(UINib(nibName: "FavoriteCell", bundle: nil), forCellWithReuseIdentifier: "FavoriteCell")
         NotificationCenter.default.addObserver(self, selector: #selector(updateCollection), name: NSNotification.Name(rawValue: "updateFavoriteCollection"), object: nil)
-        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Назад",
+                                                            style: .done,
+                                                            target: self,
+                                                            action: #selector(closeViewController))
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -44,21 +48,27 @@ class FavoriteItemsViewController: UIViewController, UICollectionViewDelegate, U
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FavoriteCell", for: indexPath) as! FavoriteCollectionViewCell
         if self.storedObjects.count != 0{
             let object = realm.objects(Equipment.self).filter("catId == %@ && eqId == %@", storedObjects[indexPath.item].catId, storedObjects[indexPath.item].eqId)
+            print("SELF, ",object)
             if object.count != 0{
                 let tmpString = "\(object[0].image_links[0].link)"
                 
                 cell.layer.cornerRadius = 5.0
-                cell.configure(imageURL: URL(string: tmpString))
+                //cell.configure(URL(string: tmpString))
+                cell.imageURL = URL(string: tmpString)
             }
         }
+        print("storedobjectsu ", storedObjects)
         return cell
     }
     //MARK: открытие экрана с товаром
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("myObject ", indexPath.item)
+        print("storedobjects1 ", storedObjects)
         UserDefaults.standard.set(String(storedObjects[indexPath.item].eqId), forKey: "eqId")
         UserDefaults.standard.set(String(storedObjects[indexPath.item].catId), forKey: "catId")
         UserDefaults.standard.set("true", forKey: "isFavorite?")
         let object = realm.objects(Equipment.self).filter("catId == %@ && eqId == %@", storedObjects[indexPath.item].catId, storedObjects[indexPath.item].eqId)
+        print(object)
         let myViewController = storyboard?.instantiateViewController(withIdentifier: "ProductViewController") as? ProductViewController
         if object.count != 0{
             myViewController?.title = String(object[0].title)
@@ -69,14 +79,18 @@ class FavoriteItemsViewController: UIViewController, UICollectionViewDelegate, U
     }
     //MARK: заполнение массива данными с сохраненными товарами
     func configure(){
+        print("iiiii")
         let objects = realm.objects(FavoriteEquipment.self)
+        print(objects)
         self.storedObjects = []
         if objects.count != 0{
             for item in objects{
                 self.storedObjects.append(item)
             }
         }
-        self.collectionView.reloadData()
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
     
     //MARK: получение данных из коллекции и запись в realm
@@ -88,9 +102,11 @@ class FavoriteItemsViewController: UIViewController, UICollectionViewDelegate, U
                 print("Error getting documents: \(err)")
             } else {
                 let objects = self.realm.objects(FavoriteEquipment.self)
+                print("first ", objects)
                 if objects.count != 0{
                     try! self.realm.write {
                         self.realm.delete(objects)
+                        print("success")
                     }
                 }
                 for document in querySnapshot!.documents {
@@ -99,15 +115,23 @@ class FavoriteItemsViewController: UIViewController, UICollectionViewDelegate, U
                     tmpObject.catId = docdata["catId"] as? String ?? ""
                     tmpObject.eqId = docdata["eqId"] as? String ?? ""
                     try! self.realm.write{
+                        print("tmpObject ", tmpObject)
                         self.realm.add(tmpObject)
+                        print("added")
                     }
                 }
+                self.configure()
             }
-            self.configure()
         }
     }
     @objc func updateCollection(){
         print("GotNotification")
         self.configure()
+    }
+    
+    @objc func closeViewController() {
+        print("CLOSE")
+        DatabaseManager.shared.removeListener()
+        self.dismiss(animated: true, completion: nil)
     }
 }

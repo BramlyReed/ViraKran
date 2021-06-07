@@ -35,20 +35,20 @@ class CategoryEquipmentViewController: UIViewController, UITableViewDelegate, UI
                                                             action: #selector(closeChatViewController))
         //MARK: Кнопки с сортировками
         let item1 = actionButton.addItem()
-        item1.titleLabel.text = "Сортировать по новейшему году выпуска"
-//        item1.imageView.image = UIImage(named: "phone")
+        item1.titleLabel.text = "По новейшему году выпуска"
+        item1.imageView.image = UIImage(named: "sort")
         item1.action = { item in
             self.sortPage(type: "year")
         }
         let item2 = actionButton.addItem()
-        item2.titleLabel.text = "Сортировать по наибольшей стоимости"
-        //item2.imageView.image = UIImage(named: "messages")
+        item2.titleLabel.text = "По наибольшей стоимости"
+        item2.imageView.image = UIImage(named: "sort")
         item2.action = { item in
             self.sortPage(type: "cost")
         }
         let item3 = actionButton.addItem()
-        item3.titleLabel.text = "Сортировать по названию"
-        //item3.imageView.image = UIImage(named: "messages")
+        item3.titleLabel.text = "По названию"
+        item3.imageView.image = UIImage(named: "sort")
         item3.action = { item in
             self.sortPage(type: "name")
         }

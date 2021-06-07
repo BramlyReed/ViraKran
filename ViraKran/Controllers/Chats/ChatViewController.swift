@@ -281,7 +281,7 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
         }
         let filename = "photo_message_\(NumberMessage).png"
         let LoginSender = UserDefaults.standard.string(forKey: "email") ?? "Guest"
-        StorageManager.shared.uploadProfilePicture(with: data, fileName: filename, userName: email, completion: { result in
+        StorageManager.shared.uploadPicture(with: data, fileName: filename, userName: email, completion: { result in
                 switch result {
                 case .success(let downloadUrl):
                     self.sendPhotoImage(USER: email, messageURL: downloadUrl, userLogin: LoginSender, type: "image")
