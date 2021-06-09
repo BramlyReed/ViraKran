@@ -48,12 +48,18 @@ class FavoriteItemsViewController: UIViewController, UICollectionViewDelegate, U
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FavoriteCell", for: indexPath) as! FavoriteCollectionViewCell
         if self.storedObjects.count != 0{
             let object = realm.objects(Equipment.self).filter("catId == %@ && eqId == %@", storedObjects[indexPath.item].catId, storedObjects[indexPath.item].eqId)
-            print("SELF, ",object)
             if object.count != 0{
                 let tmpString = "\(object[0].image_links[0].link)"
-                
                 cell.layer.cornerRadius = 5.0
-                //cell.configure(URL(string: tmpString))
+                let strokeTextAttributes = [
+                  NSAttributedString.Key.strokeColor : UIColor.black,
+                  NSAttributedString.Key.foregroundColor : UIColor.white,
+                  NSAttributedString.Key.strokeWidth : -3.0,
+                  NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 27)]
+                  as [NSAttributedString.Key : Any]
+
+                cell.labelName.attributedText = NSMutableAttributedString(string: object[0].title, attributes: strokeTextAttributes)
+                cell.labelName.text = object[0].title
                 cell.imageURL = URL(string: tmpString)
             }
         }
@@ -66,9 +72,10 @@ class FavoriteItemsViewController: UIViewController, UICollectionViewDelegate, U
         print("storedobjects1 ", storedObjects)
         UserDefaults.standard.set(String(storedObjects[indexPath.item].eqId), forKey: "eqId")
         UserDefaults.standard.set(String(storedObjects[indexPath.item].catId), forKey: "catId")
+        print("catID ", storedObjects[indexPath.item].catId)
+        print("eqID ", storedObjects[indexPath.item].eqId)
         UserDefaults.standard.set("true", forKey: "isFavorite?")
         let object = realm.objects(Equipment.self).filter("catId == %@ && eqId == %@", storedObjects[indexPath.item].catId, storedObjects[indexPath.item].eqId)
-        print(object)
         let myViewController = storyboard?.instantiateViewController(withIdentifier: "ProductViewController") as? ProductViewController
         if object.count != 0{
             myViewController?.title = String(object[0].title)
@@ -79,7 +86,6 @@ class FavoriteItemsViewController: UIViewController, UICollectionViewDelegate, U
     }
     //MARK: заполнение массива данными с сохраненными товарами
     func configure(){
-        print("iiiii")
         let objects = realm.objects(FavoriteEquipment.self)
         print(objects)
         self.storedObjects = []

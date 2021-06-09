@@ -54,7 +54,6 @@ class ConversationsViewController: UIViewController {
         usersNameBD.removeAll()
         latestMessages.removeAll()
         listenersForMessages.removeAll()
-        print(listenertmp)
         self.dismiss(animated: true, completion: nil)
     }
     //MARK: открыть поисковой экран
@@ -70,7 +69,7 @@ class ConversationsViewController: UIViewController {
             self!.usersNameBD = []
             for document in (querySnapshot!.documents){
                 let userLogin = String(document.documentID)
-                if userLogin != "admin@gmail.com"{
+                if userLogin != "vira-kran74@mail.ru"{
                     self!.usersNameBD.append(userLogin)
                 }
             }
@@ -139,7 +138,7 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ConversationTableViewCell.identifier, for: indexPath) as! ConversationTableViewCell
-        if self.latestMessages.count != 0{
+        if self.latestMessages.count != 0{            
             cell.configure(with: self.latestMessages[indexPath.item])
         }
         return cell

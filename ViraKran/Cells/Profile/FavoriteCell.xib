@@ -29,7 +29,6 @@
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="300" id="5w5-aE-0bt"/>
                             <constraint firstItem="JcX-fd-2Bx" firstAttribute="centerX" secondItem="XTA-aX-gNK" secondAttribute="centerX" id="g9M-jB-TqQ"/>
@@ -37,22 +36,34 @@
                             <constraint firstAttribute="height" constant="300" id="oLV-Hu-9O3"/>
                         </constraints>
                     </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MEX-F4-ouk">
+                        <rect key="frame" x="90" y="134" width="120" height="32.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="120" id="Vsj-DO-1gT"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                        <color key="textColor" systemColor="secondarySystemGroupedBackgroundColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="MEX-F4-ouk" firstAttribute="centerY" secondItem="OXJ-x6-Yw5" secondAttribute="centerY" id="1T8-Gd-QHP"/>
                     <constraint firstItem="XTA-aX-gNK" firstAttribute="centerY" secondItem="OXJ-x6-Yw5" secondAttribute="centerY" id="eQK-Us-tis"/>
+                    <constraint firstItem="MEX-F4-ouk" firstAttribute="centerX" secondItem="OXJ-x6-Yw5" secondAttribute="centerX" id="yFV-ki-HCN"/>
                     <constraint firstItem="XTA-aX-gNK" firstAttribute="centerX" secondItem="OXJ-x6-Yw5" secondAttribute="centerX" id="zqa-aY-Bd2"/>
                 </constraints>
             </collectionViewCellContentView>
             <size key="customSize" width="128" height="133"/>
             <connections>
                 <outlet property="backView" destination="XTA-aX-gNK" id="vwF-IO-uIc"/>
+                <outlet property="labelName" destination="MEX-F4-ouk" id="4sp-1B-aDh"/>
                 <outlet property="standImage" destination="JcX-fd-2Bx" id="klI-jo-efU"/>
             </connections>
             <point key="canvasLocation" x="-144.92753623188406" y="-36.830357142857139"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <systemColor name="systemBackgroundColor">
+        <systemColor name="secondarySystemGroupedBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>

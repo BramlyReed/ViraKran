@@ -11,8 +11,10 @@ import Firebase
 import InputBarAccessoryView
 import FirebaseFirestore
 import SDWebImage
-class ChatViewController: MessagesViewController {
 
+
+class ChatViewController: MessagesViewController {
+    
     let db = Firestore.firestore()
     var messages = [Message]()
     var selfSender: SenderType?
@@ -28,7 +30,7 @@ class ChatViewController: MessagesViewController {
         chosenUserLogin = UserDefaults.standard.string(forKey: "chosenUser") ?? "Guest"
         messageInputBar.delegate = self
     //MARK: настройка selfSender и otherSender
-        if userLogin != "admin@gmail.com"{
+        if userLogin != "vira-kran74@mail.ru"{
             selfSender = Sender(photoURL: photoURL, senderId: "2", displayName: userLogin)
             otherSender = Sender(photoURL: photoURL, senderId: "1", displayName: "Администратор")
             getAllMessagesByUser(userLogin: userLogin)
@@ -50,7 +52,7 @@ class ChatViewController: MessagesViewController {
         
         let button = InputBarButtonItem()
         button.setSize(CGSize(width: 35, height: 35), animated: false)
-        button.setImage(UIImage(systemName: "paperclip"), for: .normal)
+        button.setImage(UIImage(named: "imageplane"), for: .normal)
         button.onTouchUpInside { [weak self] _ in
             self?.presentPhotoActionSheet()
         }
@@ -60,18 +62,21 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
         messagesCollectionView.messageCellDelegate = self
+        messagesCollectionView.delegate = self
+        let gesture = UITapGestureRecognizer(target: self,
+                                             action: #selector(didTap))
+        //messagesCollectionView.addGestureRecognizer(gesture)
+
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if  touches.first != nil{
-                view.endEditing(true)
-            }
-            super.touchesBegan(touches, with: event)
+        super.touchesBegan(touches, with: event)
     }
-    
+    @objc func didTap(){
+        self.messageInputBar.inputTextView.resignFirstResponder()
+    }
     @objc func closeChatViewController() {
         self.messages = []
         self.messagesCollectionView.reloadData()
-        print("Deleting listener ", listener)
         if listener != nil{
             listener!.remove()
         }
@@ -118,7 +123,7 @@ extension ChatViewController{
                 }
                 else if type == "image"{
                     guard let url = URL(string: textMessage),
-                        let placeholder = UIImage(systemName: "plus") else {
+                        let placeholder = UIImage(named: "bashennuikran") else {
                             return
                     }
                     let media = Media(url: url,
@@ -129,10 +134,10 @@ extension ChatViewController{
                 }
                 let user_email = documents_data["user_email"] as? String ?? "nil"
 //MARK: настройка senderов сообщений для структуры Message
-                if (user_email == "admin@gmail.com" && self!.selfSender?.displayName == "Администратор") || (user_email != "admin@gmail.com" && self!.selfSender?.displayName != "Администратор"){
+                if (user_email == "vira-kran74@mail.ru" && self!.selfSender?.displayName == "Администратор") || (user_email != "vira-kran74@mail.ru" && self!.selfSender?.displayName != "Администратор"){
                     self!.messages.append(Message(sender: self!.selfSender!, messageId: messageID, sentDate: date as Date, kind: kind))
                 }
-                else if (user_email != "admin@gmail.com" && self!.selfSender?.displayName == "Администратор") || (user_email == "admin@gmail.com" && self!.selfSender?.displayName != "Администратор"){
+                else if (user_email != "vira-kran74@mail.ru" && self!.selfSender?.displayName == "Администратор") || (user_email == "vira-kran74@mail.ru" && self!.selfSender?.displayName != "Администратор"){
                     self!.messages.append(Message(sender: self!.otherSender!, messageId: messageID, sentDate: date as Date, kind: kind))
                 }
             }
@@ -162,7 +167,7 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
     //MARK: отправка сообщения в коллекцию с документами и запись его в качестве последнего сообщения
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String){
         var USER = ""
-        if userLogin == "admin@gmail.com"{
+        if userLogin == "vira-kran74@mail.ru"{
             USER = chosenUserLogin
         }
         else{
@@ -190,6 +195,7 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
                 inputBar.inputTextView.text = ""
             }
         }
+        self.messageInputBar.inputTextView.resignFirstResponder()
     }
     //MARK: настройка аватаров
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
@@ -204,7 +210,7 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
             var email = chosenUserLogin
             //print("chosenUser ", chosenUserLogin)
             if chosenUserLogin == "Guest" || chosenUserLogin == ""{
-                email = "admin@gmail.com"
+                email = "vira-kran74@mail.ru"
             }
             StorageManager.shared.downloadURL(for: email, completion: { [weak self] result in
                 switch result {
@@ -269,7 +275,7 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
         //print(info)
         guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage, let data = selectedImage.pngData() else { return }
         var email = ""
-        if userLogin == "admin@gmail.com"{
+        if userLogin == "vira-kran74@mail.ru"{
             email = chosenUserLogin
         }
         else{
@@ -359,3 +365,4 @@ extension ChatViewController: MessageCellDelegate {
         }
     }
 }
+

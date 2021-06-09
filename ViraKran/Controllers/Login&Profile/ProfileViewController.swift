@@ -15,6 +15,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         let table = UITableView()
         table.register(ProfileTableViewCellImage.nib(), forCellReuseIdentifier: ProfileTableViewCellImage.identifier)
         table.register(ProfileTableViewCellName.self, forCellReuseIdentifier:ProfileTableViewCellName.identifier)
+        table.separatorStyle = .none
         return table
     }()
     var name = UserDefaults.standard.string(forKey: "fullname") ?? "Guest"

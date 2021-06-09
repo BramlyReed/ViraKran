@@ -337,14 +337,14 @@ PODS:
     - gRPC-Core/Interface (= 1.28.2)
   - gRPC-Core/Interface (1.28.2)
   - GTMSessionFetcher/Core (1.5.0)
-  - InputBarAccessoryView (5.2.3):
-    - InputBarAccessoryView/Core (= 5.2.3)
-  - InputBarAccessoryView/Core (5.2.3)
+  - InputBarAccessoryView (5.1.0):
+    - InputBarAccessoryView/Core (= 5.1.0)
+  - InputBarAccessoryView/Core (5.1.0)
   - JGProgressHUD (2.2)
   - JJFloatingActionButton (2.5.0)
   - leveldb-library (1.22)
-  - MessageKit (3.5.0):
-    - InputBarAccessoryView (~> 5.2.1)
+  - MessageKit (3.3.0):
+    - InputBarAccessoryView (~> 5.1.0)
   - nanopb (1.30906.0):
     - nanopb/decode (= 1.30906.0)
     - nanopb/encode (= 1.30906.0)
@@ -371,7 +371,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - JGProgressHUD
   - JJFloatingActionButton
-  - MessageKit
+  - MessageKit (~> 3.3.0)
   - RealmSwift
   - SDWebImage
 
@@ -427,17 +427,17 @@ SPEC CHECKSUMS:
   "gRPC-C++": 13d8ccef97d5c3c441b7e3c529ef28ebee86fad2
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
-  InputBarAccessoryView: f814a0317d47687fafc6bac9e4df6015eaf5b764
+  InputBarAccessoryView: 19953f486a23e846e9487099f92bbe3456e46ce5
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
   JJFloatingActionButton: fdc3aefb0f28f04d0f988fa25d5fac97028a9ea7
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
-  MessageKit: fb539583599cd914e8e2d41fe7bdceb4bf686565
+  MessageKit: 1f07618183be6d92b648ba7a384aafa097362a00
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Realm: a03c41a3afbda6c197ba4dfba5428b8b54cc2df4
   RealmSwift: 5e7abc842276d7fabd386e67afbf3efde54eb1c6
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
 
-PODFILE CHECKSUM: 4120255bed26c629df608fbcb097c0d155f326b2
+PODFILE CHECKSUM: 72bf06c92555727c3d8e565c725c5999bb10615d
 
 COCOAPODS: 1.10.1

@@ -27,7 +27,11 @@ class PhotoCarouselTableViewCell: UITableViewCell, UICollectionViewDelegate, UIC
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.isPagingEnabled = true
-        collectionView.backgroundColor = .systemBackground
+        if #available(iOS 13.0, *) {
+            collectionView.backgroundColor = .systemBackground
+        } else {
+            collectionView.backgroundColor = .white
+        }
         collectionView.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: PhotoCollectionViewCell.identifier)
         return collectionView
     }()
@@ -72,7 +76,11 @@ class PhotoCarouselTableViewCell: UITableViewCell, UICollectionViewDelegate, UIC
         else{
             print("here3")
         }
-        contentView.backgroundColor = .systemBackground
+        if #available(iOS 13.0, *) {
+            contentView.backgroundColor = .systemBackground
+        } else {
+            contentView.backgroundColor = .white
+        }
         contentView.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -107,10 +115,6 @@ class PhotoCarouselTableViewCell: UITableViewCell, UICollectionViewDelegate, UIC
         print("tap number ", indexPath.item)
         UserDefaults.standard.set(images[indexPath.item], forKey: "pictureURLforFull")
         delegate?.showPicture()
-        //showPicture((Any).self)
     }
     
-//    func showPicture(_ sender: Any) {
-//        delegate?.showPicture()
-//    }
 }

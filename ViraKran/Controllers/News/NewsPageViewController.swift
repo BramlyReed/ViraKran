@@ -39,6 +39,7 @@ class NewsPageViewController: UIViewController, UITableViewDelegate, UITableView
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.separatorStyle = .none
     }
 
     override func viewDidLayoutSubviews() {
@@ -98,9 +99,15 @@ class NewsPageViewController: UIViewController, UITableViewDelegate, UITableView
         if objects.count != 0{
             let tmpObject = objects[0]
             title = tmpObject.title
+            var tmpDate = ""
+            let datetime = objects[0].date
+            let formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "nl_NL")
+            formatter.setLocalizedDateFormatFromTemplate("dd-MM-yyyy HH:mm")
+            tmpDate = formatter.string(from: datetime)
             sections.append(.newsPhotos)
-            sections.append(.newsInfo(viewModels: [TextCellViewmodel(text: "\(tmpObject.date)", font: .systemFont(ofSize: 10))]))
             sections.append(.newsInfo(viewModels: [TextCellViewmodel(text: tmpObject.text_string, font: .systemFont(ofSize: 20))]))
+            sections.append(.newsInfo(viewModels: [TextCellViewmodel(text: tmpDate, font: .systemFont(ofSize: 10))]))
         }
     }
     

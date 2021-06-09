@@ -76,14 +76,14 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         let item3 = actionButton.addItem()
         if isFavorite != "true"{
         item3.titleLabel.text = "Добавить в избранное"
-            item3.imageView.image = UIImage(systemName: "star.circle")
+        item3.imageView.image = UIImage(named: "favorite")
         item3.action = { item in
             self.addToFavorite()
         }
         }
         else{
             item3.titleLabel.text = "Удалить из избранное"
-            item3.imageView.image = UIImage(systemName: "trash")
+            item3.imageView.image = UIImage(named: "notfavorite")
             item3.action = { item in
                 self.deleteFromFavorite()
             }
@@ -235,7 +235,7 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
     //MARK: звонок
     func makeACall(){
         let email = UserDefaults.standard.string(forKey: "email") ?? "Guest1"
-        if email != "admin@gmail.com" && email != "Guest1"{
+        if email != "vira-kran74@mail.ru" && email != "Guest1"{
         if let phoneURL = URL(string: "tel://89026109919"){
             if application.canOpenURL(phoneURL){
                 application.open(phoneURL, options: [:], completionHandler: nil)
@@ -251,7 +251,7 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         let chosenCatId = UserDefaults.standard.string(forKey: "catId") ?? "Guest1"
         let chosenCategory = products[Int(chosenCatId)! - 1]
         let email = UserDefaults.standard.string(forKey: "email") ?? "Guest1"
-        if email != "admin@gmail.com" && email != "Guest1"{
+        if email != "vira-kran74@mail.ru" && email != "Guest1"{
             let myViewController = storyboard?.instantiateViewController(withIdentifier: "chatViewController") as? ChatViewController
             let myNavigationController = UINavigationController(rootViewController: myViewController!)
             myNavigationController.modalPresentationStyle = .fullScreen

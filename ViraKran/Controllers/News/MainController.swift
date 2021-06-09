@@ -26,6 +26,7 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavigationBar()
         tableView.dataSource = self
         tableView.delegate = self
         db = Firestore.firestore()
@@ -60,6 +61,15 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         listener?.remove()
+    }
+    
+    func setupNavigationBar(){
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "logo")
+        imageView.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        
+        imageView.contentMode = .scaleAspectFit
+        navigationItem.titleView = imageView
     }
     
     //MARK: Добавление наблюдателя за коллекцией news, получение данных документов из коллекции
@@ -121,6 +131,8 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
                 self.leadingConstrForSlideMenu.constant = 0
                 self.view.layoutIfNeeded()
             }
+            self.navigationItem.titleView?.isHidden = true
+
             self.SlideMenu.isHidden = false
             self.backgroundForSlideMenu.isHidden = false
             self.backgroundForSlideMenu.alpha = 0.35
@@ -137,6 +149,7 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
             self.leadingConstrForSlideMenu.constant = -240
             self.view.layoutIfNeeded()
         }
+        self.navigationItem.titleView?.isHidden = false
         self.backgroundForSlideMenu.isHidden = true
         self.isSlideMenuShown = false
         }
@@ -165,7 +178,7 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
         print("SWIPE")
         let userLogin = UserDefaults.standard.string(forKey: "email") ?? "Guest"
         print(userLogin)
-        if userLogin == "admin@gmail.com"{
+        if userLogin == "vira-kran74@mail.ru"{
             let vc = ConversationsViewController()
             vc.title = "Чаты"
             let nav = UINavigationController(rootViewController: vc)

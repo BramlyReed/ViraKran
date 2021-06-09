@@ -14,15 +14,17 @@ class CatalogViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.register(CatalogCell.self, forCellReuseIdentifier: "CatalogCell")
+        self.tableView.separatorStyle = .singleLine
+        self.tableView.separatorColor = .black
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return catalogitems.count
         }
         
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "CatalogCell", for: indexPath) as? CatalogCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CatalogCell", for: indexPath) as? CatalogCell
         cell?.mainImageView.image = catalogitems[indexPath.item]
-            return cell!
+        return cell!
         }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let currentImage = catalogitems[indexPath.item]

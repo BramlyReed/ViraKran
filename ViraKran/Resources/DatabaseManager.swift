@@ -42,7 +42,7 @@ final class DatabaseManager{
                 self.database.collection("users/\(user.email)/conversations").document("1").setData([
                     "date": dateString,
                     "message": firstMessage,
-                    "user_email": "admin@gmail.com",
+                    "user_email": "vira-kran74@mail.ru",
                     "type": "text"
                 ])
                 self.database.collection("users/\(user.email)/conversations").document("lastMessage").setData([

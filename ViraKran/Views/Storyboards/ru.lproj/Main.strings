@@ -1,0 +1,66 @@
+
+/* Class = "UINavigationItem"; title = "Авторизация"; ObjectID = "1XI-xn-Z0z"; */
+"1XI-xn-Z0z.title" = "Авторизация";
+
+/* Class = "UILabel"; text = "20.09.2021"; ObjectID = "3qb-Wd-fmb"; */
+"3qb-Wd-fmb.text" = "20.09.2021";
+
+/* Class = "UILabel"; text = "Избранное"; ObjectID = "4Oa-qI-sFZ"; */
+"4Oa-qI-sFZ.text" = "Избранное";
+
+/* Class = "UIButton"; normalTitle = "Уже зарегистрированы?"; ObjectID = "ACY-CI-Vq9"; */
+"ACY-CI-Vq9.normalTitle" = "Уже зарегистрированы?";
+
+/* Class = "UITextField"; placeholder = "Имя"; ObjectID = "Cgo-PK-Ujd"; */
+"Cgo-PK-Ujd.placeholder" = "Имя";
+
+/* Class = "UIButton"; normalTitle = "Избранное"; ObjectID = "DEQ-bZ-h0N"; */
+"DEQ-bZ-h0N.normalTitle" = "Избранное";
+
+/* Class = "UILabel"; text = "Краткая выжимка из новости"; ObjectID = "GPR-ZC-Eau"; */
+"GPR-ZC-Eau.text" = "Краткая выжимка из новости";
+
+/* Class = "UIButton"; normalTitle = "Техника"; ObjectID = "Hah-u7-fuT"; */
+"Hah-u7-fuT.normalTitle" = "Техника";
+
+/* Class = "UITextField"; placeholder = "Фамилия"; ObjectID = "J9f-Oz-7eF"; */
+"J9f-Oz-7eF.placeholder" = "Фамилия";
+
+/* Class = "UIBarButtonItem"; title = "Registr"; ObjectID = "KjK-dx-kjY"; */
+"KjK-dx-kjY.title" = "Registr";
+
+/* Class = "UIButton"; normalTitle = "Down Popover"; ObjectID = "RcY-OZ-rEG"; */
+"RcY-OZ-rEG.normalTitle" = "Down Popover";
+
+/* Class = "UITextField"; placeholder = "Пароль"; ObjectID = "UTC-aY-b0l"; */
+"UTC-aY-b0l.placeholder" = "Пароль";
+
+/* Class = "UIViewController"; title = "Authorization"; ObjectID = "WoQ-rZ-r3j"; */
+"WoQ-rZ-r3j.title" = "Authorization";
+
+/* Class = "UIButton"; normalTitle = "Мой профиль"; ObjectID = "Wvd-49-Xbi"; */
+"Wvd-49-Xbi.normalTitle" = "Мой профиль";
+
+/* Class = "UIButton"; normalTitle = "Готово"; ObjectID = "av4-pg-4tZ"; */
+"av4-pg-4tZ.normalTitle" = "Готово";
+
+/* Class = "UIButton"; normalTitle = "Выйти"; ObjectID = "fdb-Fn-kKc"; */
+"fdb-Fn-kKc.normalTitle" = "Выйти";
+
+/* Class = "UITextField"; placeholder = "email"; ObjectID = "hKr-e3-bjf"; */
+"hKr-e3-bjf.placeholder" = "email";
+
+/* Class = "UILabel"; text = "Заголовок новости"; ObjectID = "jvj-eW-QBN"; */
+"jvj-eW-QBN.text" = "Заголовок новости";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "mip-y0-8Cd"; */
+"mip-y0-8Cd.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Сообщения"; ObjectID = "nn6-Zb-aZA"; */
+"nn6-Zb-aZA.normalTitle" = "Сообщения";
+
+/* Class = "UILabel"; text = "Гость"; ObjectID = "qjP-v4-HuG"; */
+"qjP-v4-HuG.text" = "Гость";
+
+/* Class = "UILabel"; text = "Вы принимаете условия соглашения"; ObjectID = "tjQ-xj-f67"; */
+"tjQ-xj-f67.text" = "Вы принимаете условия соглашения";

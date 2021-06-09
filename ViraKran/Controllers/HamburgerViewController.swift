@@ -9,7 +9,6 @@ import UIKit
 import FirebaseAuth
 import FirebaseStorage
 import SDWebImage
-import CardSlider
 import RealmSwift
 class HamburgerViewController: UIViewController, UIGestureRecognizerDelegate {
   
@@ -20,9 +19,7 @@ class HamburgerViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        profileImage.layer.borderWidth = 3
         profileImage.layer.masksToBounds = false
-//        profileImage.layer.borderColor = UIColor.yellow.cgColor
         profileImage.layer.cornerRadius = profileImage.frame.height/2
         profileImage.clipsToBounds = true
         profileImage.isUserInteractionEnabled = true
@@ -73,7 +70,7 @@ class HamburgerViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBAction func showConversation(_ sender: Any) {
         let userLogin = UserDefaults.standard.string(forKey: "email") ?? "Guest"
         
-        if userLogin == "admin@gmail.com"{
+        if userLogin == "vira-kran74@mail.ru"{
             let vc = ConversationsViewController()
             vc.title = "Чаты"
             let nav = UINavigationController(rootViewController: vc)
@@ -90,6 +87,7 @@ class HamburgerViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK:Открыть ProfileViewController
     @IBAction func didTapButton(){
+        
         showProfileViewController((Any).self)
     }
     

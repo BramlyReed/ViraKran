@@ -120,7 +120,7 @@ extension SearchConversationViewController: UISearchBarDelegate {
                 self.usersNameBD.removeAll()
                 for document in querySnapshot!.documents {
                     let userLogin = String(document.documentID)
-                    if userLogin != "admin@gmail.com"{
+                    if userLogin != "vira-kran74@mail.ru"{
                         self.usersNameBD.append(userLogin)
                     }
                 }

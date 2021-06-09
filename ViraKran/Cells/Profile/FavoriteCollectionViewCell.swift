@@ -13,19 +13,11 @@ class FavoriteCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var standImage: UIImageView!
     
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        layoutIfNeeded()
-//        standImage.layer.cornerRadius = standImage.frame.height/2
-//    }
-//
-//    func configure(imageURL: URL?){
-//        self.standImage.sd_setImage(with: imageURL)
-//    }
+    @IBOutlet weak var labelName: UILabel!
     var imageURL: URL?{
             didSet{
-                print(imageURL)
-                self.standImage.sd_setImage(with: imageURL)
+                let transformer = SDImageResizingTransformer(size: CGSize(width: 400, height: 400), scaleMode: .aspectFit)
+                self.standImage.sd_setImage(with: imageURL, placeholderImage: nil, context: [.imageTransformer: transformer])
             }
         }
 }
