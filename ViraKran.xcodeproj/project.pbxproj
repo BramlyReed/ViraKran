@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		16C2C63501FB378884B9AC63 /* Pods_ViraKran.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F54E3266F4370C7DB51226D4 /* Pods_ViraKran.framework */; };
+		484C6AC07BE4FC89290774AB /* Pods_ViraKran.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CDCBBC29F487C7FE675238 /* Pods_ViraKran.framework */; };
 		853A13A426590D81002BA2F0 /* ProfileTableViewCellImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853A13A326590D81002BA2F0 /* ProfileTableViewCellImage.swift */; };
 		853A13A92659111E002BA2F0 /* ProfileTableViewCellName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853A13A82659111E002BA2F0 /* ProfileTableViewCellName.swift */; };
 		853A13BC26591A05002BA2F0 /* ProfileTableViewCellImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 853A13BB26591A05002BA2F0 /* ProfileTableViewCellImage.xib */; };
@@ -74,8 +74,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4A631C0BF607673A72D1D1EC /* Pods-ViraKran.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViraKran.release.xcconfig"; path = "Target Support Files/Pods-ViraKran/Pods-ViraKran.release.xcconfig"; sourceTree = "<group>"; };
-		757E076598AA3F27087E0AE1 /* Pods-ViraKran.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViraKran.debug.xcconfig"; path = "Target Support Files/Pods-ViraKran/Pods-ViraKran.debug.xcconfig"; sourceTree = "<group>"; };
+		52BD4D6207BF04D46C3076BF /* Pods-ViraKran.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViraKran.release.xcconfig"; path = "Target Support Files/Pods-ViraKran/Pods-ViraKran.release.xcconfig"; sourceTree = "<group>"; };
 		852E95E62670E159004F94DB /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		852E95E72670E15C004F94DB /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		853A13A326590D81002BA2F0 /* ProfileTableViewCellImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCellImage.swift; sourceTree = "<group>"; };
@@ -130,7 +129,8 @@
 		856346322654616A00C233CA /* CategoryEquipmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryEquipmentViewController.swift; sourceTree = "<group>"; };
 		85634637265463A700C233CA /* CategoryEquipmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryEquipmentTableViewCell.swift; sourceTree = "<group>"; };
 		85D780EC25E78E20000D8D35 /* HamburgerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HamburgerViewController.swift; sourceTree = "<group>"; };
-		F54E3266F4370C7DB51226D4 /* Pods_ViraKran.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ViraKran.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		97CDCBBC29F487C7FE675238 /* Pods_ViraKran.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ViraKran.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C39CCF6DA59BF87CA4083F7E /* Pods-ViraKran.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViraKran.debug.xcconfig"; path = "Target Support Files/Pods-ViraKran/Pods-ViraKran.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,7 +138,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16C2C63501FB378884B9AC63 /* Pods_ViraKran.framework in Frameworks */,
+				484C6AC07BE4FC89290774AB /* Pods_ViraKran.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,6 +159,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		05A9CAB290611EADBC690DFA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				97CDCBBC29F487C7FE675238 /* Pods_ViraKran.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		853A14CD2662C3C2002BA2F0 /* News */ = {
 			isa = PBXGroup;
 			children = (
@@ -291,7 +299,7 @@
 				855F740625CEF049009A6183 /* ViraKranUITests */,
 				855F73E325CEF047009A6183 /* Products */,
 				A8640E996A0365B5A10DB40D /* Pods */,
-				F04404392AAA8209546076E1 /* Frameworks */,
+				05A9CAB290611EADBC690DFA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -366,18 +374,10 @@
 		A8640E996A0365B5A10DB40D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				757E076598AA3F27087E0AE1 /* Pods-ViraKran.debug.xcconfig */,
-				4A631C0BF607673A72D1D1EC /* Pods-ViraKran.release.xcconfig */,
+				C39CCF6DA59BF87CA4083F7E /* Pods-ViraKran.debug.xcconfig */,
+				52BD4D6207BF04D46C3076BF /* Pods-ViraKran.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		F04404392AAA8209546076E1 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				F54E3266F4370C7DB51226D4 /* Pods_ViraKran.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -387,11 +387,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 855F740C25CEF049009A6183 /* Build configuration list for PBXNativeTarget "ViraKran" */;
 			buildPhases = (
-				0E26430B01AFC7C762535F79 /* [CP] Check Pods Manifest.lock */,
+				D155CB6F93300EB736749C92 /* [CP] Check Pods Manifest.lock */,
 				855F73DE25CEF047009A6183 /* Sources */,
 				855F73DF25CEF047009A6183 /* Frameworks */,
 				855F73E025CEF047009A6183 /* Resources */,
-				528195F5339AAE6E95694B82 /* [CP] Embed Pods Frameworks */,
+				8F9F665218A5E24FE723A2C3 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -514,7 +514,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0E26430B01AFC7C762535F79 /* [CP] Check Pods Manifest.lock */ = {
+		8F9F665218A5E24FE723A2C3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ViraKran/Pods-ViraKran-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ViraKran/Pods-ViraKran-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ViraKran/Pods-ViraKran-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D155CB6F93300EB736749C92 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -534,23 +551,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		528195F5339AAE6E95694B82 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ViraKran/Pods-ViraKran-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ViraKran/Pods-ViraKran-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ViraKran/Pods-ViraKran-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -772,7 +772,7 @@
 		};
 		855F740D25CEF049009A6183 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 757E076598AA3F27087E0AE1 /* Pods-ViraKran.debug.xcconfig */;
+			baseConfigurationReference = C39CCF6DA59BF87CA4083F7E /* Pods-ViraKran.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -793,7 +793,7 @@
 		};
 		855F740E25CEF049009A6183 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4A631C0BF607673A72D1D1EC /* Pods-ViraKran.release.xcconfig */;
+			baseConfigurationReference = 52BD4D6207BF04D46C3076BF /* Pods-ViraKran.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

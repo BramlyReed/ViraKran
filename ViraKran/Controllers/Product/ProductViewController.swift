@@ -173,23 +173,28 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         var amountValue = "Руб"
         var tmpParameters: [ParametersTableViewCellViewModel] = []
         let value = UserDefaults.standard.string(forKey: "value") ?? "Guest"
+        let valueAmountEUR = UserDefaults.standard.double(forKey: "EUR")
+        let valueAmountGBP = UserDefaults.standard.double(forKey: "GBP")
+        let valueAmountUSD = UserDefaults.standard.double(forKey: "USD")
         let formatter = NumberFormatter()
         formatter.numberStyle = NumberFormatter.Style.decimal
         formatter.groupingSeparator = " "
         amount = formatter.string(for: baseAmountInRub)!
 
         if value == "Евро"{
-            amount = String(format: "%.2f",(DatabaseManager.shared.getActual(rates: "EUR") * baseAmountInRub))
+            amount = String(format: "%.2f",(valueAmountEUR * baseAmountInRub))
             amount = formatter.string(for: Double(amount))!
             amountValue = "EUR"
+            print(valueAmountEUR)
+            print(baseAmountInRub)
         }
         else if value == "Доллары"{
-            amount = String(format: "%.2f",(DatabaseManager.shared.getActual(rates: "USD") * baseAmountInRub))
+            amount = String(format: "%.2f",(valueAmountUSD * baseAmountInRub))
             amount = formatter.string(for: Double(amount))!
             amountValue = "USD"
         }
         else if value == "Фунты"{
-            amount = String(format: "%.2f",(DatabaseManager.shared.getActual(rates: "GBP") * baseAmountInRub))
+            amount = String(format: "%.2f",(valueAmountGBP * baseAmountInRub))
             amount = formatter.string(for: Double(amount))!
             amountValue = "GBP"
         }

@@ -23,6 +23,8 @@ class CategoryEquipmentViewController: UIViewController, UITableViewDelegate, UI
         self.data.removeAll()
         //MARK: выбор объектов из Realm с соответствующей категорией
         let chosenCatId = UserDefaults.standard.string(forKey: "catId") ?? "Guest1"
+        let products = ["Автокраны", "Башенные", "Быстромонтируемые", "Подъёмники"]
+        title = products[Int(chosenCatId)! - 1]
         let objects = realm.objects(Equipment.self).filter("catId == %@", chosenCatId)
         if objects.count != 0{
             for item in objects{

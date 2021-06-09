@@ -8,20 +8,13 @@
 import Foundation
 import RealmSwift
 
-struct RatesExample: Codable {
+struct Rates: Codable {
     var GBP: Double
     var USD: Double
     var EUR: Double
 }
 
 struct ParsedCurrencies: Codable {
-    var rates: RatesExample
+    var rates: Rates
 }
 
-class Currencies: Object{
-    let CurrenciesArray = List<Currency>()
-}
-class Currency: Object{
-    @objc dynamic var name = ""
-    @objc dynamic var value = ""
-}
