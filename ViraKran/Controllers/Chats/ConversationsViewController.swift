@@ -13,7 +13,9 @@ import FirebaseFirestore
 class ConversationsViewController: UIViewController {
     
     let db = Firestore.firestore()
-    var usersNameBD: [String] = []
+    var usersNameBD: [String:String] = [:]
+//    var usersNameBD: [String] = []
+    var usersUIDBD: [String] = []
     var latestMessages: [LatestMessage] = []
     var listener: ListenerRegistration?
     var listenertmp: ListenerRegistration?
@@ -52,6 +54,7 @@ class ConversationsViewController: UIViewController {
             item.remove()
         }
         usersNameBD.removeAll()
+        usersUIDBD.removeAll()
         latestMessages.removeAll()
         listenersForMessages.removeAll()
         self.dismiss(animated: true, completion: nil)
@@ -66,11 +69,15 @@ class ConversationsViewController: UIViewController {
     //MARK: добавление наблюдателя за коллекцией users, чтобы получить список пользователей
     func getAllChatsByAdmin() {
         listener = db.collection("users").addSnapshotListener{[weak self] (querySnapshot, error) in guard querySnapshot != nil else { return }
-            self!.usersNameBD = []
+            self!.usersNameBD.removeAll()
+//            self!.usersUIDBD = []
             for document in (querySnapshot!.documents){
-                let userLogin = String(document.documentID)
-                if userLogin != "vira-kran74@mail.ru"{
-                    self!.usersNameBD.append(userLogin)
+                let userID = String(document.documentID)
+                let document_data = document.data()
+                let userLogin = document_data["email"] as? String ?? "nil"
+                if userLogin != "vira-kran74@mail.ru" && userLogin != "nil"{
+//                    self!.usersUIDBD.append(userID)
+                    self!.usersNameBD["\(userID)"] = userLogin
                 }
             }
             self!.updateConversations()
@@ -79,8 +86,8 @@ class ConversationsViewController: UIViewController {
     //MARK: обновить ячейки с чатами. Добавление наблюдателей за коллекцией conversation для каждого пользователя из массива с именами пользователей
     func updateConversations() {
         if self.usersNameBD.count != 0{
-            for userName in self.usersNameBD {
-            listenertmp =  db.collection("users/\(userName)/conversations").addSnapshotListener{(querySnapshot, error) in guard querySnapshot != nil else { return }
+            for user in self.usersNameBD {
+                listenertmp =  db.collection("users/\(user.key)/conversations").addSnapshotListener{(querySnapshot, error) in guard querySnapshot != nil else { return }
                 for document in (querySnapshot!.documents){
                     let documentName = String(document.documentID)
                     if documentName == "lastMessage"{
@@ -90,7 +97,8 @@ class ConversationsViewController: UIViewController {
                         let message = documents_data["message"] as? String ?? "nil"
                         let epocTime = TimeInterval(FirebaseDate.seconds)
                         let date = NSDate(timeIntervalSince1970: epocTime)
-                        let tmpObject = LatestMessage(date: date as Date, message: message, conversationNameOwner: userName)
+                        print("index ", user.key)
+                        let tmpObject = LatestMessage(date: date as Date, message: message, conversationUIDOwner: user.key, conversationNameOwner: user.value)
                         self.updateArray(model: tmpObject)
                     }
                 }
@@ -108,7 +116,7 @@ class ConversationsViewController: UIViewController {
             var flag: Bool = false
             for message in self.latestMessages{
     //MARK: перезапись нового последнего сообщения в массив с последними сообщениями от пользователя, чье сообщение уже было записано раньше, сравнение происходит по дате
-                if message.conversationNameOwner == model.conversationNameOwner{
+                if message.conversationUIDOwner == model.conversationUIDOwner{
                     flag = true
                     break
                 }
@@ -139,7 +147,7 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ConversationTableViewCell.identifier, for: indexPath) as! ConversationTableViewCell
         if self.latestMessages.count != 0{            
-            cell.configure(with: self.latestMessages[indexPath.item])
+            cell.configure(userLogin: self.latestMessages[indexPath.item].conversationNameOwner, message: self.latestMessages[indexPath.item].message)
         }
         return cell
     }
@@ -147,9 +155,11 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let vc = ChatViewController()
-        let tmpValue = latestMessages[indexPath.item].conversationNameOwner
-        UserDefaults.standard.set(tmpValue, forKey: "chosenUser")
-        vc.title = tmpValue
+        let tmpValueUID = latestMessages[indexPath.item].conversationUIDOwner
+        let tmpValueLogin = latestMessages[indexPath.item].conversationNameOwner
+        UserDefaults.standard.set(tmpValueUID, forKey: "chosenUser")
+        UserDefaults.standard.set(tmpValueLogin, forKey: "chosenUserLogin")
+        vc.title = tmpValueLogin
         let nav = UINavigationController(rootViewController: vc)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true)

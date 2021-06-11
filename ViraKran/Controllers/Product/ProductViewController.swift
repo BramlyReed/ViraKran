@@ -274,18 +274,18 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     //MARK: добавить в избранное
     func addToFavorite(){
-        let email = UserDefaults.standard.string(forKey: "email") ?? "Guest1"
-        if email != "Guest1"{
+        let uid = UserDefaults.standard.string(forKey: "MyUID") ?? "Guest1"
+        if uid != "Guest1"{
             let chosenCatId = UserDefaults.standard.string(forKey: "catId") ?? "Guest1"
             let choseneqId = UserDefaults.standard.string(forKey: "eqId") ?? "Guest1"
-            let docRef = database.collection("users/\(email)/savedItems").document("\(chosenCatId)_\(choseneqId)")
+            let docRef = database.collection("users/\(uid)/savedItems").document("\(chosenCatId)_\(choseneqId)")
             
             docRef.getDocument { (document, error) in
                 if let document = document, document.exists {
                     self.showAlert(message: "Объект уже был сохранен")
                 }
                 else{
-                    self.database.collection("users/\(email)/savedItems").document("\(chosenCatId)_\(choseneqId)").setData([
+                    self.database.collection("users/\(uid)/savedItems").document("\(chosenCatId)_\(choseneqId)").setData([
                 "catId": chosenCatId,
                 "eqId": choseneqId
             ])
@@ -313,11 +313,11 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
 }
     //MARK: удаление из избранного
     func deleteFromFavorite(){
-        let email = UserDefaults.standard.string(forKey: "email") ?? "Guest1"
-        if email != "Guest1"{
+        let uid = UserDefaults.standard.string(forKey: "MyUID") ?? "Guest1"
+        if uid != "Guest1"{
             let chosenCatId = UserDefaults.standard.string(forKey: "catId") ?? "Guest1"
             let choseneqId = UserDefaults.standard.string(forKey: "eqId") ?? "Guest1"
-            let docRef = database.collection("users/\(email)/savedItems").document("\(chosenCatId)_\(choseneqId)")
+            let docRef = database.collection("users/\(uid)/savedItems").document("\(chosenCatId)_\(choseneqId)")
             docRef.delete() { err in
                 if let err = err {
                     self.showAlert(message: "Ошибка при удалении объекта, повторите позже")

@@ -16,9 +16,9 @@ class StorageManager{
     let storage = Storage.storage().reference()
     public typealias UploadPictureCompletion = (Result<String, Error>) -> Void
 
-    //MARK: загрузка фото профиля в storage
-    func uploadPicture(with data: Data, fileName: String, userName: String, completion: @escaping UploadPictureCompletion) {
-        storage.child("userImages/\(userName)/\(fileName)").putData(data, metadata: nil, completion: { [weak self] metadata, error in
+    //MARK: загрузка изображения в storage
+    func uploadPicture(with data: Data, location: String, fileName: String, userName: String, completion: @escaping UploadPictureCompletion) {
+        storage.child("\(location)/\(userName)/\(fileName)").putData(data, metadata: nil, completion: { [weak self] metadata, error in
             guard let strongSelf = self else {
                 return
             }
@@ -39,7 +39,7 @@ class StorageManager{
     
     //MARK: скачивание ссылки на изображение
     func downloadURL(for email: String, completion: @escaping (Result<URL, Error>) -> Void){
-        let reference = storage.child("userImages/\(email)/\(email).profile_picture.png")
+        let reference = storage.child("usersProfileImages/\(email)/\(email).profile_picture.png")
         reference.downloadURL(completion: { url, error in
             guard let url = url, error == nil else {
                 print("Error")

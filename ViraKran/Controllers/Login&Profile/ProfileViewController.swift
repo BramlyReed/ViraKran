@@ -32,7 +32,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
                                                             target: self,
                                                             action: #selector(closeController))
         if isAdminOpenFromChats == "true"{
-            email = UserDefaults.standard.string(forKey: "chosenUser") ?? "Guest"
+            email = UserDefaults.standard.string(forKey: "chosenUserLogin") ?? "Guest"
         }
         
     }
@@ -73,7 +73,8 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
                 cell.textLabel?.text = "Имя: \(name)"
             }
             else{
-                let docRef = db.collection("users").document(email)
+                let uid = UserDefaults.standard.string(forKey: "chosenUser") ?? "Guest"
+                let docRef = db.collection("users").document(uid)
                 docRef.getDocument { (document, error) in
                     if let document = document, document.exists {
                         let data = document.data()
@@ -180,7 +181,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         print(info)
         guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage, let data = selectedImage.pngData() else { return }
         let filename = "\(email).profile_picture.png"
-        StorageManager.shared.uploadPicture(with: data, fileName: filename, userName: email, completion: { result in
+        StorageManager.shared.uploadPicture(with: data, location: "usersProfileImages", fileName: filename, userName: email, completion: { result in
                 switch result {
                 case .success(let downloadUrl):
                     UserDefaults.standard.set("\(downloadUrl)", forKey: "pictureURL")

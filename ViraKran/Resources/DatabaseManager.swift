@@ -28,7 +28,7 @@ final class DatabaseManager{
 
     //MARK: запись данных пользователя в Firebase и отправка приветственного сообщения
     func insertUser(with user: UserModel) {
-        self.database.collection("users").document(user.email).setData([
+        self.database.collection("users").document(user.uid).setData([
             "name": "\(user.name)",
             "surname": "\(user.surname)",
             "email": "\(user.email)"
@@ -39,13 +39,13 @@ final class DatabaseManager{
             } else {
                 let dateString = Date.init()
                 let firstMessage = "Здравствуйте! Я представитель компании Вира Кран, и, в этом чате, я готов ответить на все ваши вопросы"
-                self.database.collection("users/\(user.email)/conversations").document("1").setData([
+                self.database.collection("users/\(user.uid)/conversations").document("1").setData([
                     "date": dateString,
                     "message": firstMessage,
                     "user_email": "vira-kran74@mail.ru",
                     "type": "text"
                 ])
-                self.database.collection("users/\(user.email)/conversations").document("lastMessage").setData([
+                self.database.collection("users/\(user.uid)/conversations").document("lastMessage").setData([
                     "date": dateString,
                     "message": firstMessage
                 ])
@@ -184,7 +184,7 @@ final class DatabaseManager{
     
     //MARK: Получение данных о пользователе
     func getDataOfUser(useremail: String) -> UserModel{
-        var tmpUser = UserModel(name: "", surname: "", email: "")
+        var tmpUser = UserModel(uid: "", name: "", surname: "", email: "")
         
         let docRef = db.collection("users").document(useremail)
 

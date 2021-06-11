@@ -21,19 +21,23 @@ class ChatViewController: MessagesViewController {
     var otherSender: SenderType?
     var listener: ListenerRegistration?
     var userLogin = ""
+    var myUID = ""
     var photoURL = ""
     var chosenUserLogin = ""
+    var chosenUserUID = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         print("viewDidLoad")
         userLogin = UserDefaults.standard.string(forKey: "email") ?? "Guest"
-        chosenUserLogin = UserDefaults.standard.string(forKey: "chosenUser") ?? "Guest"
+        myUID = UserDefaults.standard.string(forKey: "MyUID") ?? "Guest"
+        chosenUserLogin = UserDefaults.standard.string(forKey: "chosenUserLogin") ?? "Guest"
+        chosenUserUID = UserDefaults.standard.string(forKey: "chosenUser") ?? "Guest"
         messageInputBar.delegate = self
     //MARK: настройка selfSender и otherSender
         if userLogin != "vira-kran74@mail.ru"{
             selfSender = Sender(photoURL: photoURL, senderId: "2", displayName: userLogin)
             otherSender = Sender(photoURL: photoURL, senderId: "1", displayName: "Администратор")
-            getAllMessagesByUser(userLogin: userLogin)
+            getAllMessagesByUser(userUID: myUID)
         }
         else{
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Инфо",
@@ -43,7 +47,7 @@ class ChatViewController: MessagesViewController {
             
             selfSender = Sender(photoURL: "", senderId: "1", displayName: "Администратор")
             otherSender = Sender(photoURL: "", senderId: "2", displayName: chosenUserLogin)
-            getAllMessagesByUser(userLogin: chosenUserLogin)
+            getAllMessagesByUser(userUID: chosenUserUID)
         }
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Назад",
                                                             style: .done,
@@ -81,6 +85,7 @@ class ChatViewController: MessagesViewController {
             listener!.remove()
         }
         UserDefaults.standard.removeObject(forKey: "chosenUser")
+        UserDefaults.standard.removeObject(forKey: "chosenUserLogin")
         self.dismiss(animated: true, completion: nil)
     }
     //MARK: открыть профиль пользователя
@@ -102,10 +107,10 @@ class ChatViewController: MessagesViewController {
 }
 
 extension ChatViewController{
-//MARK: получение всех сообщений (документов) из коллекции пользователя
-    func getAllMessagesByUser(userLogin: String){
+//MARK: получение всех сообщений (документов) из коллекции пользователя по uid
+    func getAllMessagesByUser(userUID: String){
         self.messages = []
-        listener = db.collection("users/\(userLogin)/conversations").addSnapshotListener{[weak self] (querySnapshot, error) in guard querySnapshot != nil else { return }
+        listener = db.collection("users/\(userUID)/conversations").addSnapshotListener{[weak self] (querySnapshot, error) in guard querySnapshot != nil else { return }
             self!.messages = []
             print("Fresh meat")
         for document in (querySnapshot!.documents){
@@ -145,9 +150,9 @@ extension ChatViewController{
 //MARK: сортировка сообщений по id
                 self!.messages = self!.messages.sorted(by: { Int($0.messageId)! < Int($1.messageId)! })
             }
-            self!.messagesCollectionView.reloadData()
-            self!.messagesCollectionView.scrollToLastItem()
         }
+        self!.messagesCollectionView.reloadData()
+        self!.messagesCollectionView.scrollToLastItem()
         }
     }
 }
@@ -166,24 +171,24 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
     }
     //MARK: отправка сообщения в коллекцию с документами и запись его в качестве последнего сообщения
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String){
-        var USER = ""
+        var UID = ""
         if userLogin == "vira-kran74@mail.ru"{
-            USER = chosenUserLogin
+            UID = chosenUserUID
         }
         else{
-            USER = userLogin
+            UID = myUID
         }
         let NumberMessage = Int(self.messages.last!.messageId)! + 1
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd hh:mm:ss"
         let dateString = Date.init()
-        db.collection("users/\(USER)/conversations").document(String(NumberMessage)).setData([
+        db.collection("users/\(UID)/conversations").document(String(NumberMessage)).setData([
                 "date": dateString,
                 "message": text,
                 "type": "text",
                 "user_email": userLogin
             ])
-        db.collection("users/\(USER)/conversations").document("lastMessage").updateData([
+        db.collection("users/\(UID)/conversations").document("lastMessage").updateData([
                 "date": dateString,
                 "message": text
             ]){ err in
@@ -274,23 +279,22 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
         picker.dismiss(animated: true, completion: nil)
         //print(info)
         guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage, let data = selectedImage.pngData() else { return }
-        var email = ""
+        var uid = ""
         if userLogin == "vira-kran74@mail.ru"{
-            email = chosenUserLogin
+            uid = chosenUserUID
         }
         else{
-            email = userLogin
+            uid = myUID
         }
         var NumberMessage = 0
         if messages.count != 0{
         NumberMessage = Int(self.messages.last!.messageId)! + 1
         }
         let filename = "photo_message_\(NumberMessage).png"
-        let LoginSender = UserDefaults.standard.string(forKey: "email") ?? "Guest"
-        StorageManager.shared.uploadPicture(with: data, fileName: filename, userName: email, completion: { result in
+        StorageManager.shared.uploadPicture(with: data, location: "userImages", fileName: filename, userName: uid, completion: { result in
                 switch result {
                 case .success(let downloadUrl):
-                    self.sendPhotoImage(USER: email, messageURL: downloadUrl, userLogin: LoginSender, type: "image")
+                    self.sendPhotoImage(UID: uid, messageURL: downloadUrl, userLogin: self.userLogin, type: "image")
 
                 case .failure(let error):
                     print("Storage manager error: \(error)")
@@ -303,18 +307,18 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
     }
     
     //MARK: запись данных о сообщении с изображением в коллекцию с чатом пользователя и в качестве последнего сообщения
-    func sendPhotoImage(USER: String, messageURL: String, userLogin: String, type: String){
+    func sendPhotoImage(UID: String, messageURL: String, userLogin: String, type: String){
         let NumberMessage = Int(self.messages.last!.messageId)! + 1
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd hh:mm:ss"
         let dateString = Date.init()
-        db.collection("users/\(USER)/conversations").document(String(NumberMessage)).setData([
+        db.collection("users/\(UID)/conversations").document(String(NumberMessage)).setData([
                 "date": dateString,
                 "message": messageURL,
                 "type": type,
                 "user_email": userLogin
             ])
-        db.collection("users/\(USER)/conversations").document("lastMessage").updateData([
+        db.collection("users/\(UID)/conversations").document("lastMessage").updateData([
                 "date": dateString,
                 "message": messageURL
             ]){ err in

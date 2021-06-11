@@ -26,6 +26,7 @@ struct Sender: SenderType {
 struct LatestMessage {
     var date: Date
     var message: String
+    var conversationUIDOwner: String
     var conversationNameOwner: String
 }
 

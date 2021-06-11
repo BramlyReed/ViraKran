@@ -15,10 +15,8 @@ struct ParametersTableViewCellViewModel{
 class ParametersTableViewCell: UITableViewCell {
     
     @IBOutlet weak var title: UILabel!
-    
     @IBOutlet weak var value: UILabel!
     static let identifier = "ParameterTableViewCell"
-    
     static func nib() -> UINib {
         return UINib(nibName: "ParametersCell", bundle: nil)
     }

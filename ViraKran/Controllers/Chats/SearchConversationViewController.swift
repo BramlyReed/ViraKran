@@ -12,14 +12,15 @@ import SDWebImage
 
 class SearchConversationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    var usersNameBD: [String] = []
+    var usersNameBD: [String:String] = [:]
+    var filteredData: [String] = []
     var latestMessages: [LatestMessage] = []
     let db = Firestore.firestore()
 
     let spinner = JGProgressHUD(style: .dark)
     let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
-        searchBar.placeholder = "Search something"
+        searchBar.placeholder = "Введите login пользователя"
         return searchBar
     }()
     let tableView: UITableView = {
@@ -31,7 +32,7 @@ class SearchConversationViewController: UIViewController, UITableViewDelegate, U
     let noResultsLabel: UILabel = {
         let label = UILabel()
         label.isHidden = true
-        label.text = "No Results"
+        label.text = "Ничего не найдено"
         label.textAlignment = .center
         label.textColor = .green
         label.font = .systemFont(ofSize: 21, weight: .medium)
@@ -67,7 +68,7 @@ class SearchConversationViewController: UIViewController, UITableViewDelegate, U
         let cell = tableView.dequeueReusableCell(withIdentifier: ConversationTableViewCell.identifier,
                                                  for: indexPath) as! ConversationTableViewCell
         if self.latestMessages.count != 0{
-            cell.configure(with: self.latestMessages[indexPath.item])
+            cell.configure(userLogin: self.latestMessages[indexPath.item].conversationNameOwner, message: self.latestMessages[indexPath.item].message)
         }
         return cell
     }
@@ -118,10 +119,13 @@ extension SearchConversationViewController: UISearchBarDelegate {
                 print("Error getting documents: \(err)")
             } else {
                 self.usersNameBD.removeAll()
+                self.filteredData.removeAll()
                 for document in querySnapshot!.documents {
-                    let userLogin = String(document.documentID)
-                    if userLogin != "vira-kran74@mail.ru"{
-                        self.usersNameBD.append(userLogin)
+                    let uid = String(document.documentID)
+                    let docdata = document.data()
+                    let userLogin = docdata["email"] as? String ?? "nil"
+                    if userLogin != "vira-kran74@mail.ru" && userLogin != "nil"{
+                        self.usersNameBD["\(userLogin)"] = uid
                     }
                 }
                 self.filterUsers(with: query)
@@ -133,17 +137,22 @@ extension SearchConversationViewController: UISearchBarDelegate {
     func filterUsers(with term: String) {
         if usersNameBD.count != 0 {
             self.latestMessages.removeAll()
-            self.usersNameBD = self.usersNameBD.filter{$0.hasPrefix(term)}
-            if usersNameBD.count != 0{
-                for userName in usersNameBD{
-                    db.collection("users/\(userName)/conversations").document("lastMessage").getDocument { (document, error) in
+//            self.usersNameBD = self.usersNameBD.keys.filter{$0.hasPrefix(term)}
+            for userName in usersNameBD{
+                filteredData.append(userName.key)
+            }
+            self.filteredData = self.filteredData.filter{$0.hasPrefix(term)}
+            if filteredData.count != 0{
+                for value in filteredData{
+                    let uid = self.usersNameBD[String(describing: value)] ?? "nil"
+                    db.collection("users/\(uid)/conversations").document("lastMessage").getDocument { (document, error) in
                         if let document = document, document.exists {
                             let documents_data = document.data()
                             let FirebaseDate = documents_data!["date"] as! Timestamp
                             let message = documents_data!["message"] as? String ?? "nil"
                             let epocTime = TimeInterval(FirebaseDate.seconds)
                             let date = NSDate(timeIntervalSince1970: epocTime)
-                            let tmpObject = LatestMessage(date: date as Date, message: message, conversationNameOwner: userName)
+                            let tmpObject = LatestMessage(date: date as Date, message: message, conversationUIDOwner: uid, conversationNameOwner: value)
                             self.latestMessages.append(tmpObject)
                             self.updateUI()
                         } else {

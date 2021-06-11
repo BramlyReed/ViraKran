@@ -50,7 +50,6 @@ class HamburgerViewController: UIViewController, UIGestureRecognizerDelegate {
                     let transformer = SDImageResizingTransformer(size: CGSize(width: 500, height: 500), scaleMode: .fill)
                     self!.profileImage.sd_setImage(with: URL(string: pictureURL), placeholderImage: nil, context: [.imageTransformer: transformer])
                 }
-                
             case .failure(let error):
                 print("The Error: \(error)")
             }
@@ -112,10 +111,11 @@ class HamburgerViewController: UIViewController, UIGestureRecognizerDelegate {
             UserDefaults.standard.removeObject(forKey: "fullname")
             UserDefaults.standard.removeObject(forKey: "chosenUser")
             UserDefaults.standard.removeObject(forKey: "pictureURL")
+            UserDefaults.standard.removeObject(forKey: "MyUID")
             self.profileImage.image = UIImage(named:"guest_image")
-            
         }
         catch{
+            showAlert(message: "Ошибка при выходе из аккаунта")
             print("Can't sign out!")
         }
     }

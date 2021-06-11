@@ -63,13 +63,10 @@ class FavoriteItemsViewController: UIViewController, UICollectionViewDelegate, U
                 cell.imageURL = URL(string: tmpString)
             }
         }
-        print("storedobjectsu ", storedObjects)
         return cell
     }
     //MARK: открытие экрана с товаром
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("myObject ", indexPath.item)
-        print("storedobjects1 ", storedObjects)
         UserDefaults.standard.set(String(storedObjects[indexPath.item].eqId), forKey: "eqId")
         UserDefaults.standard.set(String(storedObjects[indexPath.item].catId), forKey: "catId")
         print("catID ", storedObjects[indexPath.item].catId)
@@ -101,8 +98,8 @@ class FavoriteItemsViewController: UIViewController, UICollectionViewDelegate, U
     
     //MARK: получение данных из коллекции и запись в realm
     func getData() {
-        let email = UserDefaults.standard.string(forKey: "email") ?? "Guest1"
-        let docRef = database.collection("users/\(email)/savedItems")
+        let uid = UserDefaults.standard.string(forKey: "MyUID") ?? "Guest1"
+        let docRef = database.collection("users/\(uid)/savedItems")
         docRef.getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")

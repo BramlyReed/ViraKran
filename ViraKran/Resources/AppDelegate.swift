@@ -16,6 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       didFinishLaunchingWithOptions launchOptions:
         [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
       FirebaseApp.configure()
+        if #available(iOS 13, *){
+            window?.overrideUserInterfaceStyle = .light
+        }
       return true
     }
     

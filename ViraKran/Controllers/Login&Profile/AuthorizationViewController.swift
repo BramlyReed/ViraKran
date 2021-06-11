@@ -143,7 +143,8 @@ class AuthorizationViewController: UIViewController {
                     guard authResult != nil, (error == nil) else {
                         return self!.showAlert(message:"Ошибка при создании пользователя, поменяйте логин и/или пароль")
                     }
-                    let user = UserModel(name: name, surname: surname, email: email)
+                    let uid = String(authResult?.user.uid ?? "0")
+                    let user = UserModel(uid: uid, name: name, surname: surname, email: email)
                     DatabaseManager.shared.insertUser(with: user)
                     guard let image = strongSelf.imageProfile.image,
                           let data = image.pngData() else {
@@ -153,7 +154,7 @@ class AuthorizationViewController: UIViewController {
 //                    UserDefaults.standard.set(email, forKey: "email")
 //                    UserDefaults.standard.set("\(name) \(surname)", forKey: "fullname")
 //                    UserDefaults.standard.set("Рубли", forKey: "value")
-                    StorageManager.shared.uploadPicture(with: data, fileName: filename, userName: email, completion: { result in
+                    StorageManager.shared.uploadPicture(with: data, location: "usersProfileImages",fileName: filename, userName: email, completion: { result in
                             switch result {
                             case .success(let downloadUrl):
                                 UserDefaults.standard.set(downloadUrl, forKey: "pictureURL")
@@ -206,8 +207,8 @@ class AuthorizationViewController: UIViewController {
 //                    case .some(_):
 //                        break
 //                    }
-                    
-                    let docRef = self?.db.collection("users").document(email)
+                    let uid = String(authResult?.user.uid ?? "0")
+                    let docRef = self?.db.collection("users").document(uid)
                     docRef?.getDocument { (document, error) in
                         if let document = document, document.exists {
                             guard let docdata = document.data() else {return}
@@ -217,6 +218,7 @@ class AuthorizationViewController: UIViewController {
                             let fullname: String = "\(name) \(surname)"
                             UserDefaults.standard.set(email, forKey: "email")
                             UserDefaults.standard.set(fullname, forKey: "fullname")
+                            UserDefaults.standard.set(uid, forKey: "MyUID")
                             UserDefaults.standard.set("Рубли", forKey: "value")
                             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateFullData"), object: nil)
                         }

@@ -58,11 +58,10 @@ class ConversationTableViewCell: UITableViewCell {
                                         height: (contentView.height-20)/2)
     }
 
-    func configure(with model: LatestMessage) {
-        userMessageLabel.text = model.message
-        userNameLabel.text = model.conversationNameOwner
-        let email = model.conversationNameOwner
-        StorageManager.shared.downloadURL(for: email, completion: { [weak self] result in
+    func configure(userLogin: String, message: String) {
+        userMessageLabel.text = message
+        userNameLabel.text = userLogin
+        StorageManager.shared.downloadURL(for: userLogin, completion: { [weak self] result in
             switch result {
             case .success(let url):
                 DispatchQueue.main.async {
