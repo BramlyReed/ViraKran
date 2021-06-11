@@ -58,9 +58,10 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
                 StorageManager.shared.downloadURL(for: email, completion: { [weak self] result in
                     switch result {
                     case .success(let url):
+                        print("Successfuly changed ", url)
                         cell.configure(with: "\(url)")
                     case .failure(let error):
-                        print("\(error)")
+                        print("nytt \(error)")
                     }
                 })
             }

@@ -26,7 +26,7 @@ class StorageManager{
                 print("failed to upload data to firebase for picture")
                 return
             }
-            strongSelf.storage.child("userImages/\(userName)/\(fileName)").downloadURL(completion: { url, error in
+            strongSelf.storage.child("\(location)/\(userName)/\(fileName)").downloadURL(completion: { url, error in
                 guard let url = url else {
                     print("Failed to get download url")
                     return
