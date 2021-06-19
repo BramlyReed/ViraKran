@@ -45,30 +45,28 @@ class PhotoCarouselTableViewCell: UITableViewCell, UICollectionViewDelegate, UIC
         let chosenNewsId = UserDefaults.standard.string(forKey: "chosenNewsId") ?? "Guest1"
 
         if chosenCatId != "Guest1" && choseneqId != "Guest1"{
-            print(chosenCatId)
-            print(choseneqId)
             let objects = realm.objects(Equipment.self).filter("catId == %@ && eqId == %@", chosenCatId, choseneqId)
             var tmpObject: [Equipment] = []
-                if objects.count != 0{
-                    for item in objects{
-                        tmpObject.append(item)
-                    }
-                    for img in tmpObject.last!.image_links{
-                        images.append(img.link)
-                    }
+            if objects.count != 0{
+                for item in objects{
+                    tmpObject.append(item)
                 }
+                for img in tmpObject.last!.image_links{
+                    images.append(img.link)
+                }
+            }
         }
         else if chosenNewsId != "Guest1"{
             let objects = realm.objects(NewsModel.self).filter("id == %@", chosenNewsId)
             var tmpObject: [NewsModel] = []
-                if objects.count != 0{
-                    for item in objects{
-                        tmpObject.append(item)
-                    }
-                    for img in tmpObject.last!.image_links{
-                        images.append(img.link)
-                    }
+            if objects.count != 0{
+                for item in objects{
+                    tmpObject.append(item)
                 }
+                for img in tmpObject.last!.image_links{
+                    images.append(img.link)
+                }
+            }
         }
         if #available(iOS 13.0, *) {
             contentView.backgroundColor = .systemBackground
@@ -106,7 +104,6 @@ class PhotoCarouselTableViewCell: UITableViewCell, UICollectionViewDelegate, UIC
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("tap number ", indexPath.item)
         UserDefaults.standard.set(images[indexPath.item], forKey: "pictureURLforFull")
         delegate?.showPicture()
     }

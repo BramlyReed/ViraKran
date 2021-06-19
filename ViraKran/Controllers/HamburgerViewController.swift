@@ -57,18 +57,23 @@ class HamburgerViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     //MARK: Открыть ProfileViewController
     @IBAction func showProfileViewController(_ sender: Any) {
-        let vc = ProfileViewController()
-        vc.title = "Ваш профиль"
-        let nav = UINavigationController(rootViewController: vc)
-        nav.modalPresentationStyle = .fullScreen
-        present(nav,animated:true)
+        let userLogin = UserDefaults.standard.string(forKey: "email") ?? "Guest"
+        if userLogin != "Guest"{
+            let vc = ProfileViewController()
+            vc.title = "Ваш профиль"
+            let nav = UINavigationController(rootViewController: vc)
+            nav.modalPresentationStyle = .fullScreen
+            present(nav,animated:true)
+        }
+        else{
+            showAlert(message: "Войдите в свой аккаунт")
+        }
     }
     
     // MARK:Открыть чаты (если администратор) или чат (если обычный пользователь)
 
     @IBAction func showConversation(_ sender: Any) {
         let userLogin = UserDefaults.standard.string(forKey: "email") ?? "Guest"
-        
         if userLogin == "vira-kran74@mail.ru"{
             let vc = ConversationsViewController()
             vc.title = "Чаты"
@@ -76,26 +81,29 @@ class HamburgerViewController: UIViewController, UIGestureRecognizerDelegate {
             nav.modalPresentationStyle = .fullScreen
             present(nav,animated:true)
         }
-        else{
+        else if userLogin != "Guest"{
             let vc = ChatViewController()
             let nav = UINavigationController(rootViewController: vc)
-            nav.modalPresentationStyle = .fullScreen
-            present(nav,animated:true)
+            nav.modalPresentationStyle = .currentContext
+            present(nav,animated: true)
+        }
+        else{
+            showAlert(message: "Войдите в свой аккаунт")
         }
     }
     
     // MARK:Открыть ProfileViewController
     @IBAction func didTapButton(){
-        
-        showProfileViewController((Any).self)
+        let userLogin = UserDefaults.standard.string(forKey: "email") ?? "Guest"
+        if userLogin != "Guest"{
+            showProfileViewController((Any).self)
+        }
+        else{
+            showAlert(message: "Войдите в свой аккаунт")
+        }
     }
     
-    @objc func closeChatViewController() {
-        print("CLOSE1")
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    // MARK:Выход из аккаунта и удаление всех персональных данных из UserDefaults и Real
+    // MARK:Выход из аккаунта и удаление всех персональных данных из UserDefaults и Realm
     
     @IBAction func logOut(_ sender: Any) {
         do{
@@ -116,7 +124,6 @@ class HamburgerViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         catch{
             showAlert(message: "Ошибка при выходе из аккаунта")
-            print("Can't sign out!")
         }
     }
     //MARK: Открыть FavoriteViewController

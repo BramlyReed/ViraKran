@@ -41,7 +41,6 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         let table = UITableView()
         table.register(UITableViewCell.self, forCellReuseIdentifier: "ProductCell")
         table.register(PhotoCarouselTableViewCell.self, forCellReuseIdentifier: PhotoCarouselTableViewCell.identifier)
-        //table.register(ParametersTableViewCell.self, forCellReuseIdentifier: ParametersTableViewCell.identifier)
         table.register(ParametersTableViewCell.nib(), forCellReuseIdentifier: "ParametersCell")
         return table
     }()
@@ -146,7 +145,6 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "ParametersCell", for: indexPath) as? ParametersTableViewCell else{
                 fatalError()
             }
-            //cell.configure(with: viewModels[indexPath.row])
             cell.title.text = viewModels[indexPath.row].title
             cell.value.text = viewModels[indexPath.row].value
             return cell
@@ -185,8 +183,6 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
             amount = String(format: "%.2f",(valueAmountEUR * baseAmountInRub))
             amount = formatter.string(for: Double(amount))!
             amountValue = "EUR"
-            print(valueAmountEUR)
-            print(baseAmountInRub)
         }
         else if value == "Доллары"{
             amount = String(format: "%.2f",(valueAmountUSD * baseAmountInRub))
@@ -232,7 +228,6 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
         present(alert, animated: true, completion: nil)
     }
     @objc func closeViewController() {
-        print("CLOSE")
         UserDefaults.standard.removeObject(forKey: "isFavorite?")
         UserDefaults.standard.removeObject(forKey: "eqId")
         self.dismiss(animated: true, completion: nil)
@@ -323,7 +318,6 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
                     self.showAlert(message: "Ошибка при удалении объекта, повторите позже")
                     print("Error removing document: \(err)")
                 } else {
-                    print("Document successfully removed!")
                     let object = self.realm.objects(FavoriteEquipment.self).filter("catId == %@ && eqId == %@", chosenCatId, choseneqId)
                     if object.count != 0{
                         try! self.realm.write {
@@ -331,7 +325,6 @@ class ProductViewController: UIViewController, UITableViewDelegate, UITableViewD
                         }
                     }
                     self.closeViewController()
-                    print("sentNotification")
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateFavoriteCollection"), object: nil)
                 }
             }

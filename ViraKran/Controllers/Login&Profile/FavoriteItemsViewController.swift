@@ -69,8 +69,6 @@ class FavoriteItemsViewController: UIViewController, UICollectionViewDelegate, U
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         UserDefaults.standard.set(String(storedObjects[indexPath.item].eqId), forKey: "eqId")
         UserDefaults.standard.set(String(storedObjects[indexPath.item].catId), forKey: "catId")
-        print("catID ", storedObjects[indexPath.item].catId)
-        print("eqID ", storedObjects[indexPath.item].eqId)
         UserDefaults.standard.set("true", forKey: "isFavorite?")
         let object = realm.objects(Equipment.self).filter("catId == %@ && eqId == %@", storedObjects[indexPath.item].catId, storedObjects[indexPath.item].eqId)
         let myViewController = storyboard?.instantiateViewController(withIdentifier: "ProductViewController") as? ProductViewController
@@ -84,8 +82,7 @@ class FavoriteItemsViewController: UIViewController, UICollectionViewDelegate, U
     //MARK: заполнение массива данными с сохраненными товарами
     func configure(){
         let objects = realm.objects(FavoriteEquipment.self)
-        print(objects)
-        self.storedObjects = []
+        self.storedObjects.removeAll()
         if objects.count != 0{
             for item in objects{
                 self.storedObjects.append(item)
@@ -105,11 +102,9 @@ class FavoriteItemsViewController: UIViewController, UICollectionViewDelegate, U
                 print("Error getting documents: \(err)")
             } else {
                 let objects = self.realm.objects(FavoriteEquipment.self)
-                print("first ", objects)
                 if objects.count != 0{
                     try! self.realm.write {
                         self.realm.delete(objects)
-                        print("success")
                     }
                 }
                 for document in querySnapshot!.documents {
@@ -118,9 +113,7 @@ class FavoriteItemsViewController: UIViewController, UICollectionViewDelegate, U
                     tmpObject.catId = docdata["catId"] as? String ?? ""
                     tmpObject.eqId = docdata["eqId"] as? String ?? ""
                     try! self.realm.write{
-                        print("tmpObject ", tmpObject)
                         self.realm.add(tmpObject)
-                        print("added")
                     }
                 }
                 self.configure()
@@ -128,12 +121,10 @@ class FavoriteItemsViewController: UIViewController, UICollectionViewDelegate, U
         }
     }
     @objc func updateCollection(){
-        print("GotNotification")
         self.configure()
     }
     
     @objc func closeViewController() {
-        print("CLOSE")
         DatabaseManager.shared.removeListener()
         self.dismiss(animated: true, completion: nil)
     }

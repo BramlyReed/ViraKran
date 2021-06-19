@@ -12,13 +12,13 @@ import RealmSwift
 class CategoryEquipmentViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var data: [Equipment] = []
+    var canceldata: [Equipment] = []
     let realm = try! Realm()
     @IBOutlet weak var cardTableView: UITableView!
     var actionButton = JJFloatingActionButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("ViewDidLoad")
         NotificationCenter.default.addObserver(self, selector: #selector(updateFullTableView), name: NSNotification.Name(rawValue: "updateCategoryList"), object: nil)
         self.data.removeAll()
         //MARK: выбор объектов из Realm с соответствующей категорией
@@ -29,18 +29,19 @@ class CategoryEquipmentViewController: UIViewController, UITableViewDelegate, UI
         if objects.count != 0{
             for item in objects{
                 self.data.append(item)
+                self.canceldata.append(item)
             }
         }
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Назад",
                                                             style: .done,
                                                             target: self,
-                                                            action: #selector(closeChatViewController))
+                                                            action: #selector(closeViewController))
         //MARK: Кнопки с сортировками
         let item0 = actionButton.addItem()
         item0.titleLabel.text = "Отменить сортировку"
         item0.imageView.image = UIImage(named: "cancel")
         item0.action = { item in
-            //self.sortPage(type: "year")
+            self.sortPage(type: "cancel")
         }
         let item1 = actionButton.addItem()
         item1.titleLabel.text = "По году выпуска"
@@ -52,13 +53,13 @@ class CategoryEquipmentViewController: UIViewController, UITableViewDelegate, UI
         item2.titleLabel.text = "По наибольшей стоимости"
         item2.imageView.image = UIImage(named: "sort")
         item2.action = { item in
-            self.sortPage(type: "cost")
+            self.sortPage(type: "highcost")
         }
         let item3 = actionButton.addItem()
         item3.titleLabel.text = "По наименьшей стоимости"
         item3.imageView.image = UIImage(named: "sortlow")
         item3.action = { item in
-            self.sortPage(type: "cost")
+            self.sortPage(type: "lowcost")
         }
         let item4 = actionButton.addItem()
         item4.titleLabel.text = "По названию"
@@ -99,13 +100,27 @@ class CategoryEquipmentViewController: UIViewController, UITableViewDelegate, UI
         if type == "year"{
             self.data = data.sorted(by: { Int($0.year)! > Int($1.year)! })
         }
-        else if type == "cost"{
+        else if type == "lowcost"{
+            self.data = data.sorted(by: { Double($0.cost)! < Double($1.cost)! })
+
+        }
+        else if type == "highcost"{
             self.data = data.sorted(by: { Double($0.cost)! > Double($1.cost)! })
 
         }
         else if type == "name"{
+            self.data = data.sorted(by: { $0.title.lowercased() < $1.title.lowercased() })
+
+        }
+        else if type == "name"{
+            
             self.data = data.sorted(by: { $0.title > $1.title })
 
+        }
+        else if type == "cancel"{
+            if canceldata.count != 0{
+                self.data = self.canceldata
+            }
         }
         DispatchQueue.main.async {
             self.cardTableView.reloadData()
@@ -118,8 +133,10 @@ class CategoryEquipmentViewController: UIViewController, UITableViewDelegate, UI
         let objects = realm.objects(Equipment.self).filter("catId == %@", chosenCatId)
         if objects.count != 0{
             self.data.removeAll()
+            self.canceldata.removeAll()
             for item in objects{
                 self.data.append(item)
+                self.canceldata.append(item)
             }
             DispatchQueue.main.async {
                 self.cardTableView.reloadData()
@@ -127,8 +144,7 @@ class CategoryEquipmentViewController: UIViewController, UITableViewDelegate, UI
         }
     }
     
-    @objc func closeChatViewController() {
-        print("CLOSE")
+    @objc func closeViewController() {
         DatabaseManager.shared.removeListener()
         UserDefaults.standard.removeObject(forKey: "catId")
         self.dismiss(animated: true, completion: nil)

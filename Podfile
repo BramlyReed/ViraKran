@@ -10,13 +10,10 @@ target 'ViraKran' do
   pod 'Firebase/Auth'
   pod 'Firebase/Core'
   pod 'Firebase/Firestore'
-  pod 'Firebase/Database'
   pod 'Firebase/Storage'
   pod 'MessageKit', '~>3.3.0'
-  pod 'CardSlider'
   pod 'JGProgressHUD'
   pod 'RealmSwift'
   pod 'SDWebImage'
   pod 'JJFloatingActionButton'
-  pod 'BulletinBoard'
 end

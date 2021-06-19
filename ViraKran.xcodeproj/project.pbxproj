@@ -44,6 +44,9 @@
 		855F744025D12E7B009A6183 /* NewsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855F743F25D12E7B009A6183 /* NewsModel.swift */; };
 		855F746925D4745A009A6183 /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855F746825D4745A009A6183 /* NewsCell.swift */; };
 		855F746E25D48860009A6183 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 855F746D25D48860009A6183 /* GoogleService-Info.plist */; };
+		85628904267C0E200074FB9C /* TextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85628903267C0E200074FB9C /* TextViewController.swift */; };
+		8562893B267D231D0074FB9C /* Privacy.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8562893A267D231D0074FB9C /* Privacy.txt */; };
+		8562894C267DE88B0074FB9C /* ProfileTableViewCellName.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8562894B267DE88B0074FB9C /* ProfileTableViewCellName.xib */; };
 		8563449F264B2A8D00C233CA /* Equipment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8563449E264B2A8D00C233CA /* Equipment.swift */; };
 		85634525265117C300C233CA /* CatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85634524265117C300C233CA /* CatalogViewController.swift */; };
 		8563452D265118CE00C233CA /* CatalogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8563452C265118CE00C233CA /* CatalogCell.swift */; };
@@ -119,6 +122,9 @@
 		855F743F25D12E7B009A6183 /* NewsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsModel.swift; sourceTree = "<group>"; };
 		855F746825D4745A009A6183 /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
 		855F746D25D48860009A6183 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		85628903267C0E200074FB9C /* TextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewController.swift; sourceTree = "<group>"; };
+		8562893A267D231D0074FB9C /* Privacy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Privacy.txt; sourceTree = SOURCE_ROOT; };
+		8562894B267DE88B0074FB9C /* ProfileTableViewCellName.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileTableViewCellName.xib; sourceTree = "<group>"; };
 		8563449E264B2A8D00C233CA /* Equipment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Equipment.swift; sourceTree = "<group>"; };
 		85634524265117C300C233CA /* CatalogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogViewController.swift; sourceTree = "<group>"; };
 		8563452C265118CE00C233CA /* CatalogCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogCell.swift; sourceTree = "<group>"; };
@@ -229,6 +235,7 @@
 				853A13A326590D81002BA2F0 /* ProfileTableViewCellImage.swift */,
 				853A145F265A4FD8002BA2F0 /* FavoriteCell.xib */,
 				853A1464265A5021002BA2F0 /* FavoriteCollectionViewCell.swift */,
+				8562894B267DE88B0074FB9C /* ProfileTableViewCellName.xib */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -266,6 +273,8 @@
 				8540FA8425ECEF900096BAA5 /* Login&Profile */,
 				85D780EC25E78E20000D8D35 /* HamburgerViewController.swift */,
 				8540FA7025ECE1940096BAA5 /* PhotoViewController.swift */,
+				85628903267C0E200074FB9C /* TextViewController.swift */,
+				8562893A267D231D0074FB9C /* Privacy.txt */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -489,10 +498,12 @@
 				855F73F225CEF049009A6183 /* LaunchScreen.storyboard in Resources */,
 				853A13BC26591A05002BA2F0 /* ProfileTableViewCellImage.xib in Resources */,
 				855F746E25D48860009A6183 /* GoogleService-Info.plist in Resources */,
+				8562893B267D231D0074FB9C /* Privacy.txt in Resources */,
 				855F73EF25CEF049009A6183 /* Assets.xcassets in Resources */,
 				855F73ED25CEF047009A6183 /* Main.storyboard in Resources */,
 				853A13C126592149002BA2F0 /* PostTableViewCell.xib in Resources */,
 				853A1460265A4FD8002BA2F0 /* FavoriteCell.xib in Resources */,
+				8562894C267DE88B0074FB9C /* ProfileTableViewCellName.xib in Resources */,
 				853A151B266A3D9F002BA2F0 /* ParametersCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -595,6 +606,7 @@
 				8540FB2C26000CFC0096BAA5 /* Message.swift in Sources */,
 				8563453D26524FD700C233CA /* ProductViewController.swift in Sources */,
 				8540FA7125ECE1940096BAA5 /* PhotoViewController.swift in Sources */,
+				85628904267C0E200074FB9C /* TextViewController.swift in Sources */,
 				853A1456265983E8002BA2F0 /* Comment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

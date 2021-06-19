@@ -8,14 +8,19 @@
 import UIKit
 import FirebaseFirestore
 import SDWebImage
+import Photos
+import JGProgressHUD
+
 class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     let db = Firestore.firestore()
+    let spinner = JGProgressHUD(style: .dark)
     let tableview: UITableView = {
         let table = UITableView()
         table.register(ProfileTableViewCellImage.nib(), forCellReuseIdentifier: ProfileTableViewCellImage.identifier)
         table.register(ProfileTableViewCellName.self, forCellReuseIdentifier:ProfileTableViewCellName.identifier)
         table.separatorStyle = .none
+        table.rowHeight = UITableView.automaticDimension
         return table
     }()
     var name = UserDefaults.standard.string(forKey: "fullname") ?? "Guest"
@@ -51,14 +56,13 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             let cell = tableview.dequeueReusableCell(withIdentifier: ProfileTableViewCellImage.identifier, for: indexPath) as! ProfileTableViewCellImage
             if isAdminOpenFromChats == "false"{
                 let pictureURL = UserDefaults.standard.string(forKey: "pictureURL") ?? "Guest1"
-                print("New picture ", pictureURL)
                 cell.configure(with: pictureURL)
             }
             else{
                 StorageManager.shared.downloadURL(for: email, completion: { [weak self] result in
                     switch result {
                     case .success(let url):
-                        print("Successfuly changed ", url)
+                        print("")
                         cell.configure(with: "\(url)")
                     case .failure(let error):
                         print("nytt \(error)")
@@ -70,6 +74,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         if indexPath.item == 1{
             let cell = tableview.dequeueReusableCell(withIdentifier: ProfileTableViewCellName.identifier, for: indexPath) as! ProfileTableViewCellName
             cell.textLabel?.font.withSize(20.0)
+            cell.textLabel?.numberOfLines = 0
             if isAdminOpenFromChats == "false"{
                 cell.textLabel?.text = "Имя: \(name)"
             }
@@ -93,6 +98,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             let cell = tableview.dequeueReusableCell(withIdentifier: ProfileTableViewCellName.identifier, for: indexPath) as! ProfileTableViewCellName
             cell.textLabel?.font.withSize(20.0)
             cell.textLabel?.text = "email: \(email)"
+            cell.textLabel?.numberOfLines = 0
             return cell
         }
         let value = UserDefaults.standard.string(forKey: "value") ?? "Guest"
@@ -108,7 +114,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isAdminOpenFromChats != "true"{
             if indexPath.item == 0{
-                print("TRUE")
                 presentPhotoActionSheet()
             }
             else if indexPath.item == 3{
@@ -170,26 +175,64 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         present(vc, animated: true)
     }
     func presentPhotoPicker() {
-        let vc = UIImagePickerController()
-        vc.sourceType = .photoLibrary
-        vc.delegate = self
-        vc.allowsEditing = true
-        present(vc, animated: true)
+        self.checkPermissions()
     }
+    func checkPermissions() {
+        if PHPhotoLibrary.authorizationStatus() != PHAuthorizationStatus.authorized {
+            PHPhotoLibrary.requestAuthorization({ (status: PHAuthorizationStatus) -> Void in ()
+            })
+            
+        }
+
+        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
+            let vc = UIImagePickerController()
+            vc.sourceType = .photoLibrary
+            vc.delegate = self
+            vc.allowsEditing = true
+            present(vc, animated: true)
+        } else {
+            PHPhotoLibrary
+                .requestAuthorization(requestAuthorizationHandler)
+        }
+    }
+    func requestAuthorizationHandler(status: PHAuthorizationStatus) {
+        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
+            let vc = UIImagePickerController()
+            vc.sourceType = .photoLibrary
+            vc.delegate = self
+            vc.allowsEditing = true
+            present(vc, animated: true)
+        } else {
+            DispatchQueue.main.async {
+                self.showAlert(title: "Ошибка", message: "Нет доступа")
+            }
+        }
+    }
+    
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
     //MARK: Перезапись нового изображения профиля на место старого по тому же имени
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true, completion: nil)
-        print(info)
-        guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage, let data = selectedImage.pngData() else { return }
+        spinner.show(in: view)
+        guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage, let data = selectedImage.pngData() else {
+            spinner.dismiss()
+            return
+        }
         let filename = "\(email).profile_picture.png"
         StorageManager.shared.uploadPicture(with: data, location: "usersProfileImages", fileName: filename, userName: email, completion: { result in
                 switch result {
                 case .success(let downloadUrl):
                     UserDefaults.standard.set("\(downloadUrl)", forKey: "pictureURL")
-                    print("Download ",downloadUrl)
+                    self.spinner.dismiss()
                     self.updateTable()
                 
                 case .failure(let error):
+                    self.spinner.dismiss()
                     print("Storage manager error: \(error)")
                 }
             })

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Photos
 import MessageKit
 import Firebase
 import InputBarAccessoryView
@@ -27,12 +28,15 @@ class ChatViewController: MessagesViewController {
     var chosenUserUID = ""
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("viewDidLoad")
         userLogin = UserDefaults.standard.string(forKey: "email") ?? "Guest"
         myUID = UserDefaults.standard.string(forKey: "MyUID") ?? "Guest"
         chosenUserLogin = UserDefaults.standard.string(forKey: "chosenUserLogin") ?? "Guest"
         chosenUserUID = UserDefaults.standard.string(forKey: "chosenUser") ?? "Guest"
         messageInputBar.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(kbWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        addTapGestureToHideKeyboard()
+        NotificationCenter.default.addObserver(self, selector: #selector(kbWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
     //MARK: настройка selfSender и otherSender
         if userLogin != "vira-kran74@mail.ru"{
             selfSender = Sender(photoURL: photoURL, senderId: "2", displayName: userLogin)
@@ -53,7 +57,6 @@ class ChatViewController: MessagesViewController {
                                                             style: .done,
                                                             target: self,
                                                             action: #selector(closeChatViewController))
-        
         let button = InputBarButtonItem()
         button.setSize(CGSize(width: 35, height: 35), animated: false)
         button.setImage(UIImage(named: "imageplane"), for: .normal)
@@ -69,17 +72,31 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.delegate = self
         let gesture = UITapGestureRecognizer(target: self,
                                              action: #selector(didTap))
-        //messagesCollectionView.addGestureRecognizer(gesture)
-
+        gesture.numberOfTapsRequired = 2
+        messagesCollectionView.addGestureRecognizer(gesture)
+        
     }
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
+    // MARK: Keyboard
+    //remove notifications when controller's out
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    func addTapGestureToHideKeyboard() {
+        let tapGesture = UITapGestureRecognizer(target: view, action: #selector(view.endEditing))
+        view.addGestureRecognizer(tapGesture)
+    }
+    @objc func kbWillShow(notification: Notification){
+        messagesCollectionView.scrollToLastItem()
+    }
+    @objc func kbWillHide(notification: Notification){
+        messagesCollectionView.contentInset.bottom = .zero
     }
     @objc func didTap(){
         self.messageInputBar.inputTextView.resignFirstResponder()
     }
     @objc func closeChatViewController() {
-        self.messages = []
+        self.messages.removeAll()
         self.messagesCollectionView.reloadData()
         if listener != nil{
             listener!.remove()
@@ -109,10 +126,9 @@ class ChatViewController: MessagesViewController {
 extension ChatViewController{
 //MARK: получение всех сообщений (документов) из коллекции пользователя по uid
     func getAllMessagesByUser(userUID: String){
-        self.messages = []
+        self.messages.removeAll()
         listener = db.collection("users/\(userUID)/conversations").addSnapshotListener{[weak self] (querySnapshot, error) in guard querySnapshot != nil else { return }
-            self!.messages = []
-            print("Fresh meat")
+            self!.messages.removeAll()
         for document in (querySnapshot!.documents){
             let documents_data = document.data()
             let messageID = String(document.documentID)
@@ -213,7 +229,6 @@ extension ChatViewController: MessagesDataSource, MessagesLayoutDelegate, Messag
         else {
     //MARK: Адресат переписки, скачивание ссылки на изображение профиля
             var email = chosenUserLogin
-            //print("chosenUser ", chosenUserLogin)
             if chosenUserLogin == "Guest" || chosenUserLogin == ""{
                 email = "vira-kran74@mail.ru"
             }
@@ -268,16 +283,47 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
         present(vc, animated: true)
     }
     func presentPhotoPicker() {
-        let vc = UIImagePickerController()
-        vc.sourceType = .photoLibrary
-        vc.delegate = self
-        vc.allowsEditing = true
-        present(vc, animated: true)
+        self.checkPermissions()
     }
+    func checkPermissions() {
+        if PHPhotoLibrary.authorizationStatus() != PHAuthorizationStatus.authorized {
+            PHPhotoLibrary.requestAuthorization({ (status: PHAuthorizationStatus) -> Void in ()
+            })
+        }
+        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
+            let vc = UIImagePickerController()
+            vc.sourceType = .photoLibrary
+            vc.delegate = self
+            vc.allowsEditing = true
+            present(vc, animated: true)
+        } else {
+            PHPhotoLibrary
+                .requestAuthorization(requestAuthorizationHandler)
+        }
+    }
+    func requestAuthorizationHandler(status: PHAuthorizationStatus) {
+        if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
+            let vc = UIImagePickerController()
+            vc.sourceType = .photoLibrary
+            vc.delegate = self
+            vc.allowsEditing = true
+            present(vc, animated: true)
+        } else {
+            DispatchQueue.main.async {
+                self.showAlert(title: "Ошибка", message: "Нет доступа")
+            }
+        }
+    }
+    
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
     //MARK: загрузка изображения в Storage, скачивание ссылки этого изображения
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true, completion: nil)
-        //print(info)
         guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage, let data = selectedImage.pngData() else { return }
         var uid = ""
         if userLogin == "vira-kran74@mail.ru"{
@@ -338,9 +384,7 @@ extension ChatViewController: MessageCellDelegate {
         guard let indexPath = messagesCollectionView.indexPath(for: cell) else {
             return
         }
-
         let message = messages[indexPath.section]
-
         switch message.kind {
         case .photo(let media):
             guard let imageUrl = media.url else {

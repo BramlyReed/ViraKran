@@ -8,7 +8,6 @@
 import Foundation
 import Firebase
 import FirebaseFirestore
-import FirebaseDatabase
 import FirebaseStorage
 import RealmSwift
 
@@ -134,7 +133,6 @@ final class DatabaseManager{
         let year = documents_data["year"] as? Int ?? 0
         let location = documents_data["location"] as? String ?? "nil"
         self.insertEquipment(eqid: eqId, catid: catId, imageStorage: imageLinks, textInfo: textInfo, title: title, cost: cost, year: year, eq_char: eqCharacteristic, location: location)
-    
     }
     
     //MARK: запись новости в БД

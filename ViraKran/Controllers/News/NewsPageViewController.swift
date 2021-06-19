@@ -14,7 +14,7 @@ import FirebaseFirestore
 enum SectionTypeForNews {
     case newsPhotos
     case newsInfo(viewModels: [TextCellViewmodel])
-    }
+}
 
 class NewsPageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MyCollectionCellDelegate{
     let realm = try! Realm()
@@ -60,11 +60,6 @@ class NewsPageViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        let SectionTypeForNews = sections[section]
-//        return "NAME"
-//    }
-        
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let SectionTypeForNews = sections[indexPath.section]
         switch SectionTypeForNews{
@@ -94,7 +89,6 @@ class NewsPageViewController: UIViewController, UITableViewDelegate, UITableView
     //MARK: настройка секций в соответствии с данными из о новости из Realm
     func configureSections(){
         let chosenNewsId = UserDefaults.standard.string(forKey: "chosenNewsId") ?? "Guest1"
-        print("NewsID ", chosenNewsId)
         let objects = realm.objects(NewsModel.self).filter("id == %@", chosenNewsId)
         if objects.count != 0{
             let tmpObject = objects[0]
@@ -130,17 +124,8 @@ class NewsPageViewController: UIViewController, UITableViewDelegate, UITableView
         present(alert, animated: true, completion: nil)
     }
     @objc func closeViewController() {
-        print("CLOSE")
         UserDefaults.standard.removeObject(forKey: "chosenNewsId")
         self.dismiss(animated: true, completion: nil)
     }
 }
- 
-//extension UITableViewCell {
-//    func configure(with viewModel: TextCellViewmodel){
-//        textLabel?.text = viewModel.text
-//        textLabel?.numberOfLines = 0
-//        textLabel?.font = viewModel.font
-//    }
-//}
 

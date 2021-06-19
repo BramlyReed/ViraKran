@@ -8,7 +8,6 @@
 import UIKit
 import Firebase
 import FirebaseFirestore
-import FirebaseDatabase
 import RealmSwift
 
 class MainController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -21,7 +20,6 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var leadingConstrForSlideMenu: NSLayoutConstraint!
     @IBOutlet weak var SlideMenu: UIView!
-    
     @IBOutlet weak var backgroundForSlideMenu: UIView!
     
     override func viewDidLoad() {
@@ -42,6 +40,8 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
         DatabaseManager.shared.getInfoAboutCurrencies()
         self.backgroundForSlideMenu.isHidden = true
         self.SlideMenu.isHidden = true
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureAction(_:)))
+        view.addGestureRecognizer(panGesture)
     }
     //MARK: Запрос данных из Realm (если нет соединения, то будут отображены сохраненные данные
     func getFromRealmData(){
@@ -62,7 +62,6 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewWillDisappear(animated)
         listener?.remove()
     }
-    
     func setupNavigationBar(){
         let imageView = UIImageView()
         imageView.image = UIImage(named: "logo")
@@ -107,7 +106,6 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
         
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewsCell", for: indexPath) as? NewsCell
         let tmp = NewsArray[indexPath.item]
         let tmpImage = tmp.image_links[0].link
@@ -116,7 +114,6 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     //MARK: здесь будет переход на экран с выбранной новостью
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("User touched on \(indexPath.item) row")
         UserDefaults.standard.set("\(NewsArray[indexPath.item].id)", forKey: "chosenNewsId")
         let mainstoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let newViewcontroller:UIViewController = mainstoryboard.instantiateViewController(withIdentifier: "NewsPageViewController") as! NewsPageViewController
@@ -132,23 +129,23 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
                 self.view.layoutIfNeeded()
             }
             self.navigationItem.titleView?.isHidden = true
-
             self.SlideMenu.isHidden = false
             self.backgroundForSlideMenu.isHidden = false
             self.backgroundForSlideMenu.alpha = 0.35
             self.isSlideMenuShown = true
         }
+        else{
+            hideSlideMenu((Any).self)
+        }
     }
     @IBAction func hideSlideMenu(_ sender: Any) {
-        print(isSlideMenuShown)
     if (isSlideMenuShown == true){
-        print("true")
-        isSlideMenuShown = false
         self.backgroundForSlideMenu.alpha = 0.0
         UIView.animate(withDuration: 0.25) {
             self.leadingConstrForSlideMenu.constant = -240
             self.view.layoutIfNeeded()
         }
+        isSlideMenuShown = false
         self.navigationItem.titleView?.isHidden = false
         self.backgroundForSlideMenu.isHidden = true
         self.isSlideMenuShown = false
@@ -156,10 +153,8 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     //MARK: открыть экран с регистрацией/авторизацией
     @IBAction func didTapRegistration(_ sender: Any) {
-        print("TAP")
         let userLogin = UserDefaults.standard.string(forKey: "email") ?? "Guest"
         if userLogin != "Guest"{
-            print("UserLogin")
             showAlert(message: "Вы уже авторизовались в системе")
         }
         
@@ -170,26 +165,60 @@ class MainController: UIViewController, UITableViewDataSource, UITableViewDelega
         present(alert, animated: true, completion: nil)
     }
     //MARK: открытие бокового меню и чатов по свайпам
-    @IBAction func swipeToShowSlideMenu(_ sender: Any) {
-        showSlideMenu((Any).self)
-    }
     
-    @IBAction func swipeToShowConversations(_ sender: Any) {
-        print("SWIPE")
-        let userLogin = UserDefaults.standard.string(forKey: "email") ?? "Guest"
-        print(userLogin)
-        if userLogin == "vira-kran74@mail.ru"{
-            let vc = ConversationsViewController()
-            vc.title = "Чаты"
-            let nav = UINavigationController(rootViewController: vc)
-            nav.modalPresentationStyle = .fullScreen
-            present(nav,animated:true)
+    @objc func panGestureAction(_ sender: UIPanGestureRecognizer) {
+        if sender.state == .began || sender.state == .changed{
+            let translation = sender.translation(in: self.view).x
+            if translation > 0 { //swipe right
+                if leadingConstrForSlideMenu.constant < 20 {
+                    UIView.animate(withDuration: 0.1, animations: {
+                        self.leadingConstrForSlideMenu.constant += translation / 10
+                        self.view.layoutIfNeeded()
+                    })
+                    self.navigationItem.titleView?.isHidden = true
+                    self.SlideMenu.isHidden = false
+                    self.backgroundForSlideMenu.isHidden = false
+                    self.backgroundForSlideMenu.alpha = 0.35
+                    self.isSlideMenuShown = true
+                }
+            }
+            else{//swipe left
+                if leadingConstrForSlideMenu.constant > -240 {
+                    UIView.animate(withDuration: 0.1, animations: {
+                        self.leadingConstrForSlideMenu.constant += translation / 10
+                        self.view.layoutIfNeeded()
+                    })
+                    isSlideMenuShown = false
+                    self.navigationItem.titleView?.isHidden = false
+                    self.backgroundForSlideMenu.isHidden = true
+                    self.isSlideMenuShown = false
+                }
+            }
         }
-        else{
-            let vc = ChatViewController()
-            let nav = UINavigationController(rootViewController: vc)
-            nav.modalPresentationStyle = .fullScreen
-            present(nav,animated:true)
+        else if sender.state == .ended{
+            if leadingConstrForSlideMenu.constant < -150 {
+                UIView.animate(withDuration: 0.1, animations: {
+                    self.leadingConstrForSlideMenu.constant = -240
+                    self.view.layoutIfNeeded()
+                })
+                
+                isSlideMenuShown = false
+                                self.navigationItem.titleView?.isHidden = false
+                                self.backgroundForSlideMenu.isHidden = true
+                                self.isSlideMenuShown = false
+                
+            }
+            else {
+                UIView.animate(withDuration: 0.1, animations: {
+                    self.leadingConstrForSlideMenu.constant = 0
+                    self.view.layoutIfNeeded()
+                })
+                self.navigationItem.titleView?.isHidden = true
+                                self.SlideMenu.isHidden = false
+                                self.backgroundForSlideMenu.isHidden = false
+                                self.backgroundForSlideMenu.alpha = 0.35
+                                self.isSlideMenuShown = true
+            }
         }
     }
 }

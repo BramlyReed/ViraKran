@@ -74,12 +74,11 @@ class SearchConversationViewController: UIViewController, UITableViewDelegate, U
     }
     //MARK: открытие чата с выбранным пользователем
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let userName = UserDefaults.standard.string(forKey: "fullname") ?? "Guest"
-        print(userName)
         let vc = ChatViewController()
         let tmpValue = latestMessages[indexPath.item].conversationNameOwner
-        print(tmpValue)
-        UserDefaults.standard.set(tmpValue, forKey: "chosenUser")
+        let tmpValue1 = latestMessages[indexPath.item].conversationUIDOwner
+        UserDefaults.standard.set(tmpValue, forKey: "chosenUserLogin")
+        UserDefaults.standard.set(tmpValue1, forKey: "chosenUser")
         vc.title = tmpValue
         let nav = UINavigationController(rootViewController: vc)
         nav.modalPresentationStyle = .fullScreen
@@ -137,14 +136,13 @@ extension SearchConversationViewController: UISearchBarDelegate {
     func filterUsers(with term: String) {
         if usersNameBD.count != 0 {
             self.latestMessages.removeAll()
-//            self.usersNameBD = self.usersNameBD.keys.filter{$0.hasPrefix(term)}
             for userName in usersNameBD{
                 filteredData.append(userName.key)
             }
             self.filteredData = self.filteredData.filter{$0.hasPrefix(term)}
             if filteredData.count != 0{
                 for value in filteredData{
-                    let uid = self.usersNameBD[String(describing: value)] ?? "nil"
+                    let uid = self.usersNameBD[value] ?? "nil"
                     db.collection("users/\(uid)/conversations").document("lastMessage").getDocument { (document, error) in
                         if let document = document, document.exists {
                             let documents_data = document.data()

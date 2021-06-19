@@ -51,8 +51,7 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
     }
     
     @objc func closeViewController() {
-            print("CLOSE")
-            UserDefaults.standard.removeObject(forKey: "pictureURLforFull")
-            self.dismiss(animated: true, completion: nil)
-        }
+        UserDefaults.standard.removeObject(forKey: "pictureURLforFull")
+        self.dismiss(animated: true, completion: nil)
+    }
 }

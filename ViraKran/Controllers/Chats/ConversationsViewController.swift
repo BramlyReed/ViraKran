@@ -14,7 +14,6 @@ class ConversationsViewController: UIViewController {
     
     let db = Firestore.firestore()
     var usersNameBD: [String:String] = [:]
-//    var usersNameBD: [String] = []
     var usersUIDBD: [String] = []
     var latestMessages: [LatestMessage] = []
     var listener: ListenerRegistration?
@@ -70,13 +69,11 @@ class ConversationsViewController: UIViewController {
     func getAllChatsByAdmin() {
         listener = db.collection("users").addSnapshotListener{[weak self] (querySnapshot, error) in guard querySnapshot != nil else { return }
             self!.usersNameBD.removeAll()
-//            self!.usersUIDBD = []
             for document in (querySnapshot!.documents){
                 let userID = String(document.documentID)
                 let document_data = document.data()
                 let userLogin = document_data["email"] as? String ?? "nil"
                 if userLogin != "vira-kran74@mail.ru" && userLogin != "nil"{
-//                    self!.usersUIDBD.append(userID)
                     self!.usersNameBD["\(userID)"] = userLogin
                 }
             }
@@ -97,7 +94,6 @@ class ConversationsViewController: UIViewController {
                         let message = documents_data["message"] as? String ?? "nil"
                         let epocTime = TimeInterval(FirebaseDate.seconds)
                         let date = NSDate(timeIntervalSince1970: epocTime)
-                        print("index ", user.key)
                         let tmpObject = LatestMessage(date: date as Date, message: message, conversationUIDOwner: user.key, conversationNameOwner: user.value)
                         self.updateArray(model: tmpObject)
                     }

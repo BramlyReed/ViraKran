@@ -32,7 +32,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.checkComments()
         let item1 = actionButton.addItem()
         item1.titleLabel.text = "Отправить"
-//        item1.imageView.image = UIImage(named: "phone")
         item1.action = { item in
             self.openNewCommentViewController()
         }
@@ -98,8 +97,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                 print("Error")
                 return
             }
-            self.comments = []
-            self.pictureDictionary = [:]
+            self.comments.removeAll()
+            self.pictureDictionary.removeAll()
             for document in (querySnapshot!.documents){
                 let documents_data = document.data()
                 let username = documents_data["useremail"] as? String ?? "nil"
