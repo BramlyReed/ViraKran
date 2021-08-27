@@ -17,3 +17,12 @@
 Данные пользователей (кроме паролей), данные с техникой и новостями компании хранятся в Firestore Database в виде коллекций с документами. Изображения из чатов, профилей пользователей и техники компании хранятся в Storage (Firebase). Для защиты от нежелательных запросов были прописаны соответсвующие правила в разделе Rules в Firebase.
 
 В качестве вспомогательных средств в проекте используются: FirebaseAnalytics, FirebaseAuth, FirebaseFirestore, FirebaseStorage – библиотеки для работы с Firebase; RealmSwift – библиотека для взаимодействия с базой данных Realm; MessageKit – библиотека для реализации интерфейса чатов; SDWebImage – библиотека для загрузки изображений; JJFloatingActionButton – библиотека для реализации элемента интерфейса плавающая кнопка; JGProgressHUD – библиотека для реализации индикатора прогресса; API курсов валют ЦБ РФ.
+
+Скриншоты:
+
+![img](https://github.com/BramlyReed/ViraKran/blob/main/Скриншот%201.png)
+![img](https://github.com/BramlyReed/ViraKran/blob/main/Скриншот%202.png)
+![img](https://github.com/BramlyReed/ViraKran/blob/main/Скриншот%203.png)
+![img](https://github.com/BramlyReed/ViraKran/blob/main/Скриншот%204.png)
+![img](https://github.com/BramlyReed/ViraKran/blob/main/скриншот%205.png)
+![img](https://github.com/BramlyReed/ViraKran/blob/main/Скриншот%206.png)
